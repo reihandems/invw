@@ -21,9 +21,14 @@
                 <h1 class="font-bold mb-3">Selamat Datang di <span style="color: var(--primary-color)">INVW</span></h1>
                 <p class="text-sm font-semibold" style="color: var(--secondary-text);">Silakan isi data anda dibawah ini.</p>
             </div>
-            <form action="">
-                <input type="text" placeholder="Email" class="input w-full mb-4" />
-                <input type="password" placeholder="Password" class="input w-full mb-4" />
+            <?php if (session()->getFlashdata('error')) : ?>
+                <div role="alert" class="alert alert-error alert-soft">
+                    <span><?= session()->getFlashdata('error') ?></span>
+                </div>
+            <?php endif; ?>
+            <form action="<?= base_url('/login/process') ?>" method="post">
+                <input type="text" placeholder="Email" class="input w-full mb-4" name="email" required />
+                <input type="password" placeholder="Password" name="password" class="input w-full mb-4" />
                 <div class="login-submit flex flex-col">
                     <label class="label text-xs font-semibold mb-5 w-50" style="color: var(--secondary-text);">
                     <input type="checkbox" checked="checked" class="checkbox checkbox-md checked:bg-[#5160FC] checked:text-[#ffffff]" />
