@@ -8,7 +8,7 @@ use CodeIgniter\Router\RouteCollection;
 // $routes->get('/', 'Home::index');
 
 // AUTENTIKASI - LOGIN
-$routes->get('/', 'Page::login');
+$routes->get('/login', 'Page::login');
 
 // ADMIN - DASHBOARD
 $routes->get('/admin/dashboard', 'Page::dashboardAdmin');
