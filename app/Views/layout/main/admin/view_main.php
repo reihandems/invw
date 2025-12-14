@@ -7,7 +7,6 @@
   <link href="<?= base_url('resources/css/custom.css') ?>" rel="stylesheet">
   <link rel="stylesheet" href="<?= base_url('assets/vendor/datatables/dataTables.dataTables.css') ?>">
   <link rel="stylesheet" href="<?= base_url('assets/vendor/datatables/responsive.dataTables.min.css') ?>">
-  <link href="https://cdn.datatables.net/2.3.5/css/dataTables.tailwindcss.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
