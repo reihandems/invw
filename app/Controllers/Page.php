@@ -5,6 +5,11 @@ namespace App\Controllers;
 use App\Models\ProvinceModel;
 
 class Page extends BaseController {
+    // LOGIN
+    public function login() {
+        return view('auth/login');
+    }
+
     // ADMIN
     public function dashboardAdmin() {
         return view('pages/admin/view_dashboard', [
