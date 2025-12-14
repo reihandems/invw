@@ -11,7 +11,7 @@ class AdminDashboard extends BaseController {
         $this->activityLogModel = new ActivityLogModel();
     }
 
-    public function logActivityList() {
+    public function activityLogList() {
         $activityLog = $this->activityLogModel;
         $list = $activityLog->findAll();
         $data = [];
@@ -20,8 +20,8 @@ class AdminDashboard extends BaseController {
             $row[] = $activityLog['user_id'];
             $row[] = $activityLog['role'];
             $row[] = $activityLog['activity_type'];
-            $row[] = $activityLog['references_table'];
-            $row[] = $activityLog['references_id'];
+            $row[] = $activityLog['reference_table'];
+            $row[] = $activityLog['reference_id'];
             $row[] = $activityLog['description'];
             $row[] = $activityLog['created_at'];
 

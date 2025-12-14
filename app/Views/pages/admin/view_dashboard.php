@@ -63,13 +63,16 @@
         <!-- Modal end -->
         <!-- Log -->
         <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 px-5 pb-5">
-            <table id="tabelBarang" class="table display nowrap">
+            <table id="tabelActivityLog" class="table display nowrap">
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th>Nama Barang</th>
-                        <th>Harga Barang</th>
-                        <th>Aksi</th>
+                        <th>Nama User</th>
+                        <th>Role</th>
+                        <th>Aktivitas</th>
+                        <th>Referensi</th>
+                        <th>ID Referensi</th>
+                        <th>Deskripsi</th>
+                        <th>Tanggal</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -92,7 +95,7 @@
         
         $(document).ready(function() {
             // Menampilkan data ke dalam dataTables
-            var table = $('#tabelBarang').DataTable({
+            var table = $('#tabelActivityLog').DataTable({
                 // Custom style table
                 // opsional: matiin style bawaan
                 "dom":
@@ -128,7 +131,7 @@
                 "paging": false,
                 "searching": false,
                 "ajax": {
-                    "url": "<?= base_url('/admin/barang/ajaxlist') ?>",
+                    "url": "<?= base_url('/admin/dashboard/activityloglist') ?>",
                     "type": "GET",
                     "dataSrc": function (x) {
                         return x;
@@ -137,140 +140,12 @@
                 "columns": [
                     {"data": 0},
                     {"data": 1},
-                    {"data": 2, "className": "text-end"},
-                    {"data": 3}
-                ],
-                "columnDefs": [
-                    {"targets": [3], "orderable": false}
+                    {"data": 2},
+                    {"data": 3},
+                    {"data": 4},
+                    {"data": 5},
+                    {"data": 6},
                 ]
-            });
-
-            // 1. Tambah Data (Membuka Modal)
-            $('#add-btn').on('click', function() {
-                $('#barangForm')[0].reset();
-                $('#barangModalLabel').text('Tambah Data Barang');
-                $('#id').val('');
-                $('.invalid-feedback').text('').hide();
-                $('#barangModal').modal('show');
-            });
-
-            // 2. Simpan Data (Tambah dan Edit)
-            $('#barangForm').on('submit', function(e) {
-                // ... (Kode pencegahan default dan persiapan FormData)
-
-                e.preventDefault();
-
-                var formData = new FormData(this);
-                formData.append(csrfName, csrfHash);
-
-                $.ajax({
-                    url: "<?= site_url('/admin/barang/save'); ?>",
-                    type: "POST",
-                    data: formData,
-                    dataType: "JSON",
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        // Update CSRF Hash
-                        csrfHash = response.token;
-
-                        if (response.status) {
-                            // Sukses
-                            alert(response.msg);
-                            $('#barangModal')[0].close();
-
-                            // Memuat ulang data dari DataTables dari sumber AJAX
-                            table.ajax.reload(null, false); // 'null' untuk callback, 'false' untuk tetap pada halaman saat ini
-                        } else {
-                            // Validasi gagal
-                            $('.invalid-feedback').text('').hide();
-                            $.each(response.errors, function(key, value) {
-                                $('#' + key + '-error').text(value).show().prev().addClass('is-invalid');
-                            });
-                        }
-                        
-                    },
-
-                        error: function(xhr, status, error) {
-                            alert('Terjadi kesalahan: ' + xhr.responseText);
-                        }
-                });
-
-                // Fungsi untuk memperbarui CSRF Token dari respon AJAX
-                function updateCsrfToken(response) {
-                    // Cek jika ada token di respons (sesuai format CI4 standar)
-                    var tokenName = Object.keys(response).filter(key => key.length === 32)[0];
-
-                    if (tokenName) {
-                        csrfName = tokenName;
-                        csrfHash = response[tokenName];
-                    } else if (response.token) {
-                        // Jika controller hanya mengirim hash dengan key 'token' (Sesuai kode anda sebelumnya)
-                        csrfHash = response.token;
-                    }
-                }
-            });
-
-            // 3. Edit Data (Mengisi form di modal)
-            $('#tabelBarang').on('click', '.edit-btn', function() {
-                var id = $(this).data('id');
-
-                $('#barangForm')[0].reset();
-                $('#barangModalLabel').text('Ubah Data Barang');
-                $('.invalid-feedback').removeClass('d-block').hide();
-                $('.form-control').removeClass('is-invalid');
-
-                // Ambil data barang dari controller menggunakan AJAX
-                $.ajax({
-                    url: "<?= site_url('/admin/barang/getBarang/'); ?>" + id,
-                    type: "GET",
-                    dataType: "JSON",
-                    success: function(data) {
-                        // Isi form dengan data yang didapatkan
-                        $('#id').val(data.id);
-                        $('#namaBarang').val(data.namaBarang);
-                        // Pastikan nama input sesuai dengan nama kolom di database: HargaBarang
-                        $('#hargaBarang').val(data.hargaBarang);
-                        
-                        $('#barangModal')[0].showModal();
-
-                    },
-                    error: function(xhr, status, error) {
-                        alert('Gagal mengambil data untuk Edit: ' + xhr.responseText);
-                    }
-                })
-            })
-
-
-            // 4. Hapus data
-            $('#tabelBarang').on('click', '.delete-btn', function() {
-                var id = $(this).data('id');
-
-                if (confirm('Anda yakin ingin menghapus data ini?')) {
-                    // Lakukan AJAX Delete
-                    $.ajax({
-                        url: "<?= site_url('admin/barang/deleteData'); ?>/" + id,
-                        type: "POST",
-                        dataType: "JSON",
-                        data: {
-                            // Kirim CSRF Token
-                            [csrfName]: csrfHash
-                        },
-                        success: function(response) {
-                            // updateCsrfToken(response); // Update CSRF Hash
-
-                            if (response.status) {
-                                alert(response.msg);
-                                table.ajax.reload(null, false); // Reload DataTables
-                            } else {
-                                alert('Gagal: ' + response.msg);
-                            }
-                        },
-                        error: function(xhr) {
-                            alert('Terjadi kesalahan saat menghapus data: ' + xhr.responseText);
-                        }
-                    });
-                }
             });
         })
     </script>
