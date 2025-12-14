@@ -14,7 +14,7 @@ class RoleFilter implements FilterInterface {
         }
 
         // Cek role
-        if ($arguments && !in_array(session()->get('role'), $arguments)) {
+        if ($arguments && !in_array(session()->get('user_role'), $arguments)) {
             return redirect()->to('/login');
         }
     }

@@ -30,20 +30,20 @@ class Auth extends BaseController {
                 'user_id' => $user['user_id'],
                 'user_nama' => $user['nama_lengkap'],
                 'user_email' => $user['email'],
-                'user_role' => $user['role'],
+                'user_role' => strtolower($user['role']),
                 'logged_in' => true
             ]);
 
 
         // Redirect berdasarkan role
-        switch ($user['role']) {
-            case 'Admin':
+        switch (strtolower($user['role'])) {
+            case 'admin':
                 return redirect()->to('/admin/dashboard');
-            case 'Manager':
+            case 'manager':
                 return redirect()->to('/manager/dashboard');
-            case 'Gudang':
+            case 'gudang':
                 return redirect()->to('/gudang/dashboard');
-            case 'Purchasing':
+            case 'purchasing':
                 return redirect()->to('/purchasing/dashboard');
             default:
                 session()->destroy();
