@@ -21,17 +21,34 @@ class Auth extends BaseController {
 
         $user = $model->where('email', $email)->first();
 
-        if ($user && password_verify($password, $user['password'])) {
-            $session->set([
-                'user_id' => $user['id'],
+        if (!$user && password_verify($password, $user['password'])) {
+            return redirect()->back()->with('error', 'Email atau Password salah.')->withInput();
+
+        }
+
+        $session->set([
+                'user_id' => $user['user_id'],
                 'user_nama' => $user['nama_lengkap'],
                 'user_email' => $user['email'],
                 'logged_in' => true
             ]);
-            return redirect()->to('/admin/dashboard');
-        }
 
-        return redirect()->back()->with('error', 'Email atau Password salah.')->withInput();
+
+        // Redirect berdasarkan role
+        switch ($user['role']) {
+            case 'Admin':
+                return redirect()->to('/admin/dashboard');
+            case 'Manager':
+                return redirect()->to('/manager/dashboard');
+            case 'Gudang':
+                return redirect()->to('/gudang/dashboard');
+            case 'Purchasing':
+                return redirect()->to('/purchasing/dashboard');
+            default:
+                session()->destroy();
+                return redirect()->to('/login')
+                    ->with('error', 'Role tidak dikenali');
+        }
     }
 
     public function logout() {

@@ -22,13 +22,13 @@
                 <p class="text-sm font-semibold" style="color: var(--secondary-text);">Silakan isi data anda dibawah ini.</p>
             </div>
             <?php if (session()->getFlashdata('error')) : ?>
-                <div role="alert" class="alert alert-error alert-soft">
+                <div role="alert" class="alert alert-error alert-soft mb-6">
                     <span><?= session()->getFlashdata('error') ?></span>
                 </div>
             <?php endif; ?>
             <form action="<?= base_url('/login/process') ?>" method="post">
                 <input type="text" placeholder="Email" class="input w-full mb-4" name="email" required />
-                <input type="password" placeholder="Password" name="password" class="input w-full mb-4" />
+                <input type="password" placeholder="Password" name="password" class="input w-full mb-4" required />
                 <div class="login-submit flex flex-col">
                     <label class="label text-xs font-semibold mb-5 w-50" style="color: var(--secondary-text);">
                     <input type="checkbox" checked="checked" class="checkbox checkbox-md checked:bg-[#5160FC] checked:text-[#ffffff]" />
