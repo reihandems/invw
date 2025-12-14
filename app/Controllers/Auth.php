@@ -30,6 +30,7 @@ class Auth extends BaseController {
                 'user_id' => $user['user_id'],
                 'user_nama' => $user['nama_lengkap'],
                 'user_email' => $user['email'],
+                'user_role' => $user['role'],
                 'logged_in' => true
             ]);
 
