@@ -12,17 +12,17 @@ class AdminDashboard extends BaseController {
     }
 
     public function activityLogList() {
-        $activityLog = $this->activityLogModel;
-        $list = $activityLog->findAll();
+        $list = $this->activityLogModel->getActivityLog();
+
         $data = [];
-        foreach ($list as $activityLog) {
+        foreach ($list as $log) {
             $row = [];
-            $row[] = $activityLog['user_id'];
-            $row[] = $activityLog['role'];
-            $row[] = $activityLog['activity_type'];
-            $row[] = $activityLog['reference_table'];
-            $row[] = $activityLog['description'];
-            $row[] = $activityLog['created_at'];
+            $row[] = $log['user_name'];
+            $row[] = $log['role'];
+            $row[] = $log['activity_type'];
+            $row[] = $log['reference_table'];
+            $row[] = $log['description'];
+            $row[] = $log['created_at'];
 
             $data[] = $row;
         }

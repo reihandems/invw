@@ -142,7 +142,13 @@
                     {"data": 2},
                     {"data": 3},
                     {"data": 4},
-                    {"data": 5},
+                    {"data": 5}
+                ],
+                "columnDefs": [
+                    {
+                        targets: 5,
+                        className: "!text-start"
+                    }
                 ]
             });
         })

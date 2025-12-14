@@ -2943,11 +2943,20 @@
   .pl-12 {
     padding-left: calc(var(--spacing) * 12);
   }
+  .\!text-start {
+    text-align: start !important;
+  }
   .text-center {
     text-align: center;
   }
   .text-end {
     text-align: end;
+  }
+  .text-left {
+    text-align: left;
+  }
+  .text-start {
+    text-align: start;
   }
   .text-3xl {
     font-size: var(--text-3xl);
