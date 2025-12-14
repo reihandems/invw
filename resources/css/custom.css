@@ -1,0 +1,68 @@
+:root {
+  --primary-color: #5160FC;
+  --secondary-color: #FFFFFF;
+  --dark-text: #333333;
+  --light-text: #FFFFFF;
+  --light-stroke: #FFFFFF;
+  --secondary-text: #86949F;
+  --primary-stroke: #99AAB8;
+  --secondary-stroke: #C0CFDB;
+  --background-color: #F7F7FF;
+}
+
+body {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    height: auto !important;
+
+}
+
+h1 {
+    font-size: 2em;
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
+h3 {
+    font-size: 1.17em;
+}
+
+h4 {
+    font-size: 1em;
+}
+
+h5 {
+    font-size: 0.83em;
+}
+
+h6 {
+    font-size: 0.67em;
+}
+
+.sidebar .list-menu {
+    padding: 12px 14px;
+    font-size: 12px;
+    border-radius: 12px;
+    color: var(--secondary-text);
+    font-weight: 600;
+    margin-bottom: 32px;
+}
+
+.sidebar .list-menu svg {
+    color: var(--secondary-text);
+}
+
+.sidebar .list-menu.active {
+    background-color: var(--primary-color);
+    color: var(--light-text);
+    font-weight: 900;
+}
+
+.sidebar .list-menu.active svg {
+    color: var(--light-text);
+}
+
+.page-title {
+    font-weight: 900;
+}

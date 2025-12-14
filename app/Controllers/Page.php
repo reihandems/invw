@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Controllers;
+
+use App\Models\ProvinceModel;
+
+class Page extends BaseController {
+    // ADMIN
+    public function dashboardAdmin() {
+        return view('pages/admin/view_dashboard', [
+            'menu' => 'dashboard',
+            'pageTitle' => 'Dashboard'
+        ]);
+    }
+
+    public function barangAdmin() {
+        return view('pages/admin/view_barang', [
+            'menu' => 'barang',
+            'pageTitle' => 'Data Barang'
+        ]);
+    }
+
+    public function supplierAdmin() {
+        $provinces = new ProvinceModel();
+
+        return view('pages/admin/view_supplier', [
+            'menu' => 'supplier',
+            'pageTitle' => 'Data Supplier',
+            'provinces' => $provinces->findAll()
+        ]);
+    }
+}

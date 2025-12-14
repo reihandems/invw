@@ -1,0 +1,23 @@
+{
+  "name": "invw",
+  "version": "1.0.0",
+  "description": "Project Inventory & Warehouse Management menggunakan CodeIgniter 4 dengan Tailwind dan DataTables",
+  "scripts": {
+    "dev": "npm run copy:assets && npm run tailwind:watch",
+    "prod": "npm run copy:assets && npm run tailwind:build",
+    "copy:assets": "copyfiles -f \"./node_modules/datatables.net-dt/css/dataTables.dataTables.css\" \"./node_modules/datatables.net-responsive-dt/css/responsive.dataTables.min.css\" \"./node_modules/datatables.net/js/dataTables.min.js\" \"./node_modules/datatables.net-responsive-dt/js/responsive.dataTables.min.js\" ./public/assets/vendor/datatables",
+    "tailwind:watch": "tailwindcss -i resources/css/input.css -o public/assets/css/output.css --watch",
+    "tailwind:build": "tailwindcss -i resources/css/input.css -o public/assets/css/output.css --minify"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.17",
+    "datatables.net": "^2.3.5",
+    "datatables.net-dt": "^2.3.5",
+    "datatables.net-responsive-dt": "^3.0.7",
+    "tailwindcss": "^4.1.17"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "daisyui": "^5.5.5"
+  }
+}
