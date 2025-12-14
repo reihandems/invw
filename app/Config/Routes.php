@@ -27,10 +27,10 @@ $routes->group('admin', ['filter' => 'role:admin'], function ($routes) {
 
     // ADMIN - BARANG
     $routes->get('barang', 'Page::barangAdmin');
-    $routes->get('barang/ajaxlist', 'Admin::ajaxList');
-    $routes->post('barang/save', 'Admin::save');
-    $routes->get('barang/getBarang/(:num)', 'Admin::getBarang/$1');
-    $routes->post('barang/deleteData/(:num)', 'Admin::deleteData/$1');
+    $routes->get('barang/ajaxlist', 'AdminBarang::ajaxList');
+    $routes->post('barang/save', 'AdminBarang::save');
+    $routes->get('barang/getBarang/(:num)', 'AdminBarang::getBarang/$1');
+    $routes->post('barang/deleteData/(:num)', 'AdminBarang::deleteData/$1');
 
     // ADMIN - SUPPLIER
     $routes->get('supplier', 'Page::supplierAdmin');
