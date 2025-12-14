@@ -2861,6 +2861,39 @@
       }
     }
   }
+  .table-md {
+    @layer daisyui.l1.l2 {
+      :not(thead, tfoot) tr {
+        font-size: 0.875rem;
+      }
+      :where(th, td) {
+        padding-inline: calc(0.25rem * 4);
+        padding-block: calc(0.25rem * 3);
+      }
+    }
+  }
+  .table-sm {
+    @layer daisyui.l1.l2 {
+      :not(thead, tfoot) tr {
+        font-size: 0.75rem;
+      }
+      :where(th, td) {
+        padding-inline: calc(0.25rem * 3);
+        padding-block: calc(0.25rem * 2);
+      }
+    }
+  }
+  .table-xs {
+    @layer daisyui.l1.l2 {
+      :not(thead, tfoot) tr {
+        font-size: 0.6875rem;
+      }
+      :where(th, td) {
+        padding-inline: calc(0.25rem * 2);
+        padding-block: calc(0.25rem * 1);
+      }
+    }
+  }
   .badge-sm {
     @layer daisyui.l1.l2 {
       --size: calc(var(--size-selector, 0.25rem) * 5);

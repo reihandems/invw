@@ -63,14 +63,13 @@
         <!-- Modal end -->
         <!-- Log -->
         <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 px-5 pb-5">
-            <table id="tabelActivityLog" class="table display nowrap">
+            <table id="tabelActivityLog" class="table table-md display nowrap">
                 <thead>
                     <tr>
                         <th>Nama User</th>
                         <th>Role</th>
                         <th>Aktivitas</th>
                         <th>Referensi</th>
-                        <th>ID Referensi</th>
                         <th>Deskripsi</th>
                         <th>Tanggal</th>
                     </tr>
@@ -144,7 +143,6 @@
                     {"data": 3},
                     {"data": 4},
                     {"data": 5},
-                    {"data": 6},
                 ]
             });
         })
