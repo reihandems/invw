@@ -1,68 +1,162 @@
-# CodeIgniter 4 Application Starter
+# INVW – Inventory & Warehouse Management System
 
-## What is CodeIgniter?
+INVW adalah aplikasi **Inventory & Warehouse Management System** berbasis web yang dibangun menggunakan **CodeIgniter 4**. Sistem ini dirancang untuk membantu pengelolaan stok barang, pergerakan inventori, dan aktivitas gudang secara **efisien, terstruktur, dan terkontrol**.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+Project ini dikembangkan sebagai **real project / academic project** dengan fokus pada penerapan best practice backend, manajemen data inventori, serta integrasi frontend modern.
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+---
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## 🚀 Fitur Utama
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+* 📦 Manajemen Data Barang (CRUD)
+* 🏬 Manajemen Gudang & Lokasi Penyimpanan
+* 🔄 Pencatatan Barang Masuk & Barang Keluar
+* 📊 Monitoring Stok Real-time
+* 👥 Manajemen User & Role (Admin / Staff)
+* 🧾 Riwayat Transaksi Inventori
+* 🔍 Pencarian & Filter Data
+* 📈 Tabel Interaktif menggunakan DataTables
 
-## Installation & updates
+---
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+## 🛠️ Teknologi yang Digunakan
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+### Backend
 
-## Setup
+* **PHP 8+**
+* **CodeIgniter 4**
+* **MySQL / MariaDB**
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+### Frontend
 
-## Important Change with index.php
+* **Tailwind CSS**
+* **DaisyUI**
+* **DataTables (via npm)**
+* **JavaScript**
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+### Tools & Dependency Management
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+* **Composer** (PHP dependencies)
+* **npm** (Frontend dependencies)
+* **Git** (Version control)
 
-**Please** read the user guide for a better explanation of how CI4 works!
+---
 
-## Repository Management
+## 📁 Struktur Project (Ringkas)
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+```
+app/            # Logic aplikasi (Controller, Model, View)
+public/         # Public assets (index.php, CSS, JS)
+writable/       # Cache, logs, session, uploads
+vendor/         # PHP dependencies (Composer)
+resources/      # Asset source (Tailwind input, JS)
+```
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+---
 
-## Server Requirements
+## ⚙️ Instalasi & Setup (Development)
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+### 1️⃣ Clone Repository
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+```bash
+git clone https://github.com/username/invw.git
+cd invw
+```
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+### 2️⃣ Install Dependency Backend
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+```bash
+composer install
+```
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+### 3️⃣ Install Dependency Frontend
+
+```bash
+npm install
+```
+
+### 4️⃣ Build Asset Frontend (Tailwind)
+
+```bash
+npm run build
+```
+
+### 5️⃣ Konfigurasi Environment
+
+Salin file `.env.example` menjadi `.env` lalu sesuaikan konfigurasi database:
+
+```env
+app.baseURL = 'http://localhost:8080'
+database.default.hostname = localhost
+database.default.database = invw
+database.default.username = root
+database.default.password =
+```
+
+### 6️⃣ Jalankan Server Development
+
+```bash
+php spark serve
+```
+
+Akses aplikasi di:
+
+```
+http://localhost:8080
+```
+
+---
+
+## 🧪 Akun Default (Opsional)
+
+| Role  | Username | Password |
+| ----- | -------- | -------- |
+| Admin | admin    | admin123 |
+
+> *Catatan: Ubah password default setelah login pertama.*
+
+---
+
+## 📦 Deployment (Shared Hosting)
+
+* Build asset frontend di lokal (`npm run build`)
+* Pastikan folder `vendor/` dan file hasil build (`public/css/output.css`) tersedia
+* Upload project ke hosting
+* Set **document root** ke folder `/public`
+* Buat file `.env` langsung di server
+* Pastikan folder `writable/` memiliki permission write
+
+---
+
+## 🔐 Keamanan
+
+* File `.env` **tidak disertakan** dalam repository
+* Validasi input dilakukan di sisi server
+* Manajemen akses berdasarkan role user
+
+---
+
+## 👨‍💻 Tim Pengembang
+
+Project ini dikembangkan oleh tim sebagai bagian dari:
+
+* Tugas perkuliahan
+* Project pembelajaran
+* Pengembangan sistem inventory berbasis web
+
+---
+
+## 📄 Lisensi
+
+Project ini dikembangkan untuk tujuan **edukasi dan pengembangan internal**.
+Silakan digunakan dan dimodifikasi sesuai kebutuhan.
+
+---
+
+## ✨ Catatan
+
+Jika Anda ingin mengembangkan project ini lebih lanjut (fitur laporan, barcode, export data, dll), silakan lakukan fork dan pull request.
+
+---
+
+**INVW – Inventory & Warehouse Management System**
