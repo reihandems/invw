@@ -11,7 +11,7 @@
 </head>
 <body>
       <div class="grid grid-cols-12 min-h-screen">
-        <div class="col-span-6 p-12 min-h-screen">
+        <div class="col-span-12 md:col-span-6 px-12 py-8 md:py-12">
             <div class="flex flex-row items-stretch mb-6">
                 <img src="<?= base_url('assets/img/logo.svg') ?>" alt="" class="me-2">
                 <h3 class="self-center font-black" style="color: var(--primary-color)">INVW</h3>
@@ -22,12 +22,21 @@
                 <p class="text-sm font-semibold" style="color: var(--secondary-text);">Silakan isi data anda dibawah ini.</p>
             </div>
             <form action="">
-                <input type="text" placeholder="Email" class="input mb-3" />
-                <input type="password" placeholder="Password" class="input" />
+                <input type="text" placeholder="Email" class="input w-full mb-4" />
+                <input type="password" placeholder="Password" class="input w-full mb-4" />
+                <div class="login-submit flex flex-col">
+                    <label class="label text-xs font-semibold mb-5 w-50" style="color: var(--secondary-text);">
+                    <input type="checkbox" checked="checked" class="checkbox checkbox-md checked:bg-[#5160FC] checked:text-[#ffffff]" />
+                    Ingat saya
+                    </label>
+                    <button type="submit" class="btn bg-[#5160FC] text-[#ffffff] w-full md:w-50">Login</button>
+                </div>
             </form>
         </div>
-        <div class="col-span-6 relative min-h-screen p-3">
-            <img src="<?= base_url('assets/img/login-img.svg') ?>" alt="" class="rounded-xl" style="height: 100vh;">
+        <div class="col-span-12 md:col-span-6 p-3">
+            <div class="bg-login h-96 md:min-h-screen flex items-center justify-center text-center rounded-xl" style="background-image: url(<?= base_url('assets/img/bg-login.png') ?>); background-repeat:repeat">
+                <img src="<?= base_url('assets/img/vector-login.svg') ?>" alt="">
+            </div>
         </div>
       </div>
 </body>
