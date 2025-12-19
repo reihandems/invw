@@ -14,6 +14,7 @@
     "datatables.net": "^2.3.5",
     "datatables.net-dt": "^2.3.5",
     "datatables.net-responsive-dt": "^3.0.7",
+    "jquery": "^3.7.1",
     "tailwindcss": "^4.1.17"
   },
   "devDependencies": {

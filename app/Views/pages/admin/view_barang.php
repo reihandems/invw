@@ -75,6 +75,8 @@
                     <tr>
                         <th>No</th>
                         <th>Nama Barang</th>
+                        <th>Kategori</th>
+                        <th>Satuan</th>
                         <th>Harga Barang</th>
                         <th>Aksi</th>
                     </tr>
@@ -116,8 +118,10 @@
                 "columns": [
                     {"data": 0},
                     {"data": 1},
-                    {"data": 2, "className": "text-end"},
-                    {"data": 3}
+                    {"data": 2},
+                    {"data": 3},
+                    {"data": 4, "className": "text-end"},
+                    {"data": 5}
                 ],
                 "columnDefs": [
                     {"targets": [3], "orderable": false}
