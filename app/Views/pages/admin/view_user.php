@@ -59,6 +59,17 @@
                 </div>
                 <!-- Password end -->
                 <!-- Gambar -->
+                <!-- Preview gambar (hidden by default) -->
+                <div id="gambar-preview-wrapper" class="my-3 hidden">
+                    <p class="text-sm font-semibold mb-2">Preview Gambar</p>
+                    <img
+                        id="gambar-preview"
+                        src=""
+                        class="w-24 h-24 rounded-full object-cover border"
+                        alt="Preview gambar"
+                    >
+                </div>
+
                 <fieldset class="fieldset">
                     <legend class="fieldset-legend">Gambar</legend>
                     <input type="file" class="file-input w-full" id="gambar" name="gambar" />
@@ -148,6 +159,10 @@
                 $('#password-wrapper').show();
                 $('#password').prop('required', true);
 
+                // HIDE preview
+                $('#gambar-preview-wrapper').addClass('hidden');
+                $('#gambar-preview').attr('src', '');
+
                 $('#userModal').modal('show');
             });
 
@@ -234,6 +249,14 @@
                         $('#email').val(data.email);
                         $('#role_id').val(data.role_id);
                         // Pastikan nama input sesuai dengan nama kolom di database: gambar
+                        // === PREVIEW GAMBAR SAAT EDIT ===
+                        if (data.gambar) {
+                            $('#gambar-preview')
+                                .attr('src', '<?= base_url('uploads/') ?>' + data.gambar);
+                            $('#gambar-preview-wrapper').removeClass('hidden');
+                        } else {
+                            $('#gambar-preview-wrapper').addClass('hidden');
+                        }
                         
                         $('#userModal')[0].showModal();
 

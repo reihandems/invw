@@ -2305,6 +2305,9 @@
   .my-1 {
     margin-block: calc(var(--spacing) * 1);
   }
+  .my-2 {
+    margin-block: calc(var(--spacing) * 2);
+  }
   .my-3 {
     margin-block: calc(var(--spacing) * 3);
   }
@@ -2396,6 +2399,12 @@
       color: var(--color-base-content);
       font-weight: 600;
     }
+  }
+  .mb-1 {
+    margin-bottom: calc(var(--spacing) * 1);
+  }
+  .mb-2 {
+    margin-bottom: calc(var(--spacing) * 2);
   }
   .mb-3 {
     margin-bottom: calc(var(--spacing) * 3);
@@ -2675,6 +2684,9 @@
   .w-14 {
     width: calc(var(--spacing) * 14);
   }
+  .w-24 {
+    width: calc(var(--spacing) * 24);
+  }
   .w-50 {
     width: calc(var(--spacing) * 50);
   }
@@ -2859,6 +2871,9 @@
   }
   .mask-repeat {
     mask-repeat: repeat;
+  }
+  .object-cover {
+    object-fit: cover;
   }
   .checkbox-md {
     @layer daisyui.l1.l2 {
