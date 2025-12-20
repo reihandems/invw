@@ -82,7 +82,7 @@
                 const $regencySelect = $('#regency_select');
 
                 // Kosongkan dan nonaktifkan dropdown Kabupaten/Kota
-                $regencySelect.html('<option value="">Memuat...</option>').prop('disabled', true);
+                $regencySelect.html('<option value="">Memuat...</option>').prop('disabled', false);
 
                 if (provinceId) {
                     // Lakukan panggilan AJAX ke Controller
