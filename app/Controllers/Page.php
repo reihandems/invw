@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\KategoriModel;
 use App\Models\SatuanModel;
+use App\Models\RoleModel;
 
 class Page extends BaseController {
     // LOGIN
@@ -39,9 +40,11 @@ class Page extends BaseController {
     }
 
     public function userAdmin() {
+        $roleModel = new RoleModel();
         return view('pages/admin/view_user', [
             'menu' => 'user',
-            'pageTitle' => 'Data User'
+            'pageTitle' => 'Data User',
+            'role' => $roleModel->findAll()
         ]);
     }
 }
