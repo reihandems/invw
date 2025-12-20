@@ -14,15 +14,14 @@ class AdminUser extends BaseController {
     public function ajaxList() {
         $user = $this->adminUserModel;
         $list = $user->select('
-            user.user_id,
-            user.username,
-            user.nama_lengkap,
-            user.email,
-            user.password,
+            users.user_id,
+            users.username,
+            users.nama_lengkap,
+            users.email,
             roles.nama_role,
-            user.gambar
+            users.gambar
         ')
-        ->join('roles', 'roles.role_id = user.role_id', 'left')
+        ->join('roles', 'roles.role_id = users.role_id', 'left')
         ->get()
         ->getResultArray();
         $no = 0;
@@ -34,9 +33,8 @@ class AdminUser extends BaseController {
             $row[] = $user['nama_lengkap'];
             $row[] = $user['username'];
             $row[] = $user['email'];
-            $row[] = $user['password'];
             $row[] = $user['nama_role'];
-            $row[] = $user['gambar'];
+            $row[] = '<img src="'.base_url('uploads/'.$user['gambar']).'" width="50">';
 
             // Kolom aksi
             $row[] = '<a href="javascript:void(0)" class="btn bg-[#5160FC] text-white border-[#e5e5e5] btn-sm edit-btn" data-id="'. $user['user_id'].'">Edit</a>
@@ -49,14 +47,19 @@ class AdminUser extends BaseController {
 
     public function save() {
         $validation = \Config\Services::validation();
+        $id = $this->request->getPost('user_id');
         $rules = [
             'nama_lengkap' => 'required|min_length[3]',
-            'username' => 'required|min_length[8]',
-            'email' => 'required',
-            'password' => 'required',
-            'nama_role' => 'required',
-            'gambar' => 'mime_in[gambar,image/jpg,image/jpeg,image/png]|max_size[gambar, 2048]|is_image[gambar]'
+            'username' => 'required|min_length[5]',
+            'email' => 'required|valid_email',
+            'role_id' => 'required|integer',
+            'gambar' => 'permit_empty|is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/png]|max_size[gambar,2048]'
         ];
+
+        // password hanya wajib saat CREATE
+        if (!$id) {
+            $rules['password'] = 'required|min_length[6]';
+        }
 
         if (!$this->validate($rules)) {
             return $this->response->setJSON([
@@ -65,25 +68,29 @@ class AdminUser extends BaseController {
             ]);
         }
 
-        $fileGambar = $this->request->getFile('gambar');
-        $namaGambar = '';
-
-        if ($fileGambar && $fileGambar->isValid() && !$fileGambar->hasMoved()) {
-            $namaGambar = $fileGambar->getRandomName();
-            $fileGambar->move('uploads/', $namaGambar);
-        }
-
         // Ambil hanya fields yang dibutuhkan
         $data = [
             'nama_lengkap' => $this->request->getPost('nama_lengkap'),
-            'username' => $this->request->getPost('nama_lengkap'),
-            'email' => $this->request->getPost('nama_lengkap'),
-            'password' => $this->request->getPost('nama_lengkap'),
-            'role_id' => $this->request->getPost('nama_lengkap'),
-            'gambar' => $namaGambar
+            'username' => $this->request->getPost('username'),
+            'email' => $this->request->getPost('email'),
+            'role_id' => $this->request->getPost('role_id'),
         ];
 
-        $id = $this->request->getPost('user_id');
+        // password OPTIONAL
+        if ($this->request->getPost('password')) {
+            $data['password'] = password_hash(
+                $this->request->getPost('password'),
+                PASSWORD_DEFAULT
+            );
+        }
+
+        // upload gambar OPTIONAL
+        $file = $this->request->getFile('gambar');
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $namaGambar = $file->getRandomName();
+            $file->move(FCPATH . 'uploads', $namaGambar);
+            $data['gambar'] = $namaGambar;
+        }
 
         if ($id) {
             // Update
@@ -95,12 +102,17 @@ class AdminUser extends BaseController {
             $msg = 'Data berhasil ditambahkan';
         }
 
-        return $this->response->setJSON(['status' => true, 'msg' => $msg]);
+        return $this->response->setJSON([
+            'status' => true, 
+            'msg' => $msg,
+        ]);
     }
 
     // Metode untuk mendapatkan data tunggal (untuk form edit)
     public function getUser($id = null) {
-        $data = $this->adminUserModel->find($id);
+        $data = $this->adminUserModel->
+                select('user_id, nama_lengkap, username, email, role_id, gambar')
+                ->find($id);
         return $this->response->setJSON($data);
     }
 

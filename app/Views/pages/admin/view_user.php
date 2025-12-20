@@ -10,9 +10,9 @@
         <!-- Modal -->
         <dialog id="userModal" class="modal modal-bottom sm:modal-middle">
         <div class="modal-box">
-            <h3 class="text-lg font-bold modal-title" id="supplierModalLabel">Form User</h3>
+            <h3 class="text-lg font-bold modal-title" id="userModalLabel">Form User</h3>
             <hr class="my-3" style="color: var(--secondary-stroke);">
-            <form id="supplierForm">
+            <form id="userForm" enctype="multipart/form-data">
                 <input type="hidden" name="user_id" id="user_id">
                 <!-- Nama lengkap -->
                 <fieldset class="fieldset">
@@ -31,15 +31,45 @@
                 <!-- Role -->
                 <fieldset class="fieldset">
                     <legend class="fieldset-legend">Role</legend>
-                    <input type="text" class="input w-full" id="username" name="username" placeholder="Masukkan username" required/>
-                    <div class="invalid-feedback" id="username-error"></div>
+                    <select class="select w-full" id="role_id" name="role_id">
+                        <option value="">-- Pilih Kategori --</option>
+                        <?php foreach($role as $r) : ?>
+                            <option value="<?= $r['role_id'] ?>">
+                                <?= esc($r['nama_role']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <div class="invalid-feedback" id="role_id-error"></div>
                 </fieldset>
-                <!-- Username end -->
+                <!-- Role end -->
+                <!-- Email -->
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Email</legend>
+                    <input type="email" class="input w-full" id="email" name="email" placeholder="Masukkan email" required/>
+                    <div class="invalid-feedback" id="email-error"></div>
+                </fieldset>
+                <!-- Email end -->
+                <!-- Password -->
+                <div id="password-wrapper">
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend">Password</legend>
+                        <input type="password" class="input w-full" id="password" name="password" placeholder="Masukkan password" required/>
+                        <div class="invalid-feedback" id="password-error"></div>
+                    </fieldset>
+                </div>
+                <!-- Password end -->
+                <!-- Gambar -->
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Gambar</legend>
+                    <input type="file" class="file-input w-full" id="gambar" name="gambar" />
+                    <label class="label">Ukuran Maks 2MB</label>
+                </fieldset>
+                <!-- Gambar end -->
             </form>
             <div class="modal-action">
                 <form method="dialog">
                     <!-- if there is a button in form, it will close the modal -->
-                    <button type="submit" class="btn bg-[#5160FC] text-white" id="save-btn" form="supplierForm">Simpan</button>
+                    <button type="submit" class="btn bg-[#5160FC] text-white" id="save-btn" form="userForm">Simpan</button>
                     <button class="btn">Close</button>
                 </form>
             </div>
@@ -48,13 +78,15 @@
         <!-- Modal end -->
         <!-- Log -->
         <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 px-5 py-0">
-            <table id="tabelSupplier" class="table responsive nowrap display">
+            <table id="tabelUser" class="table responsive nowrap display">
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Nama Supplier</th>
-                        <th>Kontak</th>
-                        <th>Alamat</th>
+                        <th>Nama Lengkap</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Gambar</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -77,14 +109,14 @@
         $(document).ready(function() {
 
             // Menampilkan data ke dalam dataTables
-            var table = $('#tabelSupplier').DataTable({
+            var table = $('#tabelUser').DataTable({
                 // Simpan objek DataTables ke variabel 'table'
                 "processing": true,
                 "serverSide": false,
                 "info": false,
                 "responsive": true,
                 "ajax": {
-                    "url": "<?= base_url('admin/supplier/ajaxlist') ?>",
+                    "url": "<?= base_url('admin/user/ajaxlist') ?>",
                     "type": "GET",
                     "dataSrc": function (x) {
                         return x;
@@ -95,24 +127,32 @@
                     {"data": 1},
                     {"data": 2},
                     {"data": 3},
-                    {"data": 4}
+                    {"data": 4},
+                    {"data": 5},
+                    {"data": 6}
                 ],
                 "columnDefs": [
-                    {"targets": [3], "orderable": false}
+                    {"targets": [3], "orderable": false},
+                    {"targets": [5], "orderable": false}
                 ]
             });
 
             // 1. Tambah Data (Membuka Modal)
             $('#add-btn').on('click', function() {
-                $('#supplierForm')[0].reset();
-                $('#supplierModalLabel').text('Tambah Data Supplier');
-                $('#supplier_id').val('');
+                $('#userForm')[0].reset();
+                $('#userModalLabel').text('Tambah Data User');
+
+                $('#user_id').val('');
                 $('.invalid-feedback').text('').hide();
-                $('#supplierModal').modal('show');
+
+                $('#password-wrapper').show();
+                $('#password').prop('required', true);
+
+                $('#userModal').modal('show');
             });
 
             // 2. Simpan Data (Tambah dan Edit)
-            $('#supplierForm').on('submit', function(e) {
+            $('#userForm').on('submit', function(e) {
                 // ... (Kode pencegahan default dan persiapan FormData)
 
                 e.preventDefault();
@@ -121,7 +161,7 @@
                 formData.append(csrfName, csrfHash);
 
                 $.ajax({
-                    url: "<?= site_url('/admin/supplier/save'); ?>",
+                    url: "<?= site_url('/admin/user/save'); ?>",
                     type: "POST",
                     data: formData,
                     dataType: "JSON",
@@ -134,7 +174,7 @@
                         if (response.status) {
                             // Sukses
                             alert(response.msg);
-                            $('#supplierModal')[0].close();
+                            $('#userModal')[0].close();
 
                             // Memuat ulang data dari DataTables dari sumber AJAX
                             table.ajax.reload(null, false); // 'null' untuk callback, 'false' untuk tetap pada halaman saat ini
@@ -169,28 +209,33 @@
             });
 
             // 3. Edit Data (Mengisi form di modal)
-            $('#tabelSupplier').on('click', '.edit-btn', function() {
+            $('#tabelUser').on('click', '.edit-btn', function() {
                 var id = $(this).data('id');
 
-                $('#supplierForm')[0].reset();
-                $('#supplierModalLabel').text('Ubah Data Supplier');
+                $('#userForm')[0].reset();
+                $('#userModalLabel').text('Ubah Data User');
+
+                $('#password-wrapper').hide();
+                $('#password').prop('required', false).val('');
+
                 $('.invalid-feedback').removeClass('d-block').hide();
                 $('.form-control').removeClass('is-invalid');
 
                 // Ambil data barang dari controller menggunakan AJAX
                 $.ajax({
-                    url: "<?= site_url('/admin/supplier/getSupplier/'); ?>" + id,
+                    url: "<?= site_url('/admin/user/getUser/'); ?>" + id,
                     type: "GET",
                     dataType: "JSON",
                     success: function(data) {
                         // Isi form dengan data yang didapatkan
-                        $('#supplier_id').val(data.supplier_id);
-                        $('#nama_supplier').val(data.nama_supplier);
-                        $('#kontak').val(data.kontak);
-                        // Pastikan nama input sesuai dengan nama kolom di database: alamat
-                        $('#alamat').val(data.alamat);
+                        $('#user_id').val(data.user_id);
+                        $('#nama_lengkap').val(data.nama_lengkap);
+                        $('#username').val(data.username);
+                        $('#email').val(data.email);
+                        $('#role_id').val(data.role_id);
+                        // Pastikan nama input sesuai dengan nama kolom di database: gambar
                         
-                        $('#supplierModal')[0].showModal();
+                        $('#userModal')[0].showModal();
 
                     },
                     error: function(xhr, status, error) {
@@ -201,13 +246,13 @@
 
 
             // 4. Hapus data
-            $('#tabelSupplier').on('click', '.delete-btn', function() {
+            $('#tabelUser').on('click', '.delete-btn', function() {
                 var id = $(this).data('id');
 
                 if (confirm('Anda yakin ingin menghapus data ini?')) {
                     // Lakukan AJAX Delete
                     $.ajax({
-                        url: "<?= site_url('admin/supplier/deleteData'); ?>/" + id,
+                        url: "<?= site_url('admin/user/deleteData'); ?>/" + id,
                         type: "POST",
                         dataType: "JSON",
                         data: {

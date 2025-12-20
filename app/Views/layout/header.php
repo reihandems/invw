@@ -38,7 +38,7 @@
             <div tabindex="0" role="button" class="my-1">
                 <div class="avatar">
                     <div class="w-14 rounded-full">
-                        <img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />
+                        <img src="<?= base_url('uploads/'.session()->get('user_gambar')) ?>" />
                     </div>
                 </div>
             </div>

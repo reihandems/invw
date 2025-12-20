@@ -30,7 +30,7 @@ class ActivityLogModel extends Model {
             al.description,
             al.created_at
         ')
-        ->join('user u', 'u.user_id = al.user_id', 'left')
+        ->join('users u', 'u.user_id = al.user_id', 'left')
         ->orderBy('al.created_at', 'DESC')
         ->get()
         ->getResultArray();
