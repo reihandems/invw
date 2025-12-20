@@ -43,20 +43,29 @@ class AdminBarang extends BaseController {
     public function save() {
         $validation = \Config\Services::validation();
         $rules = [
-            'namaBarang' => 'required',
-            'hargaBarang' => 'required|numeric'
+            'nama_barang' => 'required',
+            'kategori_id' => 'required',
+            'satuan' => 'required',
+            'harga' => 'required|numeric'
         ];
 
         if (!$this->validate($rules)) {
-            return $this->response->setJSON(['status' => false, 'errors' => $this->validator->getErrors()]);
+            return $this->response->setJSON([
+                'status' => false, 
+                'errors' => $this->validator->getErrors()
+            ]);
         }
 
-        $data = [
-            'namaBarang' => $this->request->getPost('namaBarang'),
-            'hargaBarang' => $this->request->getPost('hargaBarang')
+        // Ambil hanya fields yang dibutuhkan
+        $fields = [
+            'nama_barang',
+            'kategori_id',
+            'satuan',
+            'harga'
         ];
 
-        $id = $this->request->getPost('id');
+        $data =  $this->request->getPost($fields);
+        $id = $this->request->getPost('barang_id');
 
         if ($id) {
             // Update

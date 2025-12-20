@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\KategoriModel;
 use App\Models\ProvinceModel;
 
 class Page extends BaseController {
@@ -19,9 +20,12 @@ class Page extends BaseController {
     }
 
     public function barangAdmin() {
+        $kategoriModel = new KategoriModel();
+
         return view('pages/admin/view_barang', [
             'menu' => 'barang',
-            'pageTitle' => 'Data Barang'
+            'pageTitle' => 'Data Barang',
+            'kategori' => $kategoriModel->findAll()
         ]);
     }
 
