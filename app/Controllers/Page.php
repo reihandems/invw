@@ -2,9 +2,15 @@
 
 namespace App\Controllers;
 
+use App\Models\KategoriModel;
 use App\Models\ProvinceModel;
 
 class Page extends BaseController {
+    // LOGIN
+    public function login() {
+        return view('auth/login');
+    }
+
     // ADMIN
     public function dashboardAdmin() {
         return view('pages/admin/view_dashboard', [
@@ -14,9 +20,12 @@ class Page extends BaseController {
     }
 
     public function barangAdmin() {
+        $kategoriModel = new KategoriModel();
+
         return view('pages/admin/view_barang', [
             'menu' => 'barang',
-            'pageTitle' => 'Data Barang'
+            'pageTitle' => 'Data Barang',
+            'kategori' => $kategoriModel->findAll()
         ]);
     }
 

@@ -48,8 +48,8 @@
             </ul>
         </div>
         <div class="flex flex-col items-stretch">
-            <p class="font-bold text-xs">Rayhan Dwi Putra</p>
-            <p class="text-xs font-semibold" style="color: var(--secondary-text);">Admin</p>
+            <p class="font-bold text-xs"><?= session()->get('user_nama') ?></p>
+            <p class="text-xs font-semibold" style="color: var(--secondary-text);"><?= session()->get('user_role') ?></p>
         </div>  
         <!-- Avatar end -->
         </div>

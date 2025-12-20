@@ -7,16 +7,45 @@ use CodeIgniter\Router\RouteCollection;
  */
 // $routes->get('/', 'Home::index');
 
-// ADMIN - DASHBOARD
-$routes->get('/admin/dashboard', 'Page::dashboardAdmin');
+use App\Controllers\AuthController;
 
-// ADMIN - BARANG
-$routes->get('/admin/barang', 'Page::barangAdmin');
-$routes->get('/admin/barang/ajaxlist', 'Admin::ajaxList');
-$routes->post('/admin/barang/save', 'Admin::save');
-$routes->get('/admin/barang/getBarang/(:num)', 'Admin::getBarang/$1');
-$routes->post('/admin/barang/deleteData/(:num)', 'Admin::deleteData/$1');
+// AUTENTIKASI - LOGIN
+$routes->get('/login', 'Page::login');
+$routes->post('/login/process', 'Auth::loginProcess');
+$routes->get('/logout', 'Auth::logout');
 
-// ADMIN - SUPPLIER
-$routes->get('/admin/supplier', 'Page::supplierAdmin');
-$routes->post('/admin/supplier/getRegencies', 'RegionController::getRegencies');
+$routes->get('/dashboard', function() {
+    if (!session()->get('logged_in')) {
+        return redirect()->to('/login');
+    }
+    return view('pages/admin/view_dashboard');
+});
+
+$routes->group('admin', ['filter' => 'role:admin'], function ($routes) {
+    // ADMIN - DASHBOARD
+    $routes->get('dashboard', 'Page::dashboardAdmin');
+    $routes->get('dashboard/activityloglist', 'AdminDashboard::activityLogList');
+
+    // ADMIN - BARANG
+    $routes->get('barang', 'Page::barangAdmin');
+    $routes->get('barang/ajaxlist', 'AdminBarang::ajaxList');
+    $routes->post('barang/save', 'AdminBarang::save');
+    $routes->get('barang/getBarang/(:num)', 'AdminBarang::getBarang/$1');
+    $routes->post('barang/deleteData/(:num)', 'AdminBarang::deleteData/$1');
+
+    // ADMIN - SUPPLIER
+    $routes->get('supplier', 'Page::supplierAdmin');
+    $routes->post('supplier/getRegencies', 'RegionController::getRegencies');
+});
+
+$routes->group('manager', ['filter' => 'role:manager'], function ($routes) {
+    $routes->get('dashboard', 'Page::dashboardManager');
+});
+
+$routes->group('gudang', ['filter' => 'role:gudang'], function ($routes) {
+    $routes->get('dashboard', 'Page::dashboardGudang');
+});
+
+$routes->group('purchasing', ['filter' => 'role:purchasing'], function ($routes) {
+    $routes->get('dashboard', 'Page::dashboardPurchasing');
+});

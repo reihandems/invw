@@ -11,19 +11,18 @@
                 <div class="filter-table-kategori flex flex-row items-center mr-5">
                     <p class="text-sm mr-1">Kategori:</p>
                     <select class="select select-sm">
-                        <option disabled selected>Small</option>
-                        <option>Small Apple</option>
-                        <option>Small Orange</option>
-                        <option>Small Tomato</option>
+                        <option disabled selected>Kategori</option>
+                        <?php foreach ($kategori as $k) : ?>
+                            <option value="<?= $k['kategori_id'] ?>"><?= esc($k['nama_kategori']) ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="filter-table-kategori flex flex-row items-center">
                     <p class="text-sm mr-1">Stok: </p>
                     <select class="select select-sm">
-                        <option disabled selected>Small</option>
-                        <option>Small Apple</option>
-                        <option>Small Orange</option>
-                        <option>Small Tomato</option>
+                        <option disabled selected>Stok</option>
+                        <option>Semua</option>
+                        <option>Stok Menipis</option>
                     </select>
                 </div>
             </div>
@@ -35,12 +34,35 @@
             <h3 class="text-lg font-bold modal-title" id="barangModalLabel">Form Barang</h3>
             <hr class="my-3" style="color: var(--secondary-stroke);">
             <form id="barangForm">
-                <input type="hidden" name="id" id="id">
+                <input type="hidden" name="barang_id" id="barang_id">
+                <!-- Nama barang -->
                 <fieldset class="fieldset">
                     <legend class="fieldset-legend">Nama Barang</legend>
-                    <input type="text" class="input w-full" id="namaBarang" name="namaBarang" placeholder="Masukkan nama barang" required/>
-                    <div class="invalid-feedback" id="namaBarang-error"></div>
+                    <input type="text" class="input w-full" id="nama_barang" name="nama_barang" placeholder="Masukkan nama barang" required/>
+                    <div class="invalid-feedback" id="nama_barang-error"></div>
                 </fieldset>
+                <!-- Nama barang end -->
+                <!-- Kategori -->
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Kategori</legend>
+                    <select class="select w-full" id="kategori_id" name="kategori_id">
+                        <option value="">-- Pilih Kategori --</option>
+                        <?php foreach($kategori as $k) : ?>
+                            <option value="<?= $k['kategori_id'] ?>">
+                                <?= esc($k['nama_kategori']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </fieldset>
+                <!-- Kategori end -->
+                <!-- Satuan -->
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Satuan</legend>
+                    <input type="text" class="input w-full" id="satuan" name="satuan" placeholder="Masukkan satuan barang" required/>
+                    <div class="invalid-feedback" id="satuan-error"></div>
+                </fieldset>
+                <!-- Satuan end -->
+                <!-- Harga -->
                 <fieldset class="fieldset">
                     <legend class="fieldset-legend">Harga Barang</legend>
                     <input
@@ -51,12 +73,13 @@
                     min="1000"
                     max="100000000"
                     title="Minimal Rp. 1.000"
-                    id="hargaBarang"
-                    name="hargaBarang"
+                    id="harga"
+                    name="harga"
                     />
                     <p class="validator-hint">Minimal Rp. 1.000</p>
-                    <div class="invalid-feedback" id="hargaBarang-error"></div>
+                    <div class="invalid-feedback" id="harga-error"></div>
                 </fieldset>
+                <!-- Harga end -->
             </form>
             <div class="modal-action">
                 <form method="dialog">
@@ -75,6 +98,8 @@
                     <tr>
                         <th>No</th>
                         <th>Nama Barang</th>
+                        <th>Kategori</th>
+                        <th>Satuan</th>
                         <th>Harga Barang</th>
                         <th>Aksi</th>
                     </tr>
@@ -116,8 +141,10 @@
                 "columns": [
                     {"data": 0},
                     {"data": 1},
-                    {"data": 2, "className": "text-end"},
-                    {"data": 3}
+                    {"data": 2},
+                    {"data": 3},
+                    {"data": 4, "className": "text-end"},
+                    {"data": 5}
                 ],
                 "columnDefs": [
                     {"targets": [3], "orderable": false}
@@ -128,7 +155,7 @@
             $('#add-btn').on('click', function() {
                 $('#barangForm')[0].reset();
                 $('#barangModalLabel').text('Tambah Data Barang');
-                $('#id').val('');
+                $('#barang_id').val('');
                 $('.invalid-feedback').text('').hide();
                 $('#barangModal').modal('show');
             });
@@ -206,10 +233,12 @@
                     dataType: "JSON",
                     success: function(data) {
                         // Isi form dengan data yang didapatkan
-                        $('#id').val(data.id);
-                        $('#namaBarang').val(data.namaBarang);
+                        $('#barang_id').val(data.barang_id);
+                        $('#nama_barang').val(data.nama_barang);
+                        $('#satuan').val(data.satuan);
+                        $('#kategori_id').val(data.kategori_id);
                         // Pastikan nama input sesuai dengan nama kolom di database: HargaBarang
-                        $('#hargaBarang').val(data.hargaBarang);
+                        $('#harga').val(data.harga);
                         
                         $('#barangModal')[0].showModal();
 
@@ -218,7 +247,7 @@
                         alert('Gagal mengambil data untuk Edit: ' + xhr.responseText);
                     }
                 })
-            })
+            });
 
 
             // 4. Hapus data
