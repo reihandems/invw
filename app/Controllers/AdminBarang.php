@@ -14,10 +14,11 @@ class AdminBarang extends BaseController {
 
     public function ajaxList() {
         $barang = $this->adminBarangModel;
-        $list = $barang->select('barang.barang_id, barang.nama_barang, barang.satuan, barang.harga, kategori.nama_kategori')
+        $list = $barang->select('barang.barang_id, barang.nama_barang, satuan.nama_satuan, barang.harga, kategori.nama_kategori')
         ->join('kategori', 'kategori.kategori_id = barang.kategori_id', 'left')
+        ->join('satuan', 'satuan.satuan_id = barang.satuan_id', 'left')
         ->get()
-        ->getResultArray();;
+        ->getResultArray();
         $no = 0;
         $data = [];
         foreach ($list as $barang) {
@@ -26,7 +27,7 @@ class AdminBarang extends BaseController {
             $row[] = $no;
             $row[] = $barang['nama_barang'];
             $row[] = $barang['nama_kategori'];
-            $row[] = $barang['satuan'];
+            $row[] = $barang['nama_satuan'];
             $row[] = 'Rp ' . number_format($barang['harga'], 0, ',', '.');
 
             // Kolom aksi
@@ -45,7 +46,7 @@ class AdminBarang extends BaseController {
         $rules = [
             'nama_barang' => 'required',
             'kategori_id' => 'required',
-            'satuan' => 'required',
+            'satuan_id' => 'required',
             'harga' => 'required|numeric'
         ];
 
@@ -60,11 +61,12 @@ class AdminBarang extends BaseController {
         $fields = [
             'nama_barang',
             'kategori_id',
-            'satuan',
+            'satuan_id',
             'harga'
         ];
 
         $data =  $this->request->getPost($fields);
+
         $id = $this->request->getPost('barang_id');
 
         if ($id) {

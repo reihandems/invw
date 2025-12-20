@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\KategoriModel;
+use App\Models\SatuanModel;
 
 class Page extends BaseController {
     // LOGIN
@@ -20,11 +21,13 @@ class Page extends BaseController {
 
     public function barangAdmin() {
         $kategoriModel = new KategoriModel();
+        $satuanModel = new SatuanModel();
 
         return view('pages/admin/view_barang', [
             'menu' => 'barang',
             'pageTitle' => 'Data Barang',
-            'kategori' => $kategoriModel->findAll()
+            'kategori' => $kategoriModel->findAll(),
+            'satuan' => $satuanModel->findAll()
         ]);
     }
 
@@ -32,6 +35,13 @@ class Page extends BaseController {
         return view('pages/admin/view_supplier', [
             'menu' => 'supplier',
             'pageTitle' => 'Data Supplier'
+        ]);
+    }
+
+    public function userAdmin() {
+        return view('pages/admin/view_user', [
+            'menu' => 'user',
+            'pageTitle' => 'Data User'
         ]);
     }
 }

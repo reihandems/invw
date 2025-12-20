@@ -58,8 +58,14 @@
                 <!-- Satuan -->
                 <fieldset class="fieldset">
                     <legend class="fieldset-legend">Satuan</legend>
-                    <input type="text" class="input w-full" id="satuan" name="satuan" placeholder="Masukkan satuan barang" required/>
-                    <div class="invalid-feedback" id="satuan-error"></div>
+                    <select class="select w-full" id="satuan_id" name="satuan_id">
+                        <option value="">-- Pilih Satuan --</option>
+                        <?php foreach($satuan as $s) : ?>
+                            <option value="<?= $s['satuan_id'] ?>">
+                                <?= esc($s['nama_satuan']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
                 </fieldset>
                 <!-- Satuan end -->
                 <!-- Harga -->
@@ -145,9 +151,6 @@
                     {"data": 3},
                     {"data": 4, "className": "text-end"},
                     {"data": 5}
-                ],
-                "columnDefs": [
-                    {"targets": [3], "orderable": false}
                 ]
             });
 
@@ -235,7 +238,7 @@
                         // Isi form dengan data yang didapatkan
                         $('#barang_id').val(data.barang_id);
                         $('#nama_barang').val(data.nama_barang);
-                        $('#satuan').val(data.satuan);
+                        $('#satuan_id').val(data.satuan_id);
                         $('#kategori_id').val(data.kategori_id);
                         // Pastikan nama input sesuai dengan nama kolom di database: HargaBarang
                         $('#harga').val(data.harga);

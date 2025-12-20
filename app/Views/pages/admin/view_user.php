@@ -1,40 +1,40 @@
 <?= $this->extend('layout/main/admin/view_main') ?>
 <?= $this->section('content') ?>
     <!-- Main Content -->
-    <div class="data-supplier font-semibold mt-6">
+    <div class="data-user font-semibold mt-6">
         <div class="atas flex flex-col-reverse md:flex-row justify-between">
             <!-- Tombol -->
-            <button class="btn bg-[#5160FC] text-white" style="margin-bottom: 14px;" id="add-btn" onclick="supplierModal.showModal()">+ Tambah Supplier</button>
+            <button class="btn bg-[#5160FC] text-white" style="margin-bottom: 14px;" id="add-btn" onclick="userModal.showModal()">+ Tambah User</button>
             <!-- Tombol End -->
         </div>
         <!-- Modal -->
-        <dialog id="supplierModal" class="modal modal-bottom sm:modal-middle">
+        <dialog id="userModal" class="modal modal-bottom sm:modal-middle">
         <div class="modal-box">
-            <h3 class="text-lg font-bold modal-title" id="supplierModalLabel">Form Supplier</h3>
+            <h3 class="text-lg font-bold modal-title" id="supplierModalLabel">Form User</h3>
             <hr class="my-3" style="color: var(--secondary-stroke);">
             <form id="supplierForm">
-                <input type="hidden" name="supplier_id" id="supplier_id">
-                <!-- Nama supplier -->
+                <input type="hidden" name="user_id" id="user_id">
+                <!-- Nama lengkap -->
                 <fieldset class="fieldset">
-                    <legend class="fieldset-legend">Nama Supplier</legend>
-                    <input type="text" class="input w-full" id="nama_supplier" name="nama_supplier" placeholder="Masukkan nama supplier" required/>
-                    <div class="invalid-feedback" id="nama_supplier-error"></div>
+                    <legend class="fieldset-legend">Nama Lengkap</legend>
+                    <input type="text" class="input w-full" id="nama_lengkap" name="nama_lengkap" placeholder="Masukkan nama lengkap user" required/>
+                    <div class="invalid-feedback" id="nama_lengkap-error"></div>
                 </fieldset>
-                <!-- Nama supplier end -->
-                <!-- Kontak -->
+                <!-- Nama lengkap end -->
+                <!-- Username -->
                 <fieldset class="fieldset">
-                    <legend class="fieldset-legend">Kontak</legend>
-                    <input type="text" class="input w-full" id="kontak" name="kontak" placeholder="Masukkan kontak supplier (No. Hp / Email)" required/>
-                    <div class="invalid-feedback" id="kontak-error"></div>
+                    <legend class="fieldset-legend">Username</legend>
+                    <input type="text" class="input w-full" id="username" name="username" placeholder="Masukkan username" required/>
+                    <div class="invalid-feedback" id="username-error"></div>
                 </fieldset>
-                <!-- Kontak end -->
-                <!-- Alamat -->
+                <!-- Username end -->
+                <!-- Role -->
                 <fieldset class="fieldset">
-                    <legend class="fieldset-legend">Alamat</legend>
-                    <textarea class="textarea h-24 w-full" id="alamat" name="alamat" placeholder="Masukkan alamat supplier" required></textarea>
-                    <div class="invalid-feedback" id="alamat-error"></div>
+                    <legend class="fieldset-legend">Role</legend>
+                    <input type="text" class="input w-full" id="username" name="username" placeholder="Masukkan username" required/>
+                    <div class="invalid-feedback" id="username-error"></div>
                 </fieldset>
-                <!-- Alamat end -->
+                <!-- Username end -->
             </form>
             <div class="modal-action">
                 <form method="dialog">

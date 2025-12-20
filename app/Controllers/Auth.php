@@ -12,31 +12,34 @@ class Auth extends BaseController {
         return view('auth/login');
     }
 
-    public function loginProcess() {
+    public function loginProcess(){
         $session = session();
         $model = new UserModel();
 
         $email = $this->request->getPost('email');
         $password = $this->request->getPost('password');
 
-        $user = $model->where('email', $email)->first();
+        // Ambil user + role
+        $user = $model->getUserWithRoleByEmail($email);
 
-        if (!$user && password_verify($password, $user['password'])) {
-            return redirect()->back()->with('error', 'Email atau Password salah.')->withInput();
-
+        // Validasi login
+        if (!$user || !password_verify($password, $user['password'])) {
+            return redirect()->back()
+                ->with('error', 'Email atau Password salah.')
+                ->withInput();
         }
 
+        // Set session
         $session->set([
-                'user_id' => $user['user_id'],
-                'user_nama' => $user['nama_lengkap'],
-                'user_email' => $user['email'],
-                'user_role' => strtolower($user['role']),
-                'logged_in' => true
-            ]);
-
+            'user_id'    => $user['user_id'],
+            'user_nama'  => $user['nama_lengkap'],
+            'user_email' => $user['email'],
+            'user_role'  => strtolower($user['nama_role']),
+            'logged_in'  => true
+        ]);
 
         // Redirect berdasarkan role
-        switch (strtolower($user['role'])) {
+        switch (strtolower($user['nama_role'])) {
             case 'admin':
                 return redirect()->to('/admin/dashboard');
             case 'manager':
@@ -51,6 +54,7 @@ class Auth extends BaseController {
                     ->with('error', 'Role tidak dikenali');
         }
     }
+
 
     public function logout() {
         session()->destroy();
