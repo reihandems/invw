@@ -35,7 +35,17 @@ $routes->group('admin', ['filter' => 'role:admin'], function ($routes) {
 
     // ADMIN - SUPPLIER
     $routes->get('supplier', 'Page::supplierAdmin');
-    $routes->post('supplier/getRegencies', 'RegionController::getRegencies');
+    $routes->get('supplier/ajaxlist', 'AdminSupplier::ajaxList');
+    $routes->post('supplier/save', 'AdminSupplier::save');
+    $routes->get('supplier/getSupplier/(:num)', 'AdminSupplier::getSupplier/$1');
+    $routes->post('supplier/deleteData/(:num)', 'AdminSupplier::deleteData/$1');
+
+    // ADMIN - USER
+    $routes->get('user', 'Page::userAdmin');
+    $routes->get('user/ajaxlist', 'AdminUser::ajaxList');
+    $routes->post('user/save', 'AdminUser::save');
+    $routes->get('user/getUser/(:num)', 'AdminUser::getUser/$1');
+    $routes->post('supplier/deleteData/(:num)', 'AdminSupplier::deleteData/$1');
 });
 
 $routes->group('manager', ['filter' => 'role:manager'], function ($routes) {

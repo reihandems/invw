@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\KategoriModel;
-use App\Models\ProvinceModel;
 
 class Page extends BaseController {
     // LOGIN
@@ -30,12 +29,9 @@ class Page extends BaseController {
     }
 
     public function supplierAdmin() {
-        $provinces = new ProvinceModel();
-
         return view('pages/admin/view_supplier', [
             'menu' => 'supplier',
-            'pageTitle' => 'Data Supplier',
-            'provinces' => $provinces->findAll()
+            'pageTitle' => 'Data Supplier'
         ]);
     }
 }

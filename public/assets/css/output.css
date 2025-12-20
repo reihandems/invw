@@ -2538,6 +2538,9 @@
       }
     }
   }
+  .h-24 {
+    height: calc(var(--spacing) * 24);
+  }
   .h-96 {
     height: calc(var(--spacing) * 96);
   }
