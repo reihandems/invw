@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\UserModel;
+use App\Models\AdminUserModel;
 
 class Auth extends BaseController {
     public function login() {
@@ -14,7 +14,7 @@ class Auth extends BaseController {
 
     public function loginProcess(){
         $session = session();
-        $model = new UserModel();
+        $model = new AdminUserModel();
 
         $email = $this->request->getPost('email');
         $password = $this->request->getPost('password');

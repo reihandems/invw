@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class UserModel extends Model {
+class AdminUserModel extends Model {
     protected $table = 'user';
     protected $primaryKey = 'user_id';
     protected $returnType = 'array';
