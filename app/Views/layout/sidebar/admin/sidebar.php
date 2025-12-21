@@ -110,16 +110,6 @@
                             </div>
                         </a>
                     </li>
-                    <li class="list-menu">
-                        <a href="#">
-                            <div class="flex flex-row items-stretch">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="me-2">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C13.3132 1.99999 14.6136 2.25865 15.8268 2.76119C17.0401 3.26373 18.1425 4.00033 19.0711 4.92891C19.9997 5.8575 20.7363 6.95989 21.2388 8.17315C21.7414 9.3864 22 10.6868 22 12C22 17.5228 17.5228 22 12 22C6.47717 22 2 17.5228 2 12C2 6.47717 6.47717 2 12 2ZM13 13H11C8.5243 13 6.39884 14.4994 5.48211 16.6398C6.93261 18.6737 9.31142 20 12 20C14.6885 20 17.0674 18.6737 18.5179 16.6396C17.6012 14.4994 15.4757 13 13 13ZM12 5C10.3431 5 8.99998 6.34316 8.99998 8C8.99998 9.65684 10.3431 11 12 11C13.6568 11 15 9.65684 15 8C15 6.34316 13.6569 5 12 5Z"/>
-                                </svg>
-                                <p class="self-center">Profil</p>
-                            </div>
-                        </a>
-                    </li>
                 </ul>
                 <a href="<?= base_url('/logout') ?>">
                     <button class="btn btn-wide bg-white text-red-600 border-[#e5e5e5]">

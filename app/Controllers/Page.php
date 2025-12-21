@@ -64,4 +64,11 @@ class Page extends BaseController {
             'gudang' => $gudangModel->findAll()
         ]);
     }
+
+    public function laporanAdmin() {
+        return view('pages/admin/view_laporan', [
+            'menu' => 'laporan',
+            'pageTitle' => 'Laporan'
+        ]);
+    }
 }
