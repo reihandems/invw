@@ -73,7 +73,7 @@ class AdminGudang extends BaseController {
     }
 
     // Metode untuk mendapatkan data tunggal (untuk form edit)
-    public function getSupplier($id = null) {
+    public function getGudang($id = null) {
         $data = $this->adminGudangModel->find($id);
         return $this->response->setJSON($data);
     }

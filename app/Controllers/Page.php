@@ -47,4 +47,11 @@ class Page extends BaseController {
             'role' => $roleModel->findAll()
         ]);
     }
+
+    public function gudangAdmin() {
+        return view('pages/admin/view_gudang', [
+            'menu' => 'gudang',
+            'pageTitle' => 'Data Gudang'
+        ]);
+    }
 }
