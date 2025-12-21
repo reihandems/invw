@@ -83,8 +83,8 @@
                             </div>
                         </a>
                     </li>
-                    <li class="list-menu">
-                        <a href="#">
+                    <li class="list-menu <?= ($menu === 'rak') ? 'active' : '' ?>">
+                        <a href="<?= site_url('/admin/rak')  ?>">
                             <div class="flex flex-row items-stretch">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="me-2">
                                     <g clip-path="url(#clip0_349_122)">

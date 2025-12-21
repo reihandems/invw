@@ -53,6 +53,13 @@ $routes->group('admin', ['filter' => 'role:admin'], function ($routes) {
     $routes->post('gudang/save', 'AdminGudang::save');
     $routes->get('gudang/getGudang/(:num)', 'AdminGudang::getGudang/$1');
     $routes->post('gudang/deleteData/(:num)', 'AdminGudang::deleteData/$1');
+
+    // ADMIN - RAK
+    $routes->get('rak', 'Page::rakAdmin');
+    $routes->get('rak/ajaxlist', 'AdminRak::ajaxList');
+    $routes->post('rak/save', 'AdminRak::save');
+    $routes->get('rak/getRak/(:num)', 'AdminRak::getRak/$1');
+    $routes->post('rak/deleteData/(:num)', 'AdminRak::deleteData/$1');
 });
 
 $routes->group('manager', ['filter' => 'role:manager'], function ($routes) {

@@ -13,7 +13,7 @@ class AdminRak extends BaseController {
 
     public function ajaxList() {
         $rak = $this->adminRakModel;
-        $list = $rak->select('warehouse_rack.rack_id, warehouse.nama_gudang, warehouse_rack.kode-rak, warehouse_rack.deskripsi')
+        $list = $rak->select('warehouse_rack.rack_id, warehouse.nama_gudang, warehouse_rack.kode_rak, warehouse_rack.deskripsi')
         ->join('warehouse', 'warehouse.warehouse_id = warehouse_rack.warehouse_id', 'left')
         ->get()
         ->getResultArray();
@@ -33,6 +33,7 @@ class AdminRak extends BaseController {
 
             $data[] = $row;
         }
+        return $this->response->setJSON($data);
     }
 
     // Metode untuk tambah / update data (Create/Update)
@@ -76,7 +77,7 @@ class AdminRak extends BaseController {
     }
 
     // Metode untuk mendapatkan data tunggal (untuk form edit)
-    public function getBarang($id = null) {
+    public function getRak($id = null) {
         $data = $this->adminRakModel->find($id);
         return $this->response->setJSON($data);
     }

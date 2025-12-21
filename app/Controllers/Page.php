@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\KategoriModel;
 use App\Models\SatuanModel;
 use App\Models\RoleModel;
+use App\Models\AdminGudangModel;
 
 class Page extends BaseController {
     // LOGIN
@@ -52,6 +53,15 @@ class Page extends BaseController {
         return view('pages/admin/view_gudang', [
             'menu' => 'gudang',
             'pageTitle' => 'Data Gudang'
+        ]);
+    }
+
+    public function rakAdmin() {
+        $gudangModel = new AdminGudangModel();
+        return view('pages/admin/view_rak', [
+            'menu' => 'rak',
+            'pageTitle' => 'Data Rak',
+            'gudang' => $gudangModel->findAll()
         ]);
     }
 }
