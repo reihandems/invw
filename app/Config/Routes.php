@@ -51,7 +51,7 @@ $routes->group('admin', ['filter' => 'role:admin'], function ($routes) {
     $routes->get('gudang', 'Page::gudangAdmin');
     $routes->get('gudang/ajaxlist', 'AdminGudang::ajaxList');
     $routes->post('gudang/save', 'AdminGudang::save');
-    $routes->get('gudang/getUser/(:num)', 'AdminGudang::getGudang/$1');
+    $routes->get('gudang/getGudang/(:num)', 'AdminGudang::getGudang/$1');
     $routes->post('gudang/deleteData/(:num)', 'AdminGudang::deleteData/$1');
 });
 

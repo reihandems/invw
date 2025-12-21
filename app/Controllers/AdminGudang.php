@@ -19,7 +19,7 @@ class AdminGudang extends BaseController {
         foreach ($list as $gudang) {
             $no++;
             $row = [];
-            $row[] = $no++;
+            $row[] = $no;
             $row[] = $gudang['nama_gudang'];
             $row[] = $gudang['lokasi'];
 

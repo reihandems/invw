@@ -170,7 +170,7 @@
 
                 // Ambil data barang dari controller menggunakan AJAX
                 $.ajax({
-                    url: "<?= site_url('/admin/gudang/getSupplier/'); ?>" + id,
+                    url: "<?= site_url('/admin/gudang/getGudang/'); ?>" + id,
                     type: "GET",
                     dataType: "JSON",
                     success: function(data) {
@@ -180,7 +180,7 @@
                         $('#lokasi').val(data.lokasi);
                         // Pastikan nama input sesuai dengan nama kolom di database: lokasi
                         
-                        $('#supplierModal')[0].showModal();
+                        $('#gudangModal')[0].showModal();
 
                     },
                     error: function(xhr, status, error) {
