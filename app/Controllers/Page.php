@@ -56,12 +56,15 @@ class Page extends BaseController {
         ]);
     }
 
+    protected $adminGudangModel;
+
     public function rakAdmin() {
-        $gudangModel = new AdminGudangModel();
+        $this->adminGudangModel = new AdminGudangModel();
+        $adminGudangModel = $this->adminGudangModel;
         return view('pages/admin/view_rak', [
             'menu' => 'rak',
             'pageTitle' => 'Data Rak',
-            'gudang' => $gudangModel->findAll()
+            'gudang' => $adminGudangModel->findAll()
         ]);
     }
 
