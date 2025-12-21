@@ -1,48 +1,72 @@
 <?php
 
-namespace App\Controllers\Admin;
+namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\AdminLaporanModel;
 
 class AdminLaporan extends BaseController
 {
-    protected $adminLaporanModel;
+    protected $laporan;
 
     public function __construct()
     {
-        $this->adminLaporanModel = new AdminLaporanModel();
+        $this->laporan = new AdminLaporanModel();
     }
 
-    /**
-     * Halaman laporan (default)
-     */
-
-    /**
-     * Ambil data laporan (AJAX)
-     */
-    public function getLaporan()
+    public function data()
     {
-        if (!$this->request->isAJAX()) {
-            return redirect()->back();
+        $jenis  = $this->request->getPost('jenis_laporan');
+        $awal   = $this->request->getPost('tanggal_awal');
+        $akhir  = $this->request->getPost('tanggal_akhir');
+
+        $data = [];
+
+        if ($jenis === 'barang') {
+            $rows = $this->laporan->laporanBarang($awal, $akhir);
+            $no = 1;
+            foreach ($rows as $r) {
+                $data[] = [
+                    $no++,
+                    $r['nama_barang'],
+                    $r['total_masuk'],
+                    $r['total_keluar'],
+                    $r['total_masuk'] - $r['total_keluar']
+                ];
+            }
         }
 
-        $tanggalAwal  = $this->request->getPost('tanggal_awal');
-        $tanggalAkhir = $this->request->getPost('tanggal_akhir');
-
-        // Validasi sederhana
-        if (!$tanggalAwal || !$tanggalAkhir) {
-            return $this->response->setJSON([
-                'status' => false,
-                'msg'    => 'Tanggal awal dan akhir wajib diisi'
-            ]);
+        if ($jenis === 'stok') {
+            $rows = $this->laporan->laporanStok($awal, $akhir);
+            $no = 1;
+            foreach ($rows as $r) {
+                $data[] = [
+                    $no++,
+                    $r['nama_barang'],
+                    $r['stok_sistem'],
+                    $r['stok_fisik'],
+                    $r['selisih']
+                ];
+            }
         }
 
-        $data = $this->adminLaporanModel->getLaporanBarang($tanggalAwal, $tanggalAkhir);
+        if ($jenis === 'purchasing') {
+            $rows = $this->laporan->laporanPurchasing($awal, $akhir);
+            $no = 1;
+            foreach ($rows as $r) {
+                $data[] = [
+                    $no++,
+                    $r['nama_supplier'],
+                    $r['tanggal_order'],
+                    $r['status'],
+                    number_format($r['total_harga'],0,',','.')
+                ];
+            }
+        }
 
         return $this->response->setJSON([
-            'status' => true,
-            'data'   => $data
+            'data' => $data
         ]);
     }
 }
+

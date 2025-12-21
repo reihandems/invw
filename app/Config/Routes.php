@@ -60,6 +60,10 @@ $routes->group('admin', ['filter' => 'role:admin'], function ($routes) {
     $routes->post('rak/save', 'AdminRak::save');
     $routes->get('rak/getRak/(:num)', 'AdminRak::getRak/$1');
     $routes->post('rak/deleteData/(:num)', 'AdminRak::deleteData/$1');
+
+    // ADMIN - LAPORAN
+    $routes->get('laporan', 'Page::laporanAdmin');
+    $routes->post('laporan/data', 'AdminLaporan::data');
 });
 
 $routes->group('manager', ['filter' => 'role:manager'], function ($routes) {

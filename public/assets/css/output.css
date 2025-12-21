@@ -9,6 +9,7 @@
       "Courier New", monospace;
     --color-red-500: oklch(63.7% 0.237 25.331);
     --color-red-600: oklch(57.7% 0.245 27.325);
+    --color-gray-400: oklch(70.7% 0.022 261.325);
     --color-neutral-50: oklch(98.5% 0 0);
     --color-black: #000;
     --color-white: #fff;
@@ -2287,6 +2288,51 @@
       }
     }
   }
+  .filter\! {
+    @layer daisyui.l1.l2.l3 {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      input[type="radio"] {
+        width: auto !important;
+      }
+      input {
+        overflow: hidden !important;
+        opacity: 100% !important;
+        scale: 1 !important;
+        transition: margin 0.1s, opacity 0.3s, padding 0.3s, border-width 0.1s !important;
+        &:not(:last-child) {
+          margin-inline-end: calc(0.25rem * 1) !important;
+        }
+        &.filter-reset {
+          aspect-ratio: 1 / 1 !important;
+          &::after {
+            --tw-content: "×" !important;
+            content: var(--tw-content) !important;
+          }
+        }
+      }
+      &:not(:has(input:checked:not(.filter-reset))) {
+        .filter-reset, input[type="reset"] {
+          scale: 0 !important;
+          border-width: 0 !important;
+          margin-inline: calc(0.25rem * 0) !important;
+          width: calc(0.25rem * 0) !important;
+          padding-inline: calc(0.25rem * 0) !important;
+          opacity: 0% !important;
+        }
+      }
+      &:has(input:checked:not(.filter-reset)) {
+        input:not(:checked, .filter-reset, input[type="reset"]) {
+          scale: 0 !important;
+          border-width: 0 !important;
+          margin-inline: calc(0.25rem * 0) !important;
+          width: calc(0.25rem * 0) !important;
+          padding-inline: calc(0.25rem * 0) !important;
+          opacity: 0% !important;
+        }
+      }
+    }
+  }
   .mx-1 {
     margin-inline: calc(var(--spacing) * 1);
   }
@@ -2366,6 +2412,9 @@
       justify-content: flex-end;
       gap: calc(0.25rem * 2);
     }
+  }
+  .mt-2 {
+    margin-top: calc(var(--spacing) * 2);
   }
   .mt-3 {
     margin-top: calc(var(--spacing) * 3);
@@ -2766,6 +2815,9 @@
   .items-center {
     align-items: center;
   }
+  .items-end {
+    align-items: flex-end;
+  }
   .items-stretch {
     align-items: stretch;
   }
@@ -2777,6 +2829,9 @@
   }
   .gap-3 {
     gap: calc(var(--spacing) * 3);
+  }
+  .gap-4 {
+    gap: calc(var(--spacing) * 4);
   }
   .gap-5 {
     gap: calc(var(--spacing) * 5);
@@ -2936,6 +2991,12 @@
   .py-8 {
     padding-block: calc(var(--spacing) * 8);
   }
+  .pb-1 {
+    padding-bottom: calc(var(--spacing) * 1);
+  }
+  .pb-2 {
+    padding-bottom: calc(var(--spacing) * 2);
+  }
   .pb-5 {
     padding-bottom: calc(var(--spacing) * 5);
   }
@@ -2989,6 +3050,9 @@
   .text-\[\#ffffff\] {
     color: #ffffff;
   }
+  .text-gray-400 {
+    color: var(--color-gray-400);
+  }
   .text-neutral-50 {
     color: var(--color-neutral-50);
   }
@@ -3025,6 +3089,9 @@
   }
   .filter {
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+  }
+  .filter\! {
+    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,) !important;
   }
   .transition {
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
@@ -3117,9 +3184,34 @@
       width: calc(var(--spacing) * 50);
     }
   }
+  .md\:w-auto {
+    @media (width >= 48rem) {
+      width: auto;
+    }
+  }
+  .md\:w-full {
+    @media (width >= 48rem) {
+      width: 100%;
+    }
+  }
   .md\:flex-row {
     @media (width >= 48rem) {
       flex-direction: row;
+    }
+  }
+  .md\:items-center {
+    @media (width >= 48rem) {
+      align-items: center;
+    }
+  }
+  .md\:items-end {
+    @media (width >= 48rem) {
+      align-items: flex-end;
+    }
+  }
+  .md\:justify-between {
+    @media (width >= 48rem) {
+      justify-content: space-between;
     }
   }
   .md\:py-12 {
