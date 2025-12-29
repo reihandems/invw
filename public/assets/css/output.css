@@ -2288,51 +2288,6 @@
       }
     }
   }
-  .filter\! {
-    @layer daisyui.l1.l2.l3 {
-      display: flex !important;
-      flex-wrap: wrap !important;
-      input[type="radio"] {
-        width: auto !important;
-      }
-      input {
-        overflow: hidden !important;
-        opacity: 100% !important;
-        scale: 1 !important;
-        transition: margin 0.1s, opacity 0.3s, padding 0.3s, border-width 0.1s !important;
-        &:not(:last-child) {
-          margin-inline-end: calc(0.25rem * 1) !important;
-        }
-        &.filter-reset {
-          aspect-ratio: 1 / 1 !important;
-          &::after {
-            --tw-content: "×" !important;
-            content: var(--tw-content) !important;
-          }
-        }
-      }
-      &:not(:has(input:checked:not(.filter-reset))) {
-        .filter-reset, input[type="reset"] {
-          scale: 0 !important;
-          border-width: 0 !important;
-          margin-inline: calc(0.25rem * 0) !important;
-          width: calc(0.25rem * 0) !important;
-          padding-inline: calc(0.25rem * 0) !important;
-          opacity: 0% !important;
-        }
-      }
-      &:has(input:checked:not(.filter-reset)) {
-        input:not(:checked, .filter-reset, input[type="reset"]) {
-          scale: 0 !important;
-          border-width: 0 !important;
-          margin-inline: calc(0.25rem * 0) !important;
-          width: calc(0.25rem * 0) !important;
-          padding-inline: calc(0.25rem * 0) !important;
-          opacity: 0% !important;
-        }
-      }
-    }
-  }
   .mx-1 {
     margin-inline: calc(var(--spacing) * 1);
   }
@@ -3090,9 +3045,6 @@
   .filter {
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
-  .filter\! {
-    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,) !important;
-  }
   .transition {
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
@@ -3187,11 +3139,6 @@
   .md\:w-auto {
     @media (width >= 48rem) {
       width: auto;
-    }
-  }
-  .md\:w-full {
-    @media (width >= 48rem) {
-      width: 100%;
     }
   }
   .md\:flex-row {
