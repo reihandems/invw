@@ -151,6 +151,9 @@
                     {"data": 3},
                     {"data": 4, "className": "text-end"},
                     {"data": 5}
+                ],
+                "columnDefs": [
+                    {"targets": [5], "orderable": false}
                 ]
             });
 

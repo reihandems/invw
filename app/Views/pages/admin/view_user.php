@@ -143,8 +143,8 @@
                     {"data": 6}
                 ],
                 "columnDefs": [
-                    {"targets": [3], "orderable": false},
-                    {"targets": [5], "orderable": false}
+                    {"targets": [5], "orderable": false},
+                    {"targets": [6], "orderable": false}
                 ]
             });
 
