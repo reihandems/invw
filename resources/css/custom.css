@@ -8,6 +8,28 @@
   --primary-stroke: #99AAB8;
   --secondary-stroke: #C0CFDB;
   --background-color: #F7F7FF;
+
+  /* Grayscale - White */
+    --white: #FFFFFF;
+    --almost-white: #F6F6F6;
+    --shaded-white: #DDDDDD;
+    --dark-white: #CCCCCC;
+
+    /* Grayscale - Gray */
+    --silver: #BBBBBB;
+    --pale-gray: #AAAAAA;
+    --light-gray: #999999;
+    --tinted-gray: #888888;
+    --medium-gray: #777777;
+    --shaded-gray: #666666;
+    --dark-gray: #555555;
+
+    /* Grayscale - Black */
+    --pale-black: #444444;
+    --light-black: #333333;
+    --tinted-black: #222222;
+    --almost-black: #111111;
+    --black: #000000;
 }
 
 body {
@@ -44,13 +66,13 @@ h6 {
     padding: 12px 14px;
     font-size: 12px;
     border-radius: 12px;
-    color: var(--secondary-text);
-    font-weight: 600;
+    color: var(--light-gray);
+    font-weight: 500;
     margin-bottom: 32px;
 }
 
 .sidebar .list-menu svg {
-    color: var(--secondary-text);
+    color: var(--light-gray);
 }
 
 .sidebar .list-menu.active {
