@@ -1,24 +1,7 @@
 <!-- Header -->
-<div class="flex flex-col md:flex-row justify-between items-center">
+<div class="flex flex-row justify-between items-center">
     <h3 class="page-title" style="color: #333;"><?= $pageTitle ?></h3>
     <div class="end-header flex flex-row items-center gap-3 ml-auto">
-        <!-- Search -->
-        <label class="input">
-        <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <g
-            stroke-linejoin="round"
-            stroke-linecap="round"
-            stroke-width="2.5"
-            fill="none"
-            stroke="currentColor"
-            >
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.3-4.3"></path>
-            </g>
-        </svg>
-        <input type="search" required placeholder="Search" />
-        </label>
-        <!-- Search End -->
         <!-- Notif -->
         <div class="dropdown dropdown-end">
             <div tabindex="0" role="button" class="btn m-1 bg-base-100">
@@ -48,8 +31,8 @@
             </ul>
         </div>
         <div class="flex flex-col items-stretch">
-            <p class="font-bold text-xs"><?= session()->get('user_nama') ?></p>
-            <p class="text-xs font-semibold" style="color: var(--secondary-text);"><?= session()->get('user_role') ?></p>
+            <p class="font-bold text-xs hidden md:block"><?= session()->get('user_nama') ?></p>
+            <p class="text-xs font-semibold hidden md:block" style="color: var(--secondary-text);"><?= session()->get('user_role') ?></p>
         </div>  
         <!-- Avatar end -->
         </div>
