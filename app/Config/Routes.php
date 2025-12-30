@@ -67,8 +67,12 @@ $routes->group('admin', ['filter' => 'role:admin'], function ($routes) {
 });
 
 $routes->group('purchasing', ['filter' => 'role:purchasing'], function ($routes) {
+    // PURCHASING - DASHBOARD
     $routes->get('dashboard', 'PurchasingDashboard::index');
     $routes->get('dashboard/latest-po', 'PurchasingDashboard::latestPO');
+
+    // PURCHASING - PR
+    $routes->get('purchase-request', 'PurchasingDashboard::index');
 });
 
 $routes->group('manager', ['filter' => 'role:manager'], function ($routes) {
