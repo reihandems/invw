@@ -66,14 +66,15 @@ $routes->group('admin', ['filter' => 'role:admin'], function ($routes) {
     $routes->post('laporan/data', 'AdminLaporan::data');
 });
 
+$routes->group('purchasing', ['filter' => 'role:purchasing'], function ($routes) {
+    $routes->get('dashboard', 'PurchasingDashboard::index');
+    $routes->get('dashboard/latest-po', 'PurchasingDashboard::latestPO');
+});
+
 $routes->group('manager', ['filter' => 'role:manager'], function ($routes) {
     $routes->get('dashboard', 'Page::dashboardManager');
 });
 
 $routes->group('gudang', ['filter' => 'role:gudang'], function ($routes) {
     $routes->get('dashboard', 'Page::dashboardGudang');
-});
-
-$routes->group('purchasing', ['filter' => 'role:purchasing'], function ($routes) {
-    $routes->get('dashboard', 'Page::dashboardPurchasing');
 });
