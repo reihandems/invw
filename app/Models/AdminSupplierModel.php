@@ -10,4 +10,8 @@ class AdminSupplierModel extends Model {
     protected $allowedFields = ['nama_supplier', 'kontak', 'alamat'];
     protected $returnType = 'array';
     protected $useTimestamps = false;
+
+    public function getTotalSupplier() {
+        return $this->countAllResults();
+    }
 }

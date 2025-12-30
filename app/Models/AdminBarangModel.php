@@ -10,4 +10,8 @@ class AdminBarangModel extends Model {
     protected $allowedFields = ['nama_barang', 'satuan_id', 'harga', 'kategori_id'];
     protected $returnType = 'array';
     protected $useTimestamps = false;
+
+    public function getTotalBarang() {
+        return $this->countAllResults();
+    }
 }

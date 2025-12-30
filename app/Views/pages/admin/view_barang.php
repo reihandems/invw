@@ -6,27 +6,6 @@
             <!-- Tombol -->
             <button class="btn bg-[#5160FC] text-white" style="margin-bottom: 14px;" id="add-btn" onclick="barangModal.showModal()">+ Tambah Barang</button>
             <!-- Tombol End -->
-            <!-- Filter -->
-            <div class="filter-table flex flex-row mb-3">
-                <div class="filter-table-kategori flex flex-row items-center mr-5">
-                    <p class="text-sm mr-1">Kategori:</p>
-                    <select class="select select-sm">
-                        <option disabled selected>Kategori</option>
-                        <?php foreach ($kategori as $k) : ?>
-                            <option value="<?= $k['kategori_id'] ?>"><?= esc($k['nama_kategori']) ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="filter-table-kategori flex flex-row items-center">
-                    <p class="text-sm mr-1">Stok: </p>
-                    <select class="select select-sm">
-                        <option disabled selected>Stok</option>
-                        <option>Semua</option>
-                        <option>Stok Menipis</option>
-                    </select>
-                </div>
-            </div>
-            <!-- Filter end -->
         </div>
         <!-- Modal -->
         <dialog id="barangModal" class="modal modal-bottom sm:modal-middle">

@@ -9,6 +9,11 @@ class AdminUserModel extends Model {
     protected $primaryKey = 'user_id';
     protected $allowedFields = ['nama_lengkap', 'username', 'email', 'password', 'role_id', 'gambar'];
     protected $returnType = 'array';
+
+    public function getTotalUser() {
+        return $this->countAllResults();
+    }
+
     public function getUserWithRoleByEmail($email)
     {
         return $this->db->table('users u')

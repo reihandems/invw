@@ -2,10 +2,30 @@
 
 namespace App\Controllers;
 use App\Controllers\BaseController;
+use App\Models\AdminBarangModel;
+use App\Models\AdminSupplierModel;
+use App\Models\AdminUserModel;
+
 use App\Models\ActivityLogModel;
 
 class AdminDashboard extends BaseController {
     protected $activityLogModel;
+
+    public function index() {
+        $barangModel   = new AdminBarangModel();
+        $supplierModel = new AdminSupplierModel();
+        $userModel     = new AdminUserModel();
+
+        $data = [
+            'total_barang'   => $barangModel->getTotalBarang(),
+            'total_supplier' => $supplierModel->getTotalSupplier(),
+            'total_user'     => $userModel->getTotalUser(),
+            'menu'           => 'dashboard',
+            'pageTitle'      => 'Dashboard'
+        ];
+
+        return view('pages/admin/view_dashboard', $data);
+    }
 
     public function __construct() {
         $this->activityLogModel = new ActivityLogModel();

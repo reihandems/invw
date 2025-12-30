@@ -23,7 +23,7 @@ $routes->get('/dashboard', function() {
 
 $routes->group('admin', ['filter' => 'role:admin'], function ($routes) {
     // ADMIN - DASHBOARD
-    $routes->get('dashboard', 'Page::dashboardAdmin');
+    $routes->get('dashboard', 'AdminDashboard::index');
     $routes->get('dashboard/activityloglist', 'AdminDashboard::activityLogList');
 
     // ADMIN - BARANG
