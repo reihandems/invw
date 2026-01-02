@@ -3,18 +3,17 @@
     <div class="po-terbaru font-semibold mt-8">
         <!-- PR -->
         <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 px-5 pb-5">
-            <table id="tabelPR" class="table table-md display nowrap">
+            <table id="tabelPO" class="table table-md display nowrap">
                 <thead>
                     <tr>
-                        <th>No. PR</th>
+                        <th>No. PO</th>
                         <th>Gudang</th>
-                        <th>Nama Staff</th>
-                        <th>Dibuat Pada</th>
+                        <th>No. PR</th>
+                        <th>Supplier</th>
+                        <th>Purchasing</th>
+                        <th>Tanggal Order</th>
                         <th>Status</th>
-                        <th>Disetujui Oleh</th>
-                        <th>Disetujui Pada</th>
-                        <th>Catatan</th>
-                        <th>Aksi</th>
+                        <th>Jumlah Total</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,7 +34,7 @@
         
         $(document).ready(function() {
             // Menampilkan data ke dalam dataTables
-            var table = $('#tabelPR').DataTable({
+            var table = $('#tabelPO').DataTable({
                 // Custom style table
                 // opsional: matiin style bawaan
                 "dom":
@@ -85,13 +84,11 @@
                     {"data": 4},
                     {"data": 5},
                     {"data": 6},
-                    {"data": 7},
-                    {"data": 8}
+                    {"data": 7}
                 ],
                 "columnDefs": [
                     {"targets": [4], "orderable": false},
-                    {"targets": [7], "orderable": false},
-                    {"targets": [8], "orderable": false}
+                    {"targets": [7], "orderable": false}
                 ]
             });
         })

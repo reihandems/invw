@@ -77,6 +77,11 @@ $routes->group('purchasing', ['filter' => 'role:purchasing'], function ($routes)
 
     // PURCHASING - PO
     $routes->get('purchase-order', 'PurchasingPO::index');
+    $routes->get('purchase-order/ajaxlist', 'PurchasingPO::ajaxList');
+
+    // PURCHASING - SUPPLIER
+    $routes->get('supplier', 'PurchasingSupplier::index');
+    $routes->get('supplier/ajaxlist', 'PurchasingSupplier::ajaxList');
 
 });
 

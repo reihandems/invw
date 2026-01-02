@@ -45,6 +45,9 @@ class PurchasingPR extends BaseController {
             $row[] = $pr['approved_at'];
             $row[] = $pr['notes'];
 
+            // Kolom aksi
+            $row[] = '<a href="javascript:void(0)" class="btn bg-[#5160FC] text-white border-[#e5e5e5] btn-sm edit-btn" data-id="'. $pr['pr_id'].'">Edit</a>';
+
             $data[] = $row;
         }
         return $this->response->setJSON($data);
