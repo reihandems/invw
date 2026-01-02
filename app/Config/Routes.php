@@ -66,14 +66,29 @@ $routes->group('admin', ['filter' => 'role:admin'], function ($routes) {
     $routes->post('laporan/data', 'AdminLaporan::data');
 });
 
+$routes->group('purchasing', ['filter' => 'role:purchasing'], function ($routes) {
+    // PURCHASING - DASHBOARD
+    $routes->get('dashboard', 'PurchasingDashboard::index');
+    $routes->get('dashboard/latest-po', 'PurchasingDashboard::latestPO');
+
+    // PURCHASING - PR
+    $routes->get('purchase-request', 'PurchasingPR::index');
+    $routes->get('purchase-request/ajaxlist', 'PurchasingPR::ajaxList');
+
+    // PURCHASING - PO
+    $routes->get('purchase-order', 'PurchasingPO::index');
+    $routes->get('purchase-order/ajaxlist', 'PurchasingPO::ajaxList');
+
+    // PURCHASING - SUPPLIER
+    $routes->get('supplier', 'PurchasingSupplier::index');
+    $routes->get('supplier/ajaxlist', 'PurchasingSupplier::ajaxList');
+
+});
+
 $routes->group('manager', ['filter' => 'role:manager'], function ($routes) {
     $routes->get('dashboard', 'Page::dashboardManager');
 });
 
 $routes->group('gudang', ['filter' => 'role:gudang'], function ($routes) {
     $routes->get('dashboard', 'Page::dashboardGudang');
-});
-
-$routes->group('purchasing', ['filter' => 'role:purchasing'], function ($routes) {
-    $routes->get('dashboard', 'Page::dashboardPurchasing');
 });
