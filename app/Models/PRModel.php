@@ -16,4 +16,9 @@ class PRModel extends Model {
         return $this->where('status', 'submitted')
                     ->countAllResults();
     }
+
+    public function approvedPR() {
+        return $this->where('status', 'approved')
+            ->findAll();
+    }
 }

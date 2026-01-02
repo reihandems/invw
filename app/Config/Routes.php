@@ -72,7 +72,12 @@ $routes->group('purchasing', ['filter' => 'role:purchasing'], function ($routes)
     $routes->get('dashboard/latest-po', 'PurchasingDashboard::latestPO');
 
     // PURCHASING - PR
-    $routes->get('purchase-request', 'PurchasingDashboard::index');
+    $routes->get('purchase-request', 'PurchasingPR::index');
+    $routes->get('purchase-request/ajaxlist', 'PurchasingPR::ajaxList');
+
+    // PURCHASING - PO
+    $routes->get('purchase-order', 'PurchasingPO::index');
+
 });
 
 $routes->group('manager', ['filter' => 'role:manager'], function ($routes) {

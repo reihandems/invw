@@ -2542,12 +2542,6 @@
       }
     }
   }
-  .h-1 {
-    height: calc(var(--spacing) * 1);
-  }
-  .h-1\/2 {
-    height: calc(1/2 * 100%);
-  }
   .h-24 {
     height: calc(var(--spacing) * 24);
   }
@@ -2557,17 +2551,8 @@
   .h-\[1em\] {
     height: 1em;
   }
-  .h-auto {
-    height: auto;
-  }
-  .h-fit {
-    height: fit-content;
-  }
   .h-full {
     height: 100%;
-  }
-  .h-max {
-    height: max-content;
   }
   .h-screen {
     height: 100vh;
@@ -2635,9 +2620,6 @@
   .items-center {
     align-items: center;
   }
-  .items-end {
-    align-items: flex-end;
-  }
   .items-stretch {
     align-items: stretch;
   }
@@ -2680,6 +2662,20 @@
   .border {
     border-style: var(--tw-border-style);
     border-width: 1px;
+  }
+  .badge-soft {
+    @layer daisyui.l1.l2 {
+      color: var(--badge-color, var(--color-base-content));
+      background-color: var(--badge-color, var(--color-base-content));
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix( in oklab, var(--badge-color, var(--color-base-content)) 8%, var(--color-base-100) );
+      }
+      border-color: var(--badge-color, var(--color-base-content));
+      @supports (color: color-mix(in lab, red, red)) {
+        border-color: color-mix( in oklab, var(--badge-color, var(--color-base-content)) 10%, var(--color-base-100) );
+      }
+      background-image: none;
+    }
   }
   .border-\[\#e5e5e5\] {
     border-color: #e5e5e5;
@@ -2915,6 +2911,12 @@
       --fontsize: 0.75rem;
       --btn-p: 0.75rem;
       --size: calc(var(--size-field, 0.25rem) * 8);
+    }
+  }
+  .badge-success {
+    @layer daisyui.l1.l2 {
+      --badge-color: var(--color-success);
+      --badge-fg: var(--color-success-content);
     }
   }
   .btn-error {
