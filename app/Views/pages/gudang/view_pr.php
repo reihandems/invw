@@ -7,7 +7,7 @@
             <button class="btn bg-[#5160FC] text-white" style="margin-bottom: 14px;" id="add-btn" onclick="prModal.showModal()">+ Buat PR</button>
             <!-- Tombol End -->
         </div>
-        <!-- Modal -->
+        <!-- PR Baru Modal -->
         <dialog id="prModal" class="modal modal-bottom sm:modal-middle">
             <div class="modal-box md:w-11/12 md:max-w-5xl">
                 <h3 class="text-lg font-bold modal-title" id="formModalLabel">Form PR</h3>
@@ -126,7 +126,58 @@
                 </div>
             </div>
         </dialog>
-        <!-- Modal end -->
+        <!-- PR Baru Modal end -->
+        
+        <dialog id="detailPrModal" class="modal modal-bottom sm:modal-middle">
+            <div class="modal-box max-w-4xl">
+                <h3 class="font-bold text-lg" id="d_pr_number">Detail Purchase Request</h3>
+                <hr class="my-3" style="color: var(--secondary-stroke);">
+                <div class="grid grid-cols-12 gap-4 mt-4 text-sm">
+                    <div class="col-span-6 md:col-span-4">
+                        <p><b>Tanggal:</b> <span id="d_created_at"></span></p>
+                    </div>
+                    <div class="col-span-6 md:col-span-4">
+                        <p><b>Status:</b> <span id="d_status"></span></p>
+                    </div>
+                    <div class="col-span-6 md:col-span-4">
+                        <p><b>Gudang:</b> <span id="d_warehouse"></span></p>
+                    </div>
+                    <div class="col-span-6 md:col-span-4">
+                        <p><b>Pengaju:</b> <span id="d_created_by"></span></p>
+                    </div>
+                </div>
+
+                <hr class="my-3" style="color: var(--secondary-stroke);">
+
+                <div class="mt-4">
+                <p class="text-sm font-semibold mb-1">Catatan</p>
+                <p class="text-sm bg-base-200 p-3 rounded" id="d_notes"></p>
+                </div>
+
+                <hr class="my-3" style="color: var(--secondary-stroke);">
+
+                <div class="mt-6">
+                <p class="font-semibold mb-2">Detail Barang</p>
+                <div class="overflow-x-auto">
+                    <table class="table table-sm">
+                    <thead>
+                        <tr>
+                        <th>#</th>
+                        <th>Nama Barang</th>
+                        <th>Qty</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detailItemsTable"></tbody>
+                    </table>
+                </div>
+                </div>
+
+                <div class="modal-action">
+                    <button class="btn" onclick="detailPrModal.close()">Close</button>
+                </div>
+            </div>
+        </dialog>
+
         <?php if (session()->getFlashdata('success')): ?>
                     <div class="toast toast-top toast-center">
                         <div class="alert alert-success alert-soft border-shaded-white">
@@ -319,7 +370,7 @@
                     {"data": 1},
                     {"data": 2},
                     {"data": 3},
-                    {"data": 4, "className": "text-end"},
+                    {"data": 4, "className": "text-start"},
                     {"data": 5}
                 ],
                 "columnDefs": [
@@ -334,6 +385,10 @@
                 $('#pr_id').val('');
                 $('.invalid-feedback').text('').hide();
                 $('#prModal').modal('show');
+                $.get('<?= base_url('gudang/purchase-request/generate-number') ?>', function (res) {
+                    $('#pr_number').val(res.pr_number);
+                    document.getElementById('prModal').showModal();
+                });
             });
 
             $('#prForm').on('submit', function(e) {
@@ -363,8 +418,40 @@
                     alert('Terjadi kesalahan');
                 }
             });
+
         });
 
         })
+
+        function openDetailPR(prId) {
+            fetch(`/gudang/purchase-request/detail/${prId}`)
+                .then(res => res.json())
+                .then(res => {
+                if (!res.status) return alert('Gagal ambil data');
+
+                const h = res.header;
+                document.getElementById('d_pr_number').textContent = h.pr_number;
+                document.getElementById('d_created_at').textContent = h.created_at;
+                document.getElementById('d_status').textContent = h.status;
+                document.getElementById('d_warehouse').textContent = h.nama_gudang;
+                document.getElementById('d_created_by').textContent = h.created_by;
+                document.getElementById('d_notes').textContent = h.notes ?? '-';
+
+                const tbody = document.getElementById('detailItemsTable');
+                tbody.innerHTML = '';
+
+                res.items.forEach((item, i) => {
+                    tbody.innerHTML += `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td>${item.nama_barang}</td>
+                        <td>${item.qty}</td>
+                    </tr>
+                    `;
+                });
+
+                detailPrModal.showModal();
+                });
+        }
     </script>
 <?= $this->endSection() ?>

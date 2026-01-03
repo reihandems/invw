@@ -61,12 +61,19 @@ class GudangPR extends BaseController {
             $row[] = $pr['created_at'];
 
             // Kolom aksi
-            $row[] = '<a href="javascript:void(0)" class="btn bg-[#5160FC] text-white border-[#e5e5e5] btn-sm edit-btn" data-id="'. $pr['pr_id'].'">Detail</a>';
+            $row[] = '<a href="javascript:void(0)" onclick="openDetailPR('.$pr['pr_id'].')" class="btn bg-white text-[#5160FC] border-[#C0CFDB] btn-sm edit-btn font-bold">Detail</a>';
 
             $data[] = $row;
         }
         return $this->response->setJSON($data);
     }
+
+    public function generatePRNumber(){
+        return $this->response->setJSON([
+            'pr_number' => $this->prModel->generatePRNumber()
+        ]);
+    }
+
 
     // Handle request AJAX untuk mendapatkan daftar kabupaten/kota
     public function getBarang() {
@@ -106,71 +113,84 @@ class GudangPR extends BaseController {
     }
 
     public function store()
-{
-    $barangIds = $this->request->getPost('barang_id');
-    $qtys      = $this->request->getPost('qty');
+    {
+        $barangIds = $this->request->getPost('barang_id');
+        $qtys      = $this->request->getPost('qty');
 
-    if (empty($barangIds) || empty($qtys)) {
-        return $this->response->setJSON([
-            'status' => false,
-            'msg' => 'Detail barang tidak boleh kosong'
-        ]);
-    }
-
-    $this->db->transException(true);
-    $this->db->transBegin();
-
-    try {
-        $prData = [
-            'pr_number'    => $this->request->getPost('pr_number'),
-            'warehouse_id' => session('warehouse_id'),
-            'user_id'      => session('user_id'),
-            'status'       => 'submitted',
-            'notes'        => $this->request->getPost('notes'),
-        ];
-
-        $this->prModel->insert($prData);
-        $prId = $this->prModel->insertID();
-
-        if (!$prId) {
-            throw new \Exception('Gagal menyimpan PR header');
+        if (empty($barangIds) || empty($qtys)) {
+            return $this->response->setJSON([
+                'status' => false,
+                'msg' => 'Detail barang tidak boleh kosong'
+            ]);
         }
 
-        $detailData = [];
-        foreach ($barangIds as $i => $barangId) {
-            $detailData[] = [
-                'pr_id'     => $prId,
-                'barang_id' => $barangId,
-                'qty'       => $qtys[$i]
+        $this->db->transException(true);
+        $this->db->transBegin();
+
+        try {
+            $prData = [
+                'pr_number'    => $this->request->getPost('pr_number'),
+                'warehouse_id' => session('warehouse_id'),
+                'user_id'      => session('user_id'),
+                'status'       => 'submitted',
+                'notes'        => $this->request->getPost('notes'),
             ];
+
+            $this->prModel->insert($prData);
+            $prId = $this->prModel->insertID();
+
+            if (!$prId) {
+                throw new \Exception('Gagal menyimpan PR header');
+            }
+
+            $detailData = [];
+            foreach ($barangIds as $i => $barangId) {
+                $detailData[] = [
+                    'pr_id'     => $prId,
+                    'barang_id' => $barangId,
+                    'qty'       => $qtys[$i]
+                ];
+            }
+
+            $this->prDetailModel->insertBatch($detailData);
+
+            $this->activityLog->insert([
+                'user_id'         => session('user_id'),
+                'role'            => session('user_role'),
+                'activity_type'   => 'CREATE_PR',
+                'reference_table' => 'purchase_request',
+                'reference_id'    => $prId,
+                'description'     => 'Membuat Purchase Request ' . $prData['pr_number'],
+            ]);
+
+            $this->db->transCommit();
+
+            return $this->response->setJSON([
+                'status'  => true,
+                'message' => 'Purchase Request berhasil diajukan'
+            ]);
+
+        } catch (\Throwable $e) {
+            $this->db->transRollback();
+
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => $e->getMessage()
+            ]);
         }
+    }
 
-        $this->prDetailModel->insertBatch($detailData);
-
-        $this->activityLog->insert([
-            'user_id'         => session('user_id'),
-            'role'            => session('user_role'),
-            'activity_type'   => 'CREATE_PR',
-            'reference_table' => 'purchase_request',
-            'reference_id'    => $prId,
-            'description'     => 'Membuat Purchase Request ' . $prData['pr_number'],
-        ]);
-
-        $this->db->transCommit();
+    public function detail($prId){
+        $header = $this->prModel->getDetailPR($prId);
+        $items  = $this->prModel->getDetailItems($prId);
 
         return $this->response->setJSON([
-            'status'  => true,
-            'message' => 'Purchase Request berhasil diajukan'
-        ]);
-
-    } catch (\Throwable $e) {
-        $this->db->transRollback();
-
-        return $this->response->setJSON([
-            'status'  => false,
-            'message' => $e->getMessage()
+            'status' => true,
+            'header' => $header,
+            'items'  => $items
         ]);
     }
-}
+
+
 
 }

@@ -96,6 +96,7 @@ $routes->group('gudang', ['filter' => 'role:gudang'], function ($routes) {
     $routes->get('purchase-request', 'Gudang\GudangPR::index');
     $routes->get('purchase-request/ajaxlist', 'Gudang\GudangPR::ajaxList');
     $routes->get('purchase-request/create', 'Gudang\GudangPR::create');
+    $routes->get('gudang/purchase-request/generate-number', 'Gudang\GudangPR::generatePRNumber');
     $routes->post('purchase-request/get-barang', 'Gudang\GudangPR::getBarang');
     $routes->get('purchase-request/get-stok', 'Gudang\GudangPR::getStok');
     $routes->post('purchase-request/store', 'Gudang\GudangPR::store');
@@ -109,7 +110,7 @@ $routes->group('manager', ['filter' => 'role:manager'], function ($routes) {
     $routes->get('purchase-request', 'Manager\ManagerPR::index');
     $routes->get('purchase-request/ajaxlist', 'Manager\ManagerPR::ajaxList');
     $routes->get('purchase-request/detail/(:num)', 'Manager\ManagerPR::detail/$1');
-    $routes->post('purchase-request/approve/(:num)', 'Manager\ManagerPR::approve/$1');
-    $routes->post('purchase-request/reject/(:num)', 'Manager\ManagerPR::reject/$1');
+    $routes->post('purchase-request/approve', 'Manager\ManagerPR::approve');
+    $routes->post('purchase-request/reject', 'Manager\ManagerPR::reject');
 });
 
