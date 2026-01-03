@@ -37,4 +37,17 @@ class POModel extends Model {
                     ->limit($limit)
                     ->find();
     }
+
+    public function getAllPO(){
+        return $this->select('
+                purchase_order.po_id,
+                purchase_order.po_number,
+                purchase_order.status,
+                purchase_order.created_at,
+                supplier.nama_supplier
+            ')
+            ->join('supplier', 'supplier.supplier_id = purchase_order.supplier_id')
+            ->orderBy('purchase_order.created_at', 'DESC')
+            ->findAll();
+    }
 }

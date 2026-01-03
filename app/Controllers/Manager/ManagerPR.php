@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Manager;
 
 use App\Controllers\BaseController;
 use App\Models\PRModel;
 
-class PurchasingPR extends BaseController {
+class ManagerPR extends BaseController {
     protected $prModel;
 
     public function index() {
@@ -14,7 +14,7 @@ class PurchasingPR extends BaseController {
             'pageTitle' => 'Purchase Request (PR)'
         ];
 
-        return view('pages/purchasing/view_pr', $data);
+        return view('pages/manager/view_pr', $data);
     }
 
     public function __construct()
@@ -24,7 +24,7 @@ class PurchasingPR extends BaseController {
 
     public function ajaxList() {
         $pr = $this->prModel;
-        $list = $pr->getApprovedWithoutPO();
+        $list = $pr->getSubmittedPR();
 
         $no = 0;
         $data = [];
@@ -34,13 +34,24 @@ class PurchasingPR extends BaseController {
             $row[] = $no;
             $row[] = $pr['pr_number'];
             $row[] = $pr['nama_gudang'];
-            $row[] = $pr['approved_at'];
+            $row[] = $pr['created_by'];
+            $row[] = $pr['created_at'];
 
             // Kolom aksi
-            $row[] = '<a href="javascript:void(0)" class="btn bg-[#5160FC] text-white border-[#e5e5e5] btn-sm edit-btn" data-id="'. $pr['pr_id'].'">Buat PO</a>';
+            $row[] = '<a href="javascript:void(0)" class="btn bg-[#5160FC] text-white border-[#e5e5e5] btn-sm edit-btn" data-id="'. $pr['pr_id'].'">Review</a>';
 
             $data[] = $row;
         }
         return $this->response->setJSON($data);
     }
+
+    public function approve($id)
+    {
+        $model = new PRModel();
+
+        $model->approvePR($id, session('user_id'));
+
+        return redirect()->back()->with('success', 'PR disetujui');
+    }
+
 }
