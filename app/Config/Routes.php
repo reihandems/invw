@@ -96,6 +96,8 @@ $routes->group('gudang', ['filter' => 'role:gudang'], function ($routes) {
     $routes->get('purchase-request', 'Gudang\GudangPR::index');
     $routes->get('purchase-request/ajaxlist', 'Gudang\GudangPR::ajaxList');
     $routes->get('purchase-request/create', 'Gudang\GudangPR::create');
+    $routes->post('purchase-request/get-barang', 'Gudang\GudangPR::getBarang');
+    $routes->get('purchase-request/get-stok', 'Gudang\GudangPR::getStok');
     $routes->post('purchase-request/store', 'Gudang\GudangPR::store');
     $routes->get('purchase-request/detail/(:num)', 'Gudang\GudangPR::detail/$1');
 });

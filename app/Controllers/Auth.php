@@ -31,13 +31,16 @@ class Auth extends BaseController {
 
         // Set session
         $session->set([
-            'user_id'    => $user['user_id'],
-            'user_nama'  => $user['nama_lengkap'],
-            'user_email' => $user['email'],
-            'user_role'  => strtolower($user['nama_role']),
-            'user_gambar' => $user['gambar'],
-            'logged_in'  => true
+            'user_id'       => $user['user_id'],
+            'user_nama'     => $user['nama_lengkap'],
+            'user_email'    => $user['email'],
+            'user_role'     => strtolower($user['nama_role']),
+            'user_gambar'   => $user['gambar'],
+            'warehouse_id'  => $user['warehouse_id'], // ✅ SEKARANG ADA
+            'user_gudang'  => $user['nama_gudang'],
+            'logged_in'     => true
         ]);
+
 
         // Redirect berdasarkan role
         switch (strtolower($user['nama_role'])) {

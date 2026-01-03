@@ -5,6 +5,7 @@ namespace App\Models;
 use CodeIgniter\Model;
 
 class PRModel extends Model {
+    protected $DBGroup = 'default';
     protected $table = 'purchase_request';
     protected $primaryKey = 'pr_id';
     protected $allowedFields = ['pr_number', 'warehouse_id', 'user_id', 'status', 'request_date', 'approved_by', 'approved_at', 'notes', 'created_at', 'updated_at', 'po_created'];
@@ -34,7 +35,7 @@ class PRModel extends Model {
                 warehouse.nama_gudang
             ')
             ->join('warehouse', 'warehouse.warehouse_id = purchase_request.warehouse_id')
-            ->where('purchase_request.created_by_user_id', $userId)
+            ->where('purchase_request.user_id', $userId)
             ->orderBy('purchase_request.created_at', 'DESC')
             ->findAll();
     }

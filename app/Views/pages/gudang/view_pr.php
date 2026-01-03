@@ -4,12 +4,156 @@
     <div class="data-barang font-semibold mt-6">
         <div class="atas flex flex-col-reverse md:flex-row justify-between">
             <!-- Tombol -->
-            <button class="btn bg-[#5160FC] text-white" style="margin-bottom: 14px;" id="add-btn" onclick="barangModal.showModal()">+ Buat PR</button>
+            <button class="btn bg-[#5160FC] text-white" style="margin-bottom: 14px;" id="add-btn" onclick="prModal.showModal()">+ Buat PR</button>
             <!-- Tombol End -->
         </div>
+        <!-- Modal -->
+        <dialog id="prModal" class="modal modal-bottom sm:modal-middle">
+            <div class="modal-box md:w-11/12 md:max-w-5xl">
+                <h3 class="text-lg font-bold modal-title" id="formModalLabel">Form PR</h3>
+                <hr class="my-3" style="color: var(--secondary-stroke);">
+                <form id="prForm" method="post">
+                    <?= csrf_field() ?>
+                    <input type="hidden" name="pr_id" id="pr_id">
+                    <div class="grid grid-cols-12 gap-3">
+                        <div class="col-span-6">
+                            <!-- No PO -->
+                            <fieldset class="fieldset">
+                                <legend class="fieldset-legend">No. PR</legend>
+                                <input type="text" class="input w-full" id="pr_number" name="pr_number" value="<?= $prNumber ?>"  readonly/>
+                                <div class="invalid-feedback" id="pr_number-error"></div>
+                            </fieldset>
+                            <!-- No PO end -->
+                        </div>
+                        <div class="col-span-6">
+                            <fieldset class="fieldset">
+                                <legend class="fieldset-legend">Tanggal</legend>
+                                <input type="date" class="input input-bordered w-full" value="<?= date('Y-m-d') ?>" readonly>
+                                <div class="invalid-feedback" id="date-error"></div>
+                            </fieldset>
+                        </div>
+                        <div class="col-span-6">
+                            <!-- Nama -->
+                            <fieldset class="fieldset">
+                                <legend class="fieldset-legend">Nama Pengaju</legend>
+                                <input type="hidden" name="user_id" value="<?= session('user_id') ?>">
+                                <input type="text" class="input w-full" value="<?= $user ?>" readonly>
+                                <div class="invalid-feedback" id="user_id-error"></div>
+                            </fieldset>
+                            <!-- Nama end -->
+                        </div>
+                        <div class="col-span-6">
+                            <!-- Gudang -->
+                            <fieldset class="fieldset">
+                                <legend class="fieldset-legend">Gudang</legend>
+                                <input type="hidden" name="warehouse_id" value="<?= session('warehouse_id') ?>">
+                                <input type="text" class="input w-full" value="<?= $user_gudang ?>" readonly>
+                                <div class="invalid-feedback" id="warehouse_id-error"></div>
+                            </fieldset>
+                            <!-- Gudang end -->
+                        </div>
+                        <div class="col-span-12">
+                            <fieldset class="fieldset">
+                                <legend class="fieldset-legend">Catatan</legend>
+                                <textarea class="textarea h-24 w-full" id="notes" name="notes" placeholder="Masukkan alasan pembelian barang"></textarea>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <hr class="my-5" style="color: var(--secondary-stroke);">
+                    <p class="text-xs mb-2">Detail Barang</p>
+                    <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+                        <table class="table">
+                            <!-- head -->
+                            <thead>
+                            <tr>
+                                <th>Kategori</th>
+                                <th>Barang</th>
+                                <th>Stok Gudang</th>
+                                <th>Qty</th>
+                                <th>Aksi</th>
+                            </tr>
+                            </thead>
+                            <!-- Detail Barang -->
+                            <tbody id="detailBarang">
+                                <tr class="row-template">
+                                    <td>
+                                        <select class="select select-bordered kategori-select" name="kategori_id[]">
+                                            <option value="">-- Pilih Kategori -- </option>
+                                            <?php foreach ($kategori as $k) : ?>
+                                                <option value="<?= $k['kategori_id'] ?>"><?= $k['nama_kategori'] ?></option>
+                                            <?php endforeach; ?>
+                                            <!-- option diisi dari server -->
+                                        </select>
+                                    </td>
+
+                                    <td>
+                                        <select name="barang_id[]" class="select select-bordered barang-select">
+                                            <option value="">-- Pilih Barang --</option>
+                                        </select>
+                                    </td>
+
+                                    <td class="stok">0</td>
+
+                                    <td>
+                                        <input type="number" name="qty[]" class="input input-bordered w-24 qty" min="1">
+                                    </td>
+
+                                    <td>
+                                        <button type="button" class="btn btn-error btn-sm remove-row">✕</button>
+                                    </td>
+                                </tr>
+                                
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>
+                                        <button type="button" id="btnAddRow" class="btn btn-outline">
+                                        + Tambah Barang
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </form>
+                <hr class="my-5" style="color: var(--secondary-stroke);">
+                <div class="modal-action">
+                    <form method="dialog">
+                        <!-- if there is a button in form, it will close the modal -->
+                        <button class="btn">Close</button>
+                        <button type="submit" class="btn bg-[#5160FC] text-white" id="save-btn" form="prForm">Simpan</button>
+                    </form>
+                </div>
+            </div>
+        </dialog>
+        <!-- Modal end -->
+        <?php if (session()->getFlashdata('success')): ?>
+                    <div class="toast toast-top toast-center">
+                        <div class="alert alert-success alert-soft border-shaded-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4"/>
+                            </svg>
+                            <span><?= session()->getFlashdata('success') ?></span>
+                        </div>
+                    </div>
+        <?php endif; ?>
+        <?php if (session()->getFlashdata('error')): ?>
+                    <div class="toast toast-top toast-center">
+                        <div class="alert alert-success alert-soft border-shaded-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4"/>
+                            </svg>
+                            <span><?= session()->getFlashdata('error') ?></span>
+                        </div>
+                    </div>
+        <?php endif; ?>
         <!-- Log -->
         <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 px-5 py-0">
-            <table id="tabelBarang" class="table responsive nowrap display">
+            <table id="tabelPR" class="table responsive nowrap display">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -40,8 +184,124 @@
 
         $(document).ready(function() {
 
+            function rowTemplate() {
+                return `
+                    <tr>
+                    <td>
+                        <select name="kategori_id[]" class="select select-bordered kategori-select">
+                        <option value="">-- Pilih Barang --</option>
+                        <!-- option diisi dari server -->
+                        </select>
+                    </td>
+
+                    <td>
+                        <select name="barang_id[]" class="select select-bordered barang-select">
+                        <option value="">-- Pilih Barang --</option>
+                        <!-- option diisi dari server -->
+                        </select>
+                    </td>
+
+                    <td>
+                        <span class="stok-text">0</span>
+                        <input type="hidden" name="stok[]" class="stok-hidden">
+                    </td>
+
+                    <td>
+                        <input type="number" name="qty[]" class="input input-bordered qty-input w-24" min="1">
+                    </td>
+
+                    <td>
+                        <button type="button" class="btn btn-error btn-sm btnRemove">X</button>
+                    </td>
+                    </tr>
+                `;
+            }
+
+            // URL dasar untuk AJAX (sesuaikan jika ada perubahan routing)
+            const baseUrl = '<?= base_url() ?>';
+
+            $(document).on('change', '.kategori-select', function () {
+                const kategoriId = $(this).val();
+                const row = $(this).closest('tr');
+                const $barangSelect = row.find('.barang-select');
+
+                $barangSelect.html('<option value="">Memuat...</option>').prop('disabled', true);
+
+                if (kategoriId) {
+                    $.ajax({
+                        url: '<?= base_url("gudang/purchase-request/get-barang") ?>',
+                        method: 'POST',
+                        data: { kategori_id: kategoriId },
+                        dataType: 'json',
+                        success: function (response) {
+                            $barangSelect.prop('disabled', false);
+                            $barangSelect.html('<option value="">-- Pilih Barang --</option>');
+
+                            if (response.length > 0) {
+                                $.each(response, function (i, barang) {
+                                    $barangSelect.append(
+                                        $('<option>', {
+                                            value: barang.barang_id,
+                                            text: barang.nama_barang
+                                        })
+                                    );
+                                });
+                            } else {
+                                $barangSelect.html('<option value="">Tidak ada barang</option>');
+                            }
+                        },
+                        error: function () {
+                            $barangSelect.html('<option value="">Gagal memuat data</option>');
+                        }
+                    });
+                } else {
+                    $barangSelect.html('<option value="">Pilih kategori terlebih dahulu</option>').prop('disabled', true);
+                }
+            });
+
+            $('#btnAddRow').on('click', function () {
+                let newRow = $('.row-template').first().clone();
+
+                // reset value
+                newRow.find('select').val('');
+                newRow.find('.stok').text('0');
+                newRow.find('input.qty').val('');
+
+                $('#detailBarang').append(newRow);
+            });
+
+
+            $(document).on('click', '.remove-row', function () {
+                $(this).closest('tr').remove();
+            });
+
+
+            $(document).on('change', '.barang-select', function () {
+                const barangId = $(this).val();
+                const row = $(this).closest('tr');
+                const stokCell = row.find('.stok');
+
+                stokCell.text('0');
+
+                if (!barangId) return;
+
+                $.ajax({
+                    url: '<?= base_url("gudang/purchase-request/get-stok") ?>',
+                    method: 'GET',
+                    data: { barang_id: barangId },
+                    dataType: 'json',
+                    success: function (res) {
+                    stokCell.text(res.stok ?? 0);
+                    },
+                    error: function () {
+                    stokCell.text('0');
+                    }
+                });
+            });
+
+
             // Menampilkan data ke dalam dataTables
-            var table = $('#tabelBarang').DataTable({
+            var table = $('#tabelPR').DataTable({
                 // Simpan objek DataTables ke variabel 'table'
                 "processing": true,
                 "serverSide": false,
@@ -69,133 +329,42 @@
 
             // 1. Tambah Data (Membuka Modal)
             $('#add-btn').on('click', function() {
-                $('#barangForm')[0].reset();
-                $('#barangModalLabel').text('Tambah Data Barang');
-                $('#barang_id').val('');
+                $('#prForm')[0].reset();
+                $('#formModalLabel').text('Tambah PR Baru');
+                $('#pr_id').val('');
                 $('.invalid-feedback').text('').hide();
-                $('#barangModal').modal('show');
+                $('#prModal').modal('show');
             });
 
-            // 2. Simpan Data (Tambah dan Edit)
-            $('#barangForm').on('submit', function(e) {
-                // ... (Kode pencegahan default dan persiapan FormData)
+            $('#prForm').on('submit', function(e) {
+            e.preventDefault();
 
-                e.preventDefault();
+            console.log('FORM SUBMITTED');
 
-                var formData = new FormData(this);
-                formData.append(csrfName, csrfHash);
+            var formData = new FormData(this);
 
-                $.ajax({
-                    url: "<?= site_url('/admin/barang/save'); ?>",
-                    type: "POST",
-                    data: formData,
-                    dataType: "JSON",
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        // Update CSRF Hash
-                        csrfHash = response.token;
+            $.ajax({
+                url: "<?= site_url('/gudang/purchase-request/store'); ?>",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    alert(response.message);
 
-                        if (response.status) {
-                            // Sukses
-                            alert(response.msg);
-                            $('#barangModal')[0].close();
-
-                            // Memuat ulang data dari DataTables dari sumber AJAX
-                            table.ajax.reload(null, false); // 'null' untuk callback, 'false' untuk tetap pada halaman saat ini
-                        } else {
-                            // Validasi gagal
-                            $('.invalid-feedback').text('').hide();
-                            $.each(response.errors, function(key, value) {
-                                $('#' + key + '-error').text(value).show().prev().addClass('is-invalid');
-                            });
-                        }
-                        
-                    },
-
-                        error: function(xhr, status, error) {
-                            alert('Terjadi kesalahan: ' + xhr.responseText);
-                        }
-                });
-
-                // Fungsi untuk memperbarui CSRF Token dari respon AJAX
-                function updateCsrfToken(response) {
-                    // Cek jika ada token di respons (sesuai format CI4 standar)
-                    var tokenName = Object.keys(response).filter(key => key.length === 32)[0];
-
-                    if (tokenName) {
-                        csrfName = tokenName;
-                        csrfHash = response[tokenName];
-                    } else if (response.token) {
-                        // Jika controller hanya mengirim hash dengan key 'token' (Sesuai kode anda sebelumnya)
-                        csrfHash = response.token;
+                    if (response.status) {
+                        $('#prModal')[0].close();
+                        table.ajax.reload(null, false);
                     }
+                },
+                error: function(xhr) {
+                    console.error(xhr.responseText);
+                    alert('Terjadi kesalahan');
                 }
             });
+        });
 
-            // 3. Edit Data (Mengisi form di modal)
-            $('#tabelBarang').on('click', '.edit-btn', function() {
-                var id = $(this).data('id');
-
-                $('#barangForm')[0].reset();
-                $('#barangModalLabel').text('Ubah Data Barang');
-                $('.invalid-feedback').removeClass('d-block').hide();
-                $('.form-control').removeClass('is-invalid');
-
-                // Ambil data barang dari controller menggunakan AJAX
-                $.ajax({
-                    url: "<?= site_url('/admin/barang/getBarang/'); ?>" + id,
-                    type: "GET",
-                    dataType: "JSON",
-                    success: function(data) {
-                        // Isi form dengan data yang didapatkan
-                        $('#barang_id').val(data.barang_id);
-                        $('#nama_barang').val(data.nama_barang);
-                        $('#satuan_id').val(data.satuan_id);
-                        $('#kategori_id').val(data.kategori_id);
-                        // Pastikan nama input sesuai dengan nama kolom di database: HargaBarang
-                        $('#harga').val(data.harga);
-                        
-                        $('#barangModal')[0].showModal();
-
-                    },
-                    error: function(xhr, status, error) {
-                        alert('Gagal mengambil data untuk Edit: ' + xhr.responseText);
-                    }
-                })
-            });
-
-
-            // 4. Hapus data
-            $('#tabelBarang').on('click', '.delete-btn', function() {
-                var id = $(this).data('id');
-
-                if (confirm('Anda yakin ingin menghapus data ini?')) {
-                    // Lakukan AJAX Delete
-                    $.ajax({
-                        url: "<?= site_url('admin/barang/deleteData'); ?>/" + id,
-                        type: "POST",
-                        dataType: "JSON",
-                        data: {
-                            // Kirim CSRF Token
-                            [csrfName]: csrfHash
-                        },
-                        success: function(response) {
-                            // updateCsrfToken(response); // Update CSRF Hash
-
-                            if (response.status) {
-                                alert(response.msg);
-                                table.ajax.reload(null, false); // Reload DataTables
-                            } else {
-                                alert('Gagal: ' + response.msg);
-                            }
-                        },
-                        error: function(xhr) {
-                            alert('Terjadi kesalahan saat menghapus data: ' + xhr.responseText);
-                        }
-                    });
-                }
-            });
         })
     </script>
 <?= $this->endSection() ?>
