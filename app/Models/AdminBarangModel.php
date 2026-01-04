@@ -14,4 +14,8 @@ class AdminBarangModel extends Model {
     public function getTotalBarang() {
         return $this->countAllResults();
     }
+
+    public function getBarangByKategori($kategoriId) {
+        return $this->where('kategori_id', $kategoriId)->findAll();
+    }
 }
