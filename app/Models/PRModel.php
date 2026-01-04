@@ -128,4 +128,42 @@ class PRModel extends Model {
         return 'PR-' . $date . '-' . str_pad($count + 1, 4, '0', STR_PAD_LEFT);
     }
 
+    public function getDetailPRForPO($prId)
+    {
+        return $this->db->table('purchase_request pr')
+            ->select('
+                pr.pr_id,
+                pr.pr_number,
+                pr.created_at,
+                w.nama_gudang,
+                w.alamat,
+                u.nama_lengkap AS created_by
+            ')
+            ->join('warehouse w', 'w.warehouse_id = pr.warehouse_id')
+            ->join('users u', 'u.user_id = pr.user_id')
+            ->where('pr.pr_id', $prId)
+            ->where('pr.status', 'approved')
+            ->where('pr.po_created', 0)
+            ->get()
+            ->getRowArray();
+    }
+
+    public function getDetailItemsForPO($prId)
+    {
+        return $this->db->table('purchase_request_detail d')
+            ->select('
+                d.barang_id,
+                b.sku,
+                b.nama_barang,
+                d.qty,
+                b.harga AS harga_default
+            ')
+            ->join('barang b', 'b.barang_id = d.barang_id')
+            ->where('d.pr_id', $prId)
+            ->get()
+            ->getResultArray();
+    }
+
+
+
 }

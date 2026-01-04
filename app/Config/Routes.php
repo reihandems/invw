@@ -80,8 +80,10 @@ $routes->group('purchasing', ['filter' => 'role:purchasing'], function ($routes)
     $routes->get('purchase-order', 'PurchasingPO::index');
     $routes->get('purchase-order/ajaxlist', 'PurchasingPO::ajaxList');
     $routes->get('purchase-order/create/(:num)', 'PurchasingPO::create/$1');
-    $routes->post('purchase-order/store', 'Purchasing\PurchasingPO::store');
-    $routes->get('purchase-order/detail/(:num)', 'Purchasing\PurchasingPO::detail/$1');
+    $routes->post('purchase-order/store', 'PurchasingPO::store');
+    $routes->get('purchase-order/detail/(:num)', 'PurchasingPO::detail/$1');
+    $routes->post('purchase-order/update-status-sent/(:num)', 'PurchasingPO::updateStatusSent/$1');
+    $routes->get('purchase-order/print/(:num)', 'PurchasingPO::printPDF/$1');
 
     // PURCHASING - SUPPLIER
     $routes->get('supplier', 'PurchasingSupplier::index');
