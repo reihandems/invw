@@ -33,8 +33,9 @@ class GudangPR extends BaseController {
 
     public function index() {
         $data = [
-            'menu' => 'pr',
+            'menu' => 'purchasing',
             'pageTitle' => 'Purchase Request (PR)',
+            'tab' => 'pr',
             'prNumber' => $this->prModel->generatePRNumber(),
             'user' => session('user_nama'),
             'user_gudang' => session('user_gudang'),

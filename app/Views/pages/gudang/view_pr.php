@@ -2,7 +2,11 @@
 <?= $this->section('content') ?>
     <!-- Main Content -->
     <div class="data-barang font-semibold mt-6">
-        <div class="atas flex flex-col-reverse md:flex-row justify-between">
+        <div class="atas flex flex-col md:flex-row justify-between mb-3">
+            <div role="tablist" class="tabs tabs-box mb-5 md:mb-0">
+                <a role="tab" class="tab <?= ($tab === 'pr') ? 'tab-active' : '' ?>" href="<?= base_url('gudang/purchase-request') ?>">Purchase Request</a>
+                <a role="tab" class="tab <?= ($tab === 'po') ? 'tab-active' : '' ?>" href="<?= base_url('gudang/purchase-order') ?>">Purchase Order</a>
+            </div>
             <!-- Tombol -->
             <button class="btn bg-[#5160FC] text-white" style="margin-bottom: 14px;" id="add-btn" onclick="prModal.showModal()">+ Buat PR</button>
             <!-- Tombol End -->

@@ -2,6 +2,10 @@
 <?= $this->section('content') ?>
     <!-- Main Content -->
     <div class="data-barang font-semibold mt-6">
+        <div role="tablist" class="tabs tabs-box w-72 mb-5 md:mb-3">
+                <a role="tab" class="tab <?= ($tab === 'pr') ? 'tab-active' : '' ?>" href="<?= base_url('gudang/purchase-request') ?>">Purchase Request</a>
+                <a role="tab" class="tab <?= ($tab === 'po') ? 'tab-active' : '' ?>" href="<?= base_url('gudang/purchase-order') ?>">Purchase Order</a>
+        </div>
         <dialog id="modalTerimaBarang" class="modal modal-bottom sm:modal-middle">
             <div class="modal-box md:w-11/12 md:max-w-4xl">
                 <h3 class="font-bold text-lg mb-4">Proses Penerimaan Barang</h3>

@@ -18,8 +18,9 @@ class GudangPO extends BaseController {
 
     public function index() {
         $data = [
-            'menu' => 'po',
-            'pageTitle' => 'Purchase Order (PO)'
+            'menu' => 'purchasing',
+            'pageTitle' => 'Purchase Order (PO)',
+            'tab' => 'po'
         ];
 
         return view('pages/gudang/view_po', $data);
