@@ -116,8 +116,6 @@
 
         $(document).ready(function() {
 
-            
-
             // Menampilkan data ke dalam dataTables
             var table = $('#tabelPO').DataTable({
                 // Simpan objek DataTables ke variabel 'table'

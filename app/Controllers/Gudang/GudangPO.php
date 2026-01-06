@@ -28,7 +28,8 @@ class GudangPO extends BaseController {
 
     public function ajaxList() {
         $po = $this->poModel;
-        $list = $po->getReadyToReceive();
+        $userWhId = session('warehouse_id');
+        $list = $po->getReadyToReceive($userWhId);
 
         $no = 0;
         $data = [];
@@ -78,6 +79,16 @@ class GudangPO extends BaseController {
         $warehouseId = $this->request->getPost('warehouse_id');
         $rackId = $this->request->getPost('rack_id');
         $items = $this->request->getPost('items');
+        $userWhId = session('warehouse_id');
+
+        // Validasi: Apakah PO ini benar-benar ditujukan untuk gudang staff ini?
+        $poData = $this->poModel->find($poId);
+        if ($userWhId && $poData['warehouse_id'] != $userWhId) {
+            return $this->response->setJSON([
+                'status' => false, 
+                'message' => 'Anda tidak memiliki otoritas untuk menerima barang di gudang ini.'
+            ]);
+        }
 
         $db->transBegin();
         try {
@@ -109,7 +120,8 @@ class GudangPO extends BaseController {
                     $db->table('barang_masuk_detail')->insert([
                         'masuk_id'  => $masukId,
                         'barang_id' => $idBarang,
-                        'jumlah'    => $jml
+                        'jumlah'    => $jml,
+                        'rack_id'   => $rackId
                     ]);
 
                     // 2. Update Stok berdasarkan Barang, Gudang, DAN Rak spesifik tersebut

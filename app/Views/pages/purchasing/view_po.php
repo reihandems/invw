@@ -157,6 +157,8 @@
                 let statusClass = 'badge-ghost';
                 if(h.status === 'draft') statusClass = 'badge-warning';
                 if(h.status === 'sent') statusClass = 'badge-info';
+                if(h.status === 'received') statusClass = 'badge-success';
+                if(h.status === 'cancelled') statusClass = 'badge-danger';
                 
                 // Logika tombol kirim: Hanya muncul jika status masih DRAFT
                 if (h.status === 'draft') {

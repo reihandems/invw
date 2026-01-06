@@ -139,9 +139,9 @@ class POModel extends Model {
 
     // Gudang
 
-    public function getReadyToReceive()
+    public function getReadyToReceive($warehouseId = null)
     {
-        return $this->db->table('purchase_order po')
+        $builder = $this->db->table('purchase_order po')
             ->select('
                 po.po_id, 
                 po.po_number, 
@@ -155,10 +155,16 @@ class POModel extends Model {
             ')
             ->join('supplier s', 's.supplier_id = po.supplier_id')
             ->join('warehouse w', 'w.warehouse_id = po.warehouse_id')
-            ->where('po.status', 'sent') // Hanya ambil yang sudah dikirim oleh purchasing
-            ->orderBy('po.order_date', 'DESC')
-            ->get()
-            ->getResultArray();
+            ->where('po.status', 'sent'); // Filter status utama
+
+        // Tambahkan filter gudang HANYA jika warehouseId ada isinya
+        if (!empty($warehouseId)) {
+            $builder->where('po.warehouse_id', $warehouseId);
+        }
+
+        return $builder->orderBy('po.order_date', 'DESC')
+                    ->get()
+                    ->getResultArray();
     }
 
 }

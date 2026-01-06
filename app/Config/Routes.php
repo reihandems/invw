@@ -110,6 +110,11 @@ $routes->group('gudang', ['filter' => 'role:gudang'], function ($routes) {
     $routes->get('purchase-order/detail-po/(:num)', 'Gudang\GudangPO::getPODetail/$1');
     $routes->get('purchase-order/get-racks/(:num)', 'Gudang\GudangPO::getRacks/$1');
     $routes->post('purchase-order/save', 'Gudang\GudangPO::save');
+
+    // GUDANG - BARANG MASUK
+    $routes->get('barang-masuk', 'Gudang\GudangBarangMasuk::index');
+    $routes->get('barang-masuk/ajaxlist', 'Gudang\GudangBarangMasuk::ajaxList');
+    $routes->get('barang-masuk/get-detail/(:num)', 'Gudang\GudangBarangMasuk::getDetail/$1');
 });
 
 $routes->group('manager', ['filter' => 'role:manager'], function ($routes) {
