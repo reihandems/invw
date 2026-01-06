@@ -97,6 +97,7 @@ class POModel extends Model {
     {
         return $this->db->table('purchase_order_detail pod')
             ->select('
+                b.barang_id,
                 b.sku,
                 b.nama_barang,
                 s.nama_satuan,
@@ -136,5 +137,28 @@ class POModel extends Model {
         return $prefix . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
     }
 
+    // Gudang
+
+    public function getReadyToReceive()
+    {
+        return $this->db->table('purchase_order po')
+            ->select('
+                po.po_id, 
+                po.po_number, 
+                po.order_date, 
+                po.expected_delivery_date, 
+                po.status, 
+                po.total,
+                s.nama_supplier, 
+                w.nama_gudang,
+                w.warehouse_id
+            ')
+            ->join('supplier s', 's.supplier_id = po.supplier_id')
+            ->join('warehouse w', 'w.warehouse_id = po.warehouse_id')
+            ->where('po.status', 'sent') // Hanya ambil yang sudah dikirim oleh purchasing
+            ->orderBy('po.order_date', 'DESC')
+            ->get()
+            ->getResultArray();
+    }
 
 }
