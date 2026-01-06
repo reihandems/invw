@@ -103,6 +103,13 @@ $routes->group('gudang', ['filter' => 'role:gudang'], function ($routes) {
     $routes->get('purchase-request/get-stok', 'Gudang\GudangPR::getStok');
     $routes->post('purchase-request/store', 'Gudang\GudangPR::store');
     $routes->get('purchase-request/detail/(:num)', 'Gudang\GudangPR::detail/$1');
+
+    // GUDANG - PO
+    $routes->get('purchase-order', 'Gudang\GudangPO::index');
+    $routes->get('purchase-order/ajaxlist', 'Gudang\GudangPO::ajaxList');
+    $routes->get('purchase-order/detail-po/(:num)', 'Gudang\GudangPO::getPODetail/$1');
+    $routes->get('purchase-order/get-racks/(:num)', 'Gudang\GudangPO::getRacks/$1');
+    $routes->post('purchase-order/save', 'Gudang\GudangPO::save');
 });
 
 $routes->group('manager', ['filter' => 'role:manager'], function ($routes) {
