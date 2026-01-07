@@ -115,6 +115,11 @@ $routes->group('gudang', ['filter' => 'role:gudang'], function ($routes) {
     $routes->get('barang-masuk', 'Gudang\GudangBarangMasuk::index');
     $routes->get('barang-masuk/ajaxlist', 'Gudang\GudangBarangMasuk::ajaxList');
     $routes->get('barang-masuk/get-detail/(:num)', 'Gudang\GudangBarangMasuk::getDetail/$1');
+
+    // GUDANG - LAPORAN STOK
+    $routes->get('laporan-stok', 'Gudang\GudangLaporanStok::index');
+    $routes->get('laporan-stok/ajaxlist', 'Gudang\GudangLaporanStok::ajaxList');
+    $routes->get('laporan-stok/export-pdf', 'Gudang\GudangLaporanStok::exportPDF');
 });
 
 $routes->group('manager', ['filter' => 'role:manager'], function ($routes) {
