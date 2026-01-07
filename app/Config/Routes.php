@@ -116,6 +116,15 @@ $routes->group('gudang', ['filter' => 'role:gudang'], function ($routes) {
     $routes->get('barang-masuk/ajaxlist', 'Gudang\GudangBarangMasuk::ajaxList');
     $routes->get('barang-masuk/get-detail/(:num)', 'Gudang\GudangBarangMasuk::getDetail/$1');
 
+    // GUDANG - BARANG KELUAR
+    $routes->get('barang-keluar', 'Gudang\GudangBarangKeluar::index');
+    $routes->get('barang-keluar/ajaxlist', 'Gudang\GudangBarangKeluar::ajaxList');
+    $routes->get('barang-keluar/get-racks', 'Gudang\GudangBarangKeluar::getRacks');
+    $routes->post('barang-keluar/save', 'Gudang\GudangBarangKeluar::save');
+    $routes->get('barang-keluar/detail/(:num)', 'Gudang\GudangBarangKeluar::detail/$1');
+    $routes->get('barang-keluar/cetak-surat-jalan/(:num)', 'Gudang\GudangBarangKeluar::cetakSuratJalan/$1');
+    
+
     // GUDANG - LAPORAN STOK
     $routes->get('laporan-stok', 'Gudang\GudangLaporanStok::index');
     $routes->get('laporan-stok/ajaxlist', 'Gudang\GudangLaporanStok::ajaxList');

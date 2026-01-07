@@ -38,4 +38,16 @@ class ProductStockLocationModel extends Model {
                     ->orderBy('w.nama_gudang', 'ASC')
                     ->get()->getResultArray();
     }
+
+    public function getAvailableRacks($barangId, $warehouseId)
+    {
+        return $this->db->table('product_stock_location psl')
+            ->select('psl.rack_id, r.kode_rak, psl.jumlah_stok')
+            ->join('warehouse_rack r', 'r.rack_id = psl.rack_id')
+            ->where('psl.barang_id', $barangId)
+            ->where('psl.warehouse_id', $warehouseId)
+            ->where('psl.jumlah_stok >', 0)
+            ->get()->getResultArray();
+    }
+
 }

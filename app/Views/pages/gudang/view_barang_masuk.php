@@ -36,7 +36,7 @@
                         </tr>
                     </thead>
                     <tbody id="det_item_tabel">
-                        </tbody>
+                    </tbody>
                 </table>
 
                 <hr class="my-3" style="color: var(--secondary-stroke);">

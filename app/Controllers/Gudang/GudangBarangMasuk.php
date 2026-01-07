@@ -40,7 +40,6 @@ class GudangBarangMasuk extends BaseController {
             $row[] = $b['keterangan'];
 
             // Kolom aksi
-            // Kolom aksi
             $row[] = '<a href="javascript:void(0)" data-id="'.$b['masuk_id'].'" class="btn bg-white text-[#5160FC] border-[#C0CFDB] btn-sm edit-btn font-bold btnDetailMasuk">Detail</a>';
 
             $data[] = $row;
