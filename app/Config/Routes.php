@@ -170,5 +170,6 @@ $routes->group('manager', ['filter' => 'role:manager'], function ($routes) {
     $routes->post('opname/save-schedule', 'Manager\ManagerOpname::saveSchedule');
     $routes->get('opname/detail/(:num)', 'Manager\ManagerOpname::getDetail/$1');
     $routes->post('opname/deleteData/(:num)', 'Manager\ManagerOpname::deleteData/$1');
+    $routes->post('opname/update-status', 'Manager\ManagerOpname::updateStatus');
 });
 

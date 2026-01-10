@@ -38,7 +38,7 @@ class GudangOpnameFinished extends BaseController {
             $row[] = $op['jenis'];
             $row[] = $op['tanggal_mulai'];
             $row[] = $op['tanggal_berakhir'];
-            $row[] = '<div class="badge badge-sm badge-outline badge-primary">'.$op['status'].'</div>';
+            $row[] = '<div class="badge badge-sm badge-outline badge-success">'.$op['status'].'</div>';
 
             // Kolom aksi
             $row[] = '<a href="javascript:void(0)" class="btn bg-white text-[#5160FC] border-[#e5e5e5] btn-sm edit-btn" onclick="showDetail('.$op['opname_id'].', \''.$op['status'].'\')">Detail</a>';

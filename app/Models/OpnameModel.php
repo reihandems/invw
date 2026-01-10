@@ -13,24 +13,25 @@ class OpnameModel extends Model {
 
     public function getScheduledOpname($warehouseId = null) {
         $builder = $this->select('
-                opname_schedule.nama_jadwal,
-                opname_schedule.jenis,
-                opname_schedule.tanggal_mulai,
-                opname_schedule.tanggal_berakhir,
-                opname_schedule.keterangan,
-                opname_schedule.status
-            ')
-            ->join('opname_detail','opname_detail.opname_id = opname_schedule.opname_id', 'left')
-            ->join('warehouse', 'warehouse.warehouse_id = opname_schedule.warehouse_id', 'left')
-            ->where('status', 'scheduled');
+                    opname_schedule.opname_id, 
+                    opname_schedule.nama_jadwal,
+                    opname_schedule.jenis,
+                    opname_schedule.tanggal_mulai,
+                    opname_schedule.tanggal_berakhir,
+                    opname_schedule.keterangan,
+                    opname_schedule.status
+                ')
+                ->join('opname_detail','opname_detail.opname_id = opname_schedule.opname_id', 'left')
+                ->join('warehouse', 'warehouse.warehouse_id = opname_schedule.warehouse_id', 'left')
+                ->where('opname_schedule.status', 'scheduled')
+                // TAMBAHKAN GROUP BY DISINI
+                ->groupBy('opname_schedule.opname_id'); 
 
-        // JIKA warehouseId dikirim, maka filter datanya
         if ($warehouseId !== null) {
             $builder->where('opname_schedule.warehouse_id', $warehouseId);
         }
 
-        return $builder->orderBy('opname_schedule.tanggal_berakhir', 'ASC')
-                    ->findAll();
+        return $builder->orderBy('opname_schedule.tanggal_berakhir', 'ASC')->findAll();
     }
 
     public function getApprovalOpname($warehouseId = null) {

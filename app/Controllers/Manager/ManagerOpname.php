@@ -153,4 +153,64 @@ class ManagerOpname extends BaseController {
             ]);
         }
     }
+
+    public function updateStatus()
+    {
+        $id = $this->request->getPost('id');
+        $status = $this->request->getPost('status');
+        
+        $db = \Config\Database::connect();
+        $db->transBegin();
+
+        try {
+            // 1. Update Status di tabel Header
+            $dataUpdate = [
+                'status' => $status,
+                'updated_at' => date('Y-m-d H:i:s')
+            ];
+
+            if ($status === 'approved') {
+                $dataUpdate['approved_by'] = session('user_id');
+            }
+
+            $db->table('opname_schedule')->where('opname_id', $id)->update($dataUpdate);
+
+            // 2. Jika APPROVED, sinkronkan nilai fisik ke tabel product_stock_location
+            if ($status === 'approved') {
+                // Ambil semua detail barang yang di-opname
+                $details = $db->table('opname_detail')
+                            ->where('opname_id', $id)
+                            ->get()->getResultArray();
+
+                foreach ($details as $row) {
+                    // Update stok di rak masing-masing
+                    $db->table('product_stock_location')
+                    ->where([
+                        'barang_id' => $row['barang_id'],
+                        'rack_id'   => $row['rack_id']
+                    ])
+                    ->update(['jumlah_stok' => $row['stok_fisik']]);
+                }
+            } 
+            // Jika REJECTED, status kembali ke 'scheduled' agar staff bisa input ulang
+            else if ($status === 'rejected') {
+                $db->table('opname_schedule')->where('opname_id', $id)->update([
+                    'status' => 'rejected'
+                ]);
+            }
+
+            $db->transCommit();
+            return $this->response->setJSON([
+                'status' => true, 
+                'message' => 'Status berhasil diperbarui ke ' . strtoupper($status)
+            ]);
+
+        } catch (\Exception $e) {
+            $db->transRollback();
+            return $this->response->setJSON([
+                'status' => false, 
+                'message' => 'Gagal memperbarui: ' . $e->getMessage()
+            ]);
+        }
+    }
 }

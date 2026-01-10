@@ -108,11 +108,13 @@
         var csrfName = "<?= csrf_token() ?>";
         var csrfHash = "<?= csrf_hash() ?>";
 
+        var table;
+
         $(document).ready(function() {
 
 
             // Menampilkan data ke dalam dataTables
-            var table = $('#tabelOpname').DataTable({
+            table = $('#tabelOpname').DataTable({
                 // Simpan objek DataTables ke variabel 'table'
                 "processing": true,
                 "serverSide": false,
@@ -212,7 +214,7 @@
                 if(res.status) {
                     alert('Data berhasil dikirim ke Manager!');
                     modal_hitung_stok.close();
-                    table.ajax.reload(); // Reload daftar tugas
+                    $('#tabelOpname').DataTable().ajax.reload(null, false); // Reload daftar tugas
                 }
             });
         });

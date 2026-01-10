@@ -212,7 +212,7 @@
                 if(res.status) {
                     alert('Data berhasil dikirim ke Manager!');
                     modal_hitung_stok.close();
-                    table.ajax.reload(); // Reload daftar tugas
+                    table.ajax.reload(null, false); // Reload daftar tugas
                 }
             });
         });

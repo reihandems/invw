@@ -312,45 +312,74 @@
         }
 
         function showDetail(opnameId, status) {
-                // 1. Tampilkan Loading
-                $('#content_detail_opname').html('<tr><td colspan="6" class="text-center">Loading data...</td></tr>');
-                modal_detail_opname.showModal();
+            // 1. Tampilkan Loading
+            $('#content_detail_opname').html('<tr><td colspan="6" class="text-center">Loading data...</td></tr>');
+            modal_detail_opname.showModal();
 
-                // 2. Load Data via AJAX
-                $.get("<?= site_url('manager/opname/detail/') ?>" + opnameId, function(data) {
-                    let html = '';
-                    data.forEach(item => {
-                        // Logika warna selisih
-                        let selisih = item.selisih ?? '-';
-                        let warnaSelisih = '';
-                        if (item.selisih < 0) warnaSelisih = 'text-error font-bold';
-                        if (item.selisih > 0) warnaSelisih = 'text-success font-bold';
+            // 2. Load Data via AJAX
+            $.get("<?= site_url('manager/opname/detail/') ?>" + opnameId, function(data) {
+                let html = '';
+                data.forEach(item => {
+                    // Logika warna selisih
+                    let selisih = item.selisih ?? '-';
+                    let warnaSelisih = '';
+                    if (item.selisih < 0) warnaSelisih = 'text-error font-bold';
+                    if (item.selisih > 0) warnaSelisih = 'text-success font-bold';
 
-                        html += `
-                            <tr>
-                                <td>
-                                    <div class="font-bold">${item.nama_barang}</div>
-                                    <div class="text-xs opacity-50">${item.sku}</div>
-                                </td>
-                                <td><div class="badge badge-outline">${item.kode_rak}</div></td>
-                                <td class="text-center font-mono">${item.stok_sistem}</td>
-                                <td class="text-center font-mono">${item.stok_fisik ?? '<span class="badge badge-outline badge-warning text-xs">Belum diisi</span>'}</td>
-                                <td class="text-center ${warnaSelisih}">${selisih}</td>
-                                <td class="text-xs italic">${item.catatan_staff ?? '-'}</td>
-                            </tr>`;
-                    });
-                    $('#content_detail_opname').html(html);
+                    html += `
+                        <tr>
+                            <td>
+                                <div class="font-bold">${item.nama_barang}</div>
+                                <div class="text-xs opacity-50">${item.sku}</div>
+                            </td>
+                            <td><div class="badge badge-outline">${item.kode_rak}</div></td>
+                            <td class="text-center font-mono">${item.stok_sistem}</td>
+                            <td class="text-center font-mono">${item.stok_fisik ?? '<span class="badge badge-outline badge-warning text-xs">Belum diisi</span>'}</td>
+                            <td class="text-center ${warnaSelisih}">${selisih}</td>
+                            <td class="text-xs italic">${item.catatan_staff ?? '-'}</td>
+                        </tr>`;
+                });
+                $('#content_detail_opname').html(html);
 
-                    // 3. Logika Tombol Approval (Hanya muncul jika status submitted)
-                    let btnHtml = '';
-                    if (status === 'submitted') {
-                        btnHtml = `
-                            <button onclick="updateStatus(${opnameId}, 'rejected')" class="btn btn-error btn-outline">Tolak (Hitung Ulang)</button>
-                            <button onclick="updateStatus(${opnameId}, 'approved')" class="btn bg-[#5160FC] text-white">Approve & Sinkron Stok</button>
-                        `;
+                // 3. Logika Tombol Approval (Hanya muncul jika status submitted)
+                let btnHtml = '';
+                if (status === 'submitted') {
+                    btnHtml = `
+                        <button onclick="updateStatus(${opnameId}, 'rejected')" class="btn btn-error btn-outline">Tolak (Hitung Ulang)</button>
+                        <button onclick="updateStatus(${opnameId}, 'approved')" class="btn bg-[#5160FC] text-white">Approve & Sinkron Stok</button>
+                    `;
+                }
+                $('#action_buttons').html(btnHtml);
+            });
+        }
+
+        function updateStatus(id, status) {
+            const pesan = status === 'approved' 
+                ? "Apakah Anda yakin? Stok di gudang akan otomatis ter-update sesuai hasil fisik!" 
+                : "Tolak hasil opname dan minta staff hitung ulang?";
+
+            if (confirm(pesan)) {
+                $.ajax({
+                    url: "<?= site_url('manager/opname/update-status') ?>", // Sesuaikan URL Controller Anda
+                    type: "POST",
+                    data: {
+                        id: id,
+                        status: status
+                    },
+                    success: function(res) {
+                        if (res.status) {
+                            alert(res.message);
+                            document.getElementById('modal_detail_opname').close(); // Tutup modal DaisyUI
+                            if (typeof table !== 'undefined') table.ajax.reload(null, false);; // Reload DataTables
+                        } else {
+                            alert('Gagal: ' + res.message);
+                        }
+                    },
+                    error: function() {
+                        alert('Terjadi kesalahan pada server.');
                     }
-                    $('#action_buttons').html(btnHtml);
                 });
             }
+        }
     </script>
 <?= $this->endSection() ?>
