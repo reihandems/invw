@@ -10,6 +10,7 @@ use CodeIgniter\Router\RouteCollection;
 use App\Controllers\AuthController;
 
 // AUTENTIKASI - LOGIN
+$routes->get('/', 'Page::login');
 $routes->get('/login', 'Page::login');
 $routes->post('/login/process', 'Auth::loginProcess');
 $routes->get('/logout', 'Auth::logout');
@@ -129,9 +130,30 @@ $routes->group('gudang', ['filter' => 'role:gudang'], function ($routes) {
     $routes->get('laporan-stok', 'Gudang\GudangLaporanStok::index');
     $routes->get('laporan-stok/ajaxlist', 'Gudang\GudangLaporanStok::ajaxList');
     $routes->get('laporan-stok/export-pdf', 'Gudang\GudangLaporanStok::exportPDF');
+
+    // GUDANG - STOK OPNAME
+    $routes->get('opname', 'Gudang\GudangOpname::index');
+    $routes->get('opname/ajaxlist', 'Gudang\GudangOpname::ajaxList');
+    $routes->get('opname/detail/(:num)', 'Gudang\GudangOpname::getDetail/$1');
+    $routes->get('opname/get-items/(:num)', 'Gudang\GudangOpname::getItems/$1');
+    $routes->post('opname/submit-fisik', 'Gudang\GudangOpname::submitFisik/$1');
+
+    $routes->get('opname/approval', 'Gudang\GudangOpnameApproval::index');
+    $routes->get('opname/approval/ajaxlist', 'Gudang\GudangOpnameApproval::ajaxList');
+    $routes->get('opname/approval/detail/(:num)', 'Gudang\GudangOpnameApproval::getDetail/$1');
+
+    $routes->get('opname/rejected', 'Gudang\GudangOpnameRejected::index');
+    $routes->get('opname/rejected/ajaxlist', 'Gudang\GudangOpnameRejected::ajaxList');
+    $routes->get('opname/rejected/detail/(:num)', 'Gudang\GudangOpnameRejected::getDetail/$1');
+
+    $routes->get('opname/finished', 'Gudang\GudangOpnameFinished::index');
+    $routes->get('opname/finished/ajaxlist', 'Gudang\GudangOpnameFinished::ajaxList');
+    $routes->get('opname/finished/detail/(:num)', 'Gudang\GudangOpnameFinished::getDetail/$1');
+
 });
 
 $routes->group('manager', ['filter' => 'role:manager'], function ($routes) {
+    // MANAGER - DASHBOARD
     $routes->get('dashboard', 'Page::dashboardManager');
 
     // MANAGER - PR
@@ -140,5 +162,13 @@ $routes->group('manager', ['filter' => 'role:manager'], function ($routes) {
     $routes->get('purchase-request/detail/(:num)', 'Manager\ManagerPR::detail/$1');
     $routes->post('purchase-request/approve', 'Manager\ManagerPR::approve');
     $routes->post('purchase-request/reject', 'Manager\ManagerPR::reject');
+
+    // MANAGER - STOK OPNAME
+    $routes->get('opname', 'Manager\ManagerOpname::index');
+    $routes->get('opname/ajaxlist', 'Manager\ManagerOpname::ajaxList');
+    $routes->get('opname/get-racks-by-warehouse/(:num)', 'Manager\ManagerOpname::getRacksByWarehouse/$1');
+    $routes->post('opname/save-schedule', 'Manager\ManagerOpname::saveSchedule');
+    $routes->get('opname/detail/(:num)', 'Manager\ManagerOpname::getDetail/$1');
+    $routes->post('opname/deleteData/(:num)', 'Manager\ManagerOpname::deleteData/$1');
 });
 
