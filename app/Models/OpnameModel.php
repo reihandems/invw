@@ -78,4 +78,27 @@ class OpnameModel extends Model {
 
         return $builder->orderBy('opname_schedule.tanggal_berakhir', 'ASC')->findAll();
     }
+
+    public function getFinishedOpname($warehouseId = null) {
+        $builder = $this->select('
+                    opname_schedule.opname_id, 
+                    opname_schedule.nama_jadwal,
+                    opname_schedule.jenis,
+                    opname_schedule.tanggal_mulai,
+                    opname_schedule.tanggal_berakhir,
+                    opname_schedule.keterangan,
+                    opname_schedule.status
+                ')
+                ->join('opname_detail','opname_detail.opname_id = opname_schedule.opname_id', 'left')
+                ->join('warehouse', 'warehouse.warehouse_id = opname_schedule.warehouse_id', 'left')
+                ->where('opname_schedule.status', 'approved')
+                // TAMBAHKAN GROUP BY DISINI
+                ->groupBy('opname_schedule.opname_id'); 
+
+        if ($warehouseId !== null) {
+            $builder->where('opname_schedule.warehouse_id', $warehouseId);
+        }
+
+        return $builder->orderBy('opname_schedule.tanggal_berakhir', 'ASC')->findAll();
+    }
 }
