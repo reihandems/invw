@@ -108,20 +108,18 @@
         var csrfName = "<?= csrf_token() ?>";
         var csrfHash = "<?= csrf_hash() ?>";
 
-        var table;
-
         $(document).ready(function() {
 
 
             // Menampilkan data ke dalam dataTables
-            table = $('#tabelOpname').DataTable({
+            var table = $('#tabelOpname').DataTable({
                 // Simpan objek DataTables ke variabel 'table'
                 "processing": true,
                 "serverSide": false,
                 "info": false,
                 "responsive": true,
                 "ajax": {
-                    "url": "<?= base_url('gudang/opname/rejected/ajaxlist') ?>",
+                    "url": "<?= base_url('gudang/opname/finished/ajaxlist') ?>",
                     "type": "GET",
                     "dataSrc": function (x) {
                         return x;
@@ -149,7 +147,7 @@
             modal_detail_opname.showModal();
 
             // 2. Load Data via AJAX
-            $.get("<?= site_url('gudang/opname/rejected/detail/') ?>" + opnameId, function(data) {
+            $.get("<?= site_url('gudang/opname/finished/detail/') ?>" + opnameId, function(data) {
                 let html = '';
                 data.forEach(item => {
                     // Logika warna selisih
@@ -174,49 +172,5 @@
                 $('#content_detail_opname').html(html);
             });
         }
-
-        function mulaiHitung(opnameId) {
-            $('#input_opname_id').val(opnameId);
-            $('#container_item_opname').html('Loading...');
-            modal_hitung_stok.showModal();
-
-            $.get("<?= site_url('gudang/opname/get-items/') ?>" + opnameId, function(data) {
-                let html = '';
-                data.forEach((item, index) => {
-                    html += `
-                        <tr>
-                            <td>
-                                <span class="font-bold">${item.nama_barang}</span><br>
-                                <span class="text-xs opacity-50">${item.sku}</span>
-                                <input type="hidden" name="items[${index}][detail_id]" value="${item.opname_detail_id}">
-                            </td>
-                            <td><div class="badge">${item.kode_rak}</div></td>
-                            <td>
-                                <input type="number" name="items[${index}][stok_fisik]" 
-                                    class="input input-bordered input-sm w-20" 
-                                    value="${item.stok_fisik ?? ''}" required>
-                            </td>
-                            <td>
-                                <input type="text" name="items[${index}][catatan]" 
-                                    class="input input-bordered input-sm w-full" 
-                                    placeholder="Misal: Kemasan rusak" value="${item.catatan_staff ?? ''}">
-                            </td>
-                        </tr>`;
-                });
-                $('#container_item_opname').html(html);
-            });
-        }
-
-        // Handle Submit
-        $('#form_input_fisik').submit(function(e) {
-            e.preventDefault();
-            $.post("<?= site_url('gudang/opname/submit-fisik') ?>", $(this).serialize(), function(res) {
-                if(res.status) {
-                    alert('Data berhasil dikirim ke Manager!');
-                    modal_hitung_stok.close();
-                    $('#tabelOpname').DataTable().ajax.reload(null, false); // Reload daftar tugas
-                }
-            });
-        });
     </script>
 <?= $this->endSection() ?>

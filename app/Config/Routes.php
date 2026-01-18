@@ -65,6 +65,7 @@ $routes->group('admin', ['filter' => 'role:admin'], function ($routes) {
     // ADMIN - LAPORAN
     $routes->get('laporan', 'Page::laporanAdmin');
     $routes->post('laporan/data', 'AdminLaporan::data');
+    $routes->get('laporan/export-pdf', 'AdminLaporan::exportPDF');
 });
 
 $routes->group('purchasing', ['filter' => 'role:purchasing'], function ($routes) {
@@ -170,5 +171,6 @@ $routes->group('manager', ['filter' => 'role:manager'], function ($routes) {
     $routes->post('opname/save-schedule', 'Manager\ManagerOpname::saveSchedule');
     $routes->get('opname/detail/(:num)', 'Manager\ManagerOpname::getDetail/$1');
     $routes->post('opname/deleteData/(:num)', 'Manager\ManagerOpname::deleteData/$1');
+    $routes->post('opname/update-status', 'Manager\ManagerOpname::updateStatus');
 });
 
