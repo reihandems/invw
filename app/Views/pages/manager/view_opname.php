@@ -311,6 +311,20 @@
             }
         }
 
+        function updateStatus(id, status) {
+            if (confirm("Apakah Anda yakin?")) {
+                $.post("<?= site_url('manager/opname/update-status') ?>", { id: id, status: status }, function(res) {
+                    if (res.status) {
+                        alert(res.message);
+                        if(window.modal_detail_opname) modal_detail_opname.close();
+                        
+                        // GUNAKAN INI JUGA:
+                        $('#tabelOpname').DataTable().ajax.reload(null, false);
+                    }
+                });
+            }
+        }
+
         function showDetail(opnameId, status) {
             // 1. Tampilkan Loading
             $('#content_detail_opname').html('<tr><td colspan="6" class="text-center">Loading data...</td></tr>');
@@ -351,35 +365,6 @@
                 }
                 $('#action_buttons').html(btnHtml);
             });
-        }
-
-        function updateStatus(id, status) {
-            const pesan = status === 'approved' 
-                ? "Apakah Anda yakin? Stok di gudang akan otomatis ter-update sesuai hasil fisik!" 
-                : "Tolak hasil opname dan minta staff hitung ulang?";
-
-            if (confirm(pesan)) {
-                $.ajax({
-                    url: "<?= site_url('manager/opname/update-status') ?>", // Sesuaikan URL Controller Anda
-                    type: "POST",
-                    data: {
-                        id: id,
-                        status: status
-                    },
-                    success: function(res) {
-                        if (res.status) {
-                            alert(res.message);
-                            document.getElementById('modal_detail_opname').close(); // Tutup modal DaisyUI
-                            if (typeof table !== 'undefined') table.ajax.reload(null, false);; // Reload DataTables
-                        } else {
-                            alert('Gagal: ' + res.message);
-                        }
-                    },
-                    error: function() {
-                        alert('Terjadi kesalahan pada server.');
-                    }
-                });
-            }
         }
     </script>
 <?= $this->endSection() ?>

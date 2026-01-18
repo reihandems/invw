@@ -2246,9 +2246,6 @@
   .my-1 {
     margin-block: calc(var(--spacing) * 1);
   }
-  .my-2 {
-    margin-block: calc(var(--spacing) * 2);
-  }
   .my-3 {
     margin-block: calc(var(--spacing) * 3);
   }
@@ -2341,9 +2338,6 @@
         border-radius: calc( min(calc(var(--tab-height) / 2), var(--radius-field)) + min(0.25rem, var(--tabs-box-radius)) - var(--border) );
       }
     }
-  }
-  .mt-2 {
-    margin-top: calc(var(--spacing) * 2);
   }
   .mt-3 {
     margin-top: calc(var(--spacing) * 3);
@@ -2644,23 +2638,6 @@
       }
     }
   }
-  .modal-middle {
-    @layer daisyui.l1.l2 {
-      place-items: center;
-      .modal-box {
-        height: auto;
-        width: calc(11/12 * 100%);
-        max-width: 32rem;
-        max-height: calc(100vh - 5em);
-        translate: 0 2%;
-        scale: 98%;
-        --modal-tl: var(--radius-box);
-        --modal-tr: var(--radius-box);
-        --modal-bl: var(--radius-box);
-        --modal-br: var(--radius-box);
-      }
-    }
-  }
   .btn-circle {
     @layer daisyui.l1.l2 {
       border-radius: calc(infinity * 1px);
@@ -2742,9 +2719,6 @@
   .max-w-4xl {
     max-width: var(--container-4xl);
   }
-  .max-w-5xl {
-    max-width: var(--container-5xl);
-  }
   .shrink-0 {
     flex-shrink: 0;
   }
@@ -2774,9 +2748,6 @@
   }
   .resize {
     resize: both;
-  }
-  .grid-cols-1 {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
   }
   .grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2962,9 +2933,6 @@
   .bg-base-200 {
     background-color: var(--color-base-200);
   }
-  .bg-base-300 {
-    background-color: var(--color-base-300);
-  }
   .bg-white {
     background-color: var(--color-white);
   }
@@ -3097,9 +3065,6 @@
   .pb-2 {
     padding-bottom: calc(var(--spacing) * 2);
   }
-  .pb-3 {
-    padding-bottom: calc(var(--spacing) * 3);
-  }
   .pb-5 {
     padding-bottom: calc(var(--spacing) * 5);
   }
@@ -3201,14 +3166,8 @@
   .text-red-600 {
     color: var(--color-red-600);
   }
-  .text-secondary {
-    color: var(--color-secondary);
-  }
   .text-success {
     color: var(--color-success);
-  }
-  .text-warning {
-    color: var(--color-warning);
   }
   .text-white {
     color: var(--color-white);
@@ -3342,17 +3301,6 @@
       --btn-fg: var(--color-primary-content);
     }
   }
-  .btn-success {
-    @layer daisyui.l1.l2.l3 {
-      --btn-color: var(--color-success);
-      --btn-fg: var(--color-success-content);
-    }
-  }
-  .radio-primary {
-    @layer daisyui.l1.l2 {
-      --input-color: var(--color-primary);
-    }
-  }
   .checked\:bg-\[\#5160FC\] {
     &:checked {
       background-color: #5160FC;
@@ -3429,6 +3377,11 @@
       margin-bottom: calc(var(--spacing) * 3);
     }
   }
+  .md\:ml-2 {
+    @media (width >= 48rem) {
+      margin-left: calc(var(--spacing) * 2);
+    }
+  }
   .md\:block {
     @media (width >= 48rem) {
       display: block;
@@ -3493,11 +3446,6 @@
       max-width: var(--container-5xl);
     }
   }
-  .md\:grid-cols-2 {
-    @media (width >= 48rem) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
   .md\:grid-cols-4 {
     @media (width >= 48rem) {
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -3521,6 +3469,16 @@
   .md\:justify-between {
     @media (width >= 48rem) {
       justify-content: space-between;
+    }
+  }
+  .md\:py-5 {
+    @media (width >= 48rem) {
+      padding-block: calc(var(--spacing) * 5);
+    }
+  }
+  .md\:py-6 {
+    @media (width >= 48rem) {
+      padding-block: calc(var(--spacing) * 6);
     }
   }
   .md\:py-8 {

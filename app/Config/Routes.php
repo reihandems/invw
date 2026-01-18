@@ -65,6 +65,7 @@ $routes->group('admin', ['filter' => 'role:admin'], function ($routes) {
     // ADMIN - LAPORAN
     $routes->get('laporan', 'Page::laporanAdmin');
     $routes->post('laporan/data', 'AdminLaporan::data');
+    $routes->get('laporan/export-pdf', 'AdminLaporan::exportPDF');
 });
 
 $routes->group('purchasing', ['filter' => 'role:purchasing'], function ($routes) {

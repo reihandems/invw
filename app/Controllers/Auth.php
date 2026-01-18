@@ -12,7 +12,7 @@ class Auth extends BaseController {
         return view('auth/login');
     }
 
-    public function loginProcess(){
+    public function loginProcess() {
         $session = session();
         $model = new AdminUserModel();
 

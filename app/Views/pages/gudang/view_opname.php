@@ -212,7 +212,9 @@
                 if(res.status) {
                     alert('Data berhasil dikirim ke Manager!');
                     modal_hitung_stok.close();
-                    table.ajax.reload(null, false); // Reload daftar tugas
+                    
+                    // GUNAKAN INI: Memanggil via ID agar tidak error 'undefined'
+                    $('#tabelOpname').DataTable().ajax.reload(null, false); 
                 }
             });
         });
