@@ -2280,8 +2280,14 @@
       border-end-end-radius: var(--tabcontent-radius-ee);
     }
   }
+  .col-span-1 {
+    grid-column: span 1 / span 1;
+  }
   .col-span-2 {
     grid-column: span 2 / span 2;
+  }
+  .col-span-3 {
+    grid-column: span 3 / span 3;
   }
   .col-span-4 {
     grid-column: span 4 / span 4;
@@ -2511,6 +2517,9 @@
         }
       }
     }
+  }
+  .me-1 {
+    margin-inline-end: calc(var(--spacing) * 1);
   }
   .me-2 {
     margin-inline-end: calc(var(--spacing) * 2);
@@ -2903,11 +2912,24 @@
       height: var(--size);
     }
   }
+  .size-6 {
+    width: calc(var(--spacing) * 6);
+    height: calc(var(--spacing) * 6);
+  }
+  .h-4 {
+    height: calc(var(--spacing) * 4);
+  }
   .h-6 {
     height: calc(var(--spacing) * 6);
   }
   .h-8 {
     height: calc(var(--spacing) * 8);
+  }
+  .h-10 {
+    height: calc(var(--spacing) * 10);
+  }
+  .h-12 {
+    height: calc(var(--spacing) * 12);
   }
   .h-24 {
     height: calc(var(--spacing) * 24);
@@ -2923,6 +2945,9 @@
   }
   .h-screen {
     height: 100vh;
+  }
+  .min-h-full {
+    min-height: 100%;
   }
   .min-h-screen {
     min-height: 100vh;
@@ -2943,11 +2968,17 @@
       width: calc(var(--size-selector, 0.25rem) * 4);
     }
   }
+  .w-4 {
+    width: calc(var(--spacing) * 4);
+  }
   .w-6 {
     width: calc(var(--spacing) * 6);
   }
   .w-8 {
     width: calc(var(--spacing) * 8);
+  }
+  .w-10 {
+    width: calc(var(--spacing) * 10);
   }
   .w-11 {
     width: calc(var(--spacing) * 11);
@@ -2955,8 +2986,14 @@
   .w-11\/12 {
     width: calc(11/12 * 100%);
   }
+  .w-12 {
+    width: calc(var(--spacing) * 12);
+  }
   .w-14 {
     width: calc(var(--spacing) * 14);
+  }
+  .w-18 {
+    width: calc(var(--spacing) * 18);
   }
   .w-20 {
     width: calc(var(--spacing) * 20);
@@ -2975,6 +3012,9 @@
   }
   .w-72 {
     width: calc(var(--spacing) * 72);
+  }
+  .w-80 {
+    width: calc(var(--spacing) * 80);
   }
   .w-full {
     width: 100%;
@@ -3237,6 +3277,12 @@
   .bg-\[\#5160FC\] {
     background-color: #5160FC;
   }
+  .bg-\[\#F7F7FF\] {
+    background-color: #F7F7FF;
+  }
+  .bg-\[\#\] {
+    background-color: #;
+  }
   .bg-base-100 {
     background-color: var(--color-base-100);
   }
@@ -3348,6 +3394,9 @@
       padding-inline: calc(0.25rem * 2.5 - var(--border));
     }
   }
+  .px-4 {
+    padding-inline: calc(var(--spacing) * 4);
+  }
   .px-5 {
     padding-inline: calc(var(--spacing) * 5);
   }
@@ -3368,6 +3417,9 @@
   }
   .py-4 {
     padding-block: calc(var(--spacing) * 4);
+  }
+  .py-5 {
+    padding-block: calc(var(--spacing) * 5);
   }
   .py-8 {
     padding-block: calc(var(--spacing) * 8);
@@ -3519,10 +3571,6 @@
   }
   .shadow-sm {
     --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
-    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-  }
-  .shadow-xl {
-    --tw-shadow: 0 20px 25px -5px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 8px 10px -6px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
   .outline {
@@ -3818,6 +3866,16 @@
       justify-content: space-between;
     }
   }
+  .md\:gap-3 {
+    @media (width >= 48rem) {
+      gap: calc(var(--spacing) * 3);
+    }
+  }
+  .md\:bg-white {
+    @media (width >= 48rem) {
+      background-color: var(--color-white);
+    }
+  }
   .md\:py-5 {
     @media (width >= 48rem) {
       padding-block: calc(var(--spacing) * 5);
@@ -3887,11 +3945,6 @@
           }
         }
       }
-    }
-  }
-  .lg\:col-span-8 {
-    @media (width >= 64rem) {
-      grid-column: span 8 / span 8;
     }
   }
   .lg\:hidden {
@@ -3965,12 +4018,12 @@ h6 {
   font-size: 0.67em;
 }
 .sidebar .list-menu {
-  padding: 12px 14px;
+  padding: 4px 4px;
   font-size: 12px;
   border-radius: 12px;
   color: var(--light-gray);
   font-weight: 500;
-  margin-bottom: 32px;
+  margin-bottom: 12px;
 }
 .sidebar .list-menu svg {
   color: var(--light-gray);

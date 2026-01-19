@@ -35,7 +35,6 @@
 body {
     font-family: "Plus Jakarta Sans", sans-serif;
     height: auto !important;
-
 }
 
 h1 {
@@ -63,12 +62,12 @@ h6 {
 }
 
 .sidebar .list-menu {
-    padding: 12px 14px;
+    padding: 4px 4px;
     font-size: 12px;
     border-radius: 12px;
     color: var(--light-gray);
     font-weight: 500;
-    margin-bottom: 32px;
+    margin-bottom: 12px;
 }
 
 .sidebar .list-menu svg {

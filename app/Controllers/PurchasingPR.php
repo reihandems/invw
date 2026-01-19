@@ -20,7 +20,7 @@ class PurchasingPR extends BaseController {
 
     public function index() {
         $data = [
-            'menu' => 'purchasing',
+            'menu' => 'pr',
             'pageTitle' => 'Purchase Request (PR)'
         ];
 

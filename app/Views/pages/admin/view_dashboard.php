@@ -75,9 +75,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-
-                    </tr>
+                    <tr></tr>
                 </tbody>
             </table>
         </div>
@@ -97,10 +95,10 @@
             var table = $('#tabelActivityLog').DataTable({
                 // Custom style table
                 // opsional: matiin style bawaan
-                "dom":
-                    "<'flex justify-between items-center mb-3'<'search'f><'length'l>>" +
-                    "t" +
-                    "<'flex justify-between items-center mt-3'<'info'i><'paginate'p>>",
+                // "dom":
+                //     "<'flex justify-between items-center mb-3'<'search'f><'length'l>>" +
+                //     "t" +
+                //     "<'flex justify-between items-center mt-3'<'info'i><'paginate'p>>",
 
                 "initComplete": function() {
 
@@ -124,11 +122,11 @@
                 // Simpan objek DataTables ke variabel 'table'
                 "processing": true,
                 "serverSide": false,
-                "info": false,
+                "info": true,
                 "ordering": false,
                 "responsive": true,
-                "paging": false,
-                "searching": false,
+                "paging": true,
+                "searching": true,
                 "ajax": {
                     "url": "<?= base_url('/admin/dashboard/activityloglist') ?>",
                     "type": "GET",

@@ -14,7 +14,9 @@
 <body>
     <div class="grid grid-cols-12 min-h-screen">
         <!-- Sidebar -->
-        <?= $this->include('layout/sidebar/purchasing/sidebar', ['menu' => $menu]) ?>
+         <div class="col-span-12 md:col-span-3">
+             <?= $this->include('layout/sidebar/purchasing/sidebar', ['menu' => $menu]) ?>
+         </div>
         <!-- Sidebar end -->
         <!-- Kanan -->
         <div class="col-span-12 md:col-span-9 min-h-screen px-8 py-2 md:py-8" style="background-color: var(--background-color);">

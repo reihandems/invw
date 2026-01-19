@@ -1,7 +1,7 @@
 <!-- Header -->
 <div class="flex flex-row justify-between items-center">
     <h3 class="page-title" style="color: #333;"><?= $pageTitle ?></h3>
-    <div class="end-header flex flex-row items-center gap-3 ml-auto">
+    <div class="end-header flex flex-row items-center md:gap-3">
         <!-- Notif -->
         <div class="dropdown dropdown-end hidden md:block">
             <div tabindex="0" role="button" class="btn m-1 bg-base-100">
