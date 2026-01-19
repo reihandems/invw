@@ -11,7 +11,8 @@ use App\Models\KategoriModel;
 use App\Models\ActivityLogModel;
 use Config\Database;
 
-class GudangPR extends BaseController {
+class GudangPR extends BaseController
+{
     protected $prModel;
     protected $barangModel;
     protected $productStockLocation;
@@ -19,7 +20,7 @@ class GudangPR extends BaseController {
     protected $prDetailModel;
     protected $activityLog;
     protected $db;
-    
+
     public function __construct()
     {
         $this->prModel = new PRModel();
@@ -31,7 +32,8 @@ class GudangPR extends BaseController {
         $this->db = Database::connect();
     }
 
-    public function index() {
+    public function index()
+    {
         $data = [
             'menu' => 'purchasing',
             'pageTitle' => 'Purchase Request (PR)',
@@ -46,7 +48,8 @@ class GudangPR extends BaseController {
         return view('pages/gudang/view_pr', $data);
     }
 
-    public function ajaxList() {
+    public function ajaxList()
+    {
         $pr = $this->prModel;
         $list = $pr->getByGudang(session('user_id'));
 
@@ -62,14 +65,15 @@ class GudangPR extends BaseController {
             $row[] = $pr['created_at'];
 
             // Kolom aksi
-            $row[] = '<a href="javascript:void(0)" onclick="openDetailPR('.$pr['pr_id'].')" class="btn bg-white text-[#5160FC] border-[#C0CFDB] btn-sm edit-btn font-bold">Detail</a>';
+            $row[] = '<a href="javascript:void(0)" onclick="openDetailPR(' . $pr['pr_id'] . ')" class="btn bg-white text-[#5160FC] border-[#C0CFDB] btn-sm edit-btn font-bold">Detail</a>';
 
             $data[] = $row;
         }
         return $this->response->setJSON($data);
     }
 
-    public function generatePRNumber(){
+    public function generatePRNumber()
+    {
         return $this->response->setJSON([
             'pr_number' => $this->prModel->generatePRNumber()
         ]);
@@ -77,7 +81,8 @@ class GudangPR extends BaseController {
 
 
     // Handle request AJAX untuk mendapatkan daftar kabupaten/kota
-    public function getBarang() {
+    public function getBarang()
+    {
         // Pastikan ini adalah permintaan AJAX dan ada data province_id
         if ($this->request->isAJAX() && $this->request->getPost('kategori_id')) {
             $kategoriId = $this->request->getPost('kategori_id');
@@ -93,7 +98,8 @@ class GudangPR extends BaseController {
         return $this->response->setStatusCode(404)->setJSON(['error' => 'Invalid request']);
     }
 
-    public function getStok(){
+    public function getStok()
+    {
         $barangId = $this->request->getGet('barang_id');
         $warehouseId = session('warehouse_id');
 
@@ -102,14 +108,14 @@ class GudangPR extends BaseController {
         }
 
         $stok = $this->productStockLocation
-            ->select('stok')
+            ->selectSum('jumlah_stok', 'total')
             ->where('barang_id', $barangId)
             ->where('warehouse_id', $warehouseId)
             ->get()
             ->getRowArray();
 
         return $this->response->setJSON([
-            'stok' => $stok ? (int)$stok['stok'] : 0
+            'stok' => $stok ? (int)$stok['total'] : 0
         ]);
     }
 
@@ -170,7 +176,6 @@ class GudangPR extends BaseController {
                 'status'  => true,
                 'message' => 'Purchase Request berhasil diajukan'
             ]);
-
         } catch (\Throwable $e) {
             $this->db->transRollback();
 
@@ -181,7 +186,8 @@ class GudangPR extends BaseController {
         }
     }
 
-    public function detail($prId){
+    public function detail($prId)
+    {
         $header = $this->prModel->getDetailPR($prId);
         $items  = $this->prModel->getDetailItems($prId);
 
@@ -191,7 +197,4 @@ class GudangPR extends BaseController {
             'items'  => $items
         ]);
     }
-
-
-
 }

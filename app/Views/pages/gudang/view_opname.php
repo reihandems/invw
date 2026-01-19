@@ -15,9 +15,7 @@
                                 <tr class="bg-base-200">
                                     <th>Barang</th>
                                     <th>Lokasi Rak</th>
-                                    <th class="text-center">Stok Sistem</th>
                                     <th class="text-center">Stok Fisik</th>
-                                    <th class="text-center">Selisih</th>
                                     <th>Catatan Staff</th>
                                 </tr>
                             </thead>
@@ -163,9 +161,7 @@
                                 <div class="text-xs opacity-50">${item.sku}</div>
                             </td>
                             <td><div class="badge badge-outline">${item.kode_rak}</div></td>
-                            <td class="text-center font-mono">${item.stok_sistem}</td>
                             <td class="text-center font-mono">${item.stok_fisik ?? '<span class="badge badge-outline badge-warning text-xs">Belum diisi</span>'}</td>
-                            <td class="text-center ${warnaSelisih}">${selisih}</td>
                             <td class="text-xs italic">${item.catatan_staff ?? '-'}</td>
                         </tr>`;
                 });

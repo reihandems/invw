@@ -3,9 +3,9 @@
 <!-- Main Content -->
 <div class="data-laporan font-semibold mt-6">
 
-    <div role="tablist" class="tabs tabs-lifted">
+    <div role="tablist" class="tabs tabs-box">
         <input type="radio" name="tabs_laporan" role="tab" class="tab" aria-label="Laporan Operasional" checked />
-        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6 mt-3">
             <!-- Existing Laporan Content -->
             <div class="atas flex flex-col md:flex-row md:items-center md:justify-between mb-6">
                 <fieldset class="fieldset">
@@ -60,7 +60,7 @@
         </div>
 
         <input type="radio" name="tabs_laporan" role="tab" class="tab" aria-label="Upload Laporan Manager" />
-        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6 mt-3">
             <!-- New: Manager Report Upload -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Form Upload -->
