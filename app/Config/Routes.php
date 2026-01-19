@@ -155,7 +155,7 @@ $routes->group('gudang', ['filter' => 'role:gudang'], function ($routes) {
 
 $routes->group('manager', ['filter' => 'role:manager'], function ($routes) {
     // MANAGER - DASHBOARD
-    $routes->get('dashboard', 'Page::dashboardManager');
+    $routes->get('dashboard', 'Manager\ManagerDashboard::index');
 
     // MANAGER - PR
     $routes->get('purchase-request', 'Manager\ManagerPR::index');

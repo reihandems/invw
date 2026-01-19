@@ -17,7 +17,7 @@
         <?= $this->include('layout/sidebar/gudang/sidebar', ['menu' => $menu]) ?>
         <!-- Sidebar end -->
         <!-- Kanan -->
-        <div class="col-span-12 md:col-span-9 min-h-screen px-8 py-2 md:py-8" style="background-color: var(--background-color);">
+        <div class="col-span-12 md:col-span-9 min-h-screen px-8 py-2 md:py-5" style="background-color: var(--background-color);">
             <?= $this->include('layout/header') ?>
             <hr class="my-4" style="color: var(--secondary-stroke);">
             <?= $this->renderSection('content') ?>

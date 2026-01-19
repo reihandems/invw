@@ -4,7 +4,8 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class BarangKeluarModel extends Model {
+class BarangKeluarModel extends Model
+{
     protected $table = 'barang_keluar';
     protected $primaryKey = 'keluar_id';
     protected $allowedFields = ['staff_id', 'warehouse_id', 'tanggal_keluar', 'keterangan'];
@@ -37,5 +38,34 @@ class BarangKeluarModel extends Model {
             ->where('bkd.keluar_id', $keluarId)
             ->get()->getResultArray();
     }
-    
+
+    // Hitung jumlah transaksi keluar bulan ini
+    public function getOutCount($warehouseId, $month, $year)
+    {
+        return $this->where('warehouse_id', $warehouseId)
+            ->where('MONTH(tanggal_keluar)', $month)
+            ->where('YEAR(tanggal_keluar)', $year)
+            ->countAllResults();
+    }
+
+    // Ambil statistik per bulan untuk chart
+    public function getMonthlyStats($warehouseId, $year)
+    {
+        $query = $this->db->table($this->table)
+            ->select('MONTH(tanggal_keluar) as bulan, COUNT(*) as total')
+            ->where('warehouse_id', $warehouseId)
+            ->where('YEAR(tanggal_keluar)', $year)
+            ->groupBy('MONTH(tanggal_keluar)')
+            ->orderBy('bulan', 'ASC')
+            ->get()->getResultArray();
+
+        // Format data agar index 1-12 selalu ada
+        $stats = array_fill(1, 12, 0); // Default 0 dari Jan-Des
+
+        foreach ($query as $row) {
+            $stats[$row['bulan']] = (int)$row['total'];
+        }
+
+        return array_values($stats); // Return indexed 0-11
+    }
 }

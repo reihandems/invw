@@ -7,7 +7,9 @@
     "prod": "npm run copy:assets && npm run tailwind:build",
     "copy:assets": "copyfiles -f \"./node_modules/datatables.net-dt/css/dataTables.dataTables.css\" \"./node_modules/datatables.net-responsive-dt/css/responsive.dataTables.min.css\" \"./node_modules/datatables.net/js/dataTables.min.js\" \"./node_modules/datatables.net-responsive-dt/js/responsive.dataTables.min.js\" ./public/assets/vendor/datatables",
     "tailwind:watch": "tailwindcss -i resources/css/input.css -o public/assets/css/output.css --watch",
-    "tailwind:build": "tailwindcss -i resources/css/input.css -o public/assets/css/output.css --minify"
+    "tailwind:build": "tailwindcss -i resources/css/input.css -o public/assets/css/output.css --minify",
+    "serve": "php spark serve",
+    "start": "concurrently --kill-others \"npm run dev\" \"npm run serve\""
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.17",
@@ -18,6 +20,7 @@
     "tailwindcss": "^4.1.17"
   },
   "devDependencies": {
+    "concurrently": "^9.2.1",
     "copyfiles": "^2.4.1",
     "daisyui": "^5.5.5"
   }
