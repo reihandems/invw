@@ -5,7 +5,8 @@ namespace App\Controllers\Gudang;
 use App\Controllers\BaseController;
 use App\Models\OpnameModel;
 
-class GudangOpname extends BaseController {
+class GudangOpname extends BaseController
+{
     protected $opnameModel;
 
     public function __construct()
@@ -13,7 +14,8 @@ class GudangOpname extends BaseController {
         $this->opnameModel = new OpnameModel();
     }
 
-    public function index() {
+    public function index()
+    {
         $data = [
             'menu' => 'opname',
             'pageTitle' => 'Stok Opname',
@@ -23,14 +25,15 @@ class GudangOpname extends BaseController {
         return view('pages/gudang/view_opname', $data);
     }
 
-    public function ajaxList() {
+    public function ajaxList()
+    {
         $opname = $this->opnameModel;
         $warehouseId = session('warehouse_id');
         $list = $opname->getScheduledOpname($warehouseId);
 
         $no = 0;
         $data = [];
-        foreach($list as $op) {
+        foreach ($list as $op) {
             $no++;
             $row = [];
             $row[] = $no;
@@ -38,11 +41,11 @@ class GudangOpname extends BaseController {
             $row[] = $op['jenis'];
             $row[] = $op['tanggal_mulai'];
             $row[] = $op['tanggal_berakhir'];
-            $row[] = '<div class="badge badge-sm badge-outline badge-primary">'.$op['status'].'</div>';
+            $row[] = '<div class="badge badge-sm badge-outline badge-primary">' . $op['status'] . '</div>';
 
             // Kolom aksi
-            $row[] = '<a href="javascript:void(0)" class="btn bg-white text-[#5160FC] border-[#e5e5e5] btn-sm edit-btn" onclick="showDetail('.$op['opname_id'].', \''.$op['status'].'\')">Detail</a>
-            <button onclick="mulaiHitung('.$op['opname_id'].')" class="btn btn-sm bg-[#5160FC] text-white">Mulai Hitung</button>';
+            $row[] = '<a href="javascript:void(0)" class="btn bg-white text-[#5160FC] border-[#e5e5e5] btn-sm edit-btn" onclick="showDetail(' . $op['opname_id'] . ', \'' . $op['status'] . '\')">Detail</a>
+            <button onclick="mulaiHitung(' . $op['opname_id'] . ')" class="btn btn-sm bg-[#5160FC] text-white">Mulai Hitung</button>';
 
             $data[] = $row;
         }
@@ -52,7 +55,7 @@ class GudangOpname extends BaseController {
     public function getDetail($opnameId)
     {
         $db = \Config\Database::connect();
-        
+
         // Ambil data detail barang di jadwal tersebut
         $detail = $db->table('opname_detail od')
             ->select('od.*, b.nama_barang, b.sku, r.kode_rak, s.nama_satuan')
@@ -74,7 +77,7 @@ class GudangOpname extends BaseController {
         $builder->join('barang b', 'b.barang_id = od.barang_id');
         $builder->join('warehouse_rack r', 'r.rack_id = od.rack_id');
         $builder->where('od.opname_id', $opnameId);
-        
+
         $data = $builder->get()->getResultArray();
 
         // Mengirimkan response JSON
@@ -104,13 +107,25 @@ class GudangOpname extends BaseController {
             // Ubah status jadwal menjadi 'submitted' agar Manager bisa approve
             $db->table('opname_schedule')->where('opname_id', $opnameId)->update(['status' => 'submitted']);
 
+
             $db->transCommit();
+
+            // Activity Log
+            $activityLog = new \App\Models\ActivityLogModel();
+            $activityLog->insert([
+                'user_id' => session('user_id'),
+                'role' => session('user_role'),
+                'activity_type' => 'SUBMIT_PHYSICAL_OPNAME',
+                'reference_table' => 'opname_schedule',
+                'reference_id' => $opnameId,
+                'description' => 'Staff gudang mengirim hasil input stok fisik opname',
+                'created_at' => date('Y-m-d H:i:s')
+            ]);
+
             return $this->response->setJSON(['status' => true]);
         } catch (\Exception $e) {
             $db->transRollback();
             return $this->response->setJSON(['status' => false, 'message' => $e->getMessage()]);
         }
     }
-
-
 }

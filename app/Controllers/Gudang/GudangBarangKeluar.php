@@ -8,7 +8,8 @@ use App\Models\BarangKeluarDetailModel;
 use App\Models\ProductStockLocationModel;
 use App\Models\AdminBarangModel;
 
-class GudangBarangKeluar extends BaseController {
+class GudangBarangKeluar extends BaseController
+{
     protected $barangKeluar;
     protected $stockLocationModel;
     protected $barangModel;
@@ -20,8 +21,9 @@ class GudangBarangKeluar extends BaseController {
         $this->barangModel = new AdminBarangModel();
     }
 
-    public function index() {
-        
+    public function index()
+    {
+
 
         $data = [
             'menu' => 'barang_keluar',
@@ -32,7 +34,8 @@ class GudangBarangKeluar extends BaseController {
         return view('pages/gudang/view_barang_keluar', $data);
     }
 
-    public function ajaxList() {
+    public function ajaxList()
+    {
         $barangKeluar = $this->barangKeluar;
         $warehouseId = session('warehouse_id');
 
@@ -40,7 +43,7 @@ class GudangBarangKeluar extends BaseController {
 
         $no = 0;
         $data = [];
-        foreach($list as $b) {
+        foreach ($list as $b) {
             $no++;
             $row = [];
             $row[] = $no;
@@ -50,8 +53,8 @@ class GudangBarangKeluar extends BaseController {
             $row[] = $b['nama_staff'];
 
             // Kolom aksi
-            $row[] = '<a href="javascript:void(0)" data-id="'.$b['keluar_id'].'" class="btn bg-white text-[#5160FC] border-[#C0CFDB] btn-sm edit-btn font-bold mr-1 btnDetail">Detail</a>
-            <a href="'.site_url('gudang/barang-keluar/cetak-surat-jalan/' . $b['keluar_id']).'" 
+            $row[] = '<a href="javascript:void(0)" data-id="' . $b['keluar_id'] . '" class="btn bg-white text-[#5160FC] border-[#C0CFDB] btn-sm edit-btn font-bold mr-1 btnDetail">Detail</a>
+            <a href="' . site_url('gudang/barang-keluar/cetak-surat-jalan/' . $b['keluar_id']) . '" 
            target="_blank" class="btn btn-sm border border-gray-400">
             Cetak
         </a>';
@@ -82,7 +85,8 @@ class GudangBarangKeluar extends BaseController {
         return $this->response->setJSON($racks);
     }
 
-    public function save() {
+    public function save()
+    {
         $db = \Config\Database::connect();
         $items = $this->request->getPost('items');
         $warehouseId = session('warehouse_id');
@@ -130,23 +134,36 @@ class GudangBarangKeluar extends BaseController {
 
                 // 3. Update Stok (Kurangi)
                 $db->table('product_stock_location')
-                ->where([
+                    ->where([
                         'barang_id'    => $item['barang_id'],
                         'warehouse_id' => $warehouseId,
                         'rack_id'      => $item['rack_id']
-                ])
-                ->set('jumlah_stok', "jumlah_stok - $jml", false)
-                ->update();
+                    ])
+                    ->set('jumlah_stok', "jumlah_stok - $jml", false)
+                    ->update();
             }
+
 
             // Commit transaksi jika semua oke
             $db->transCommit();
-            return $this->response->setJSON(['status' => true]);
 
+            // Activity Log
+            $activityLog = new \App\Models\ActivityLogModel();
+            $activityLog->insert([
+                'user_id' => session('user_id'),
+                'role' => session('user_role'),
+                'activity_type' => 'CREATE_OUTGOING_GOODS',
+                'reference_table' => 'barang_keluar',
+                'reference_id' => $keluarId,
+                'description' => 'Staff gudang mencatat barang keluar dengan keterangan: ' . $this->request->getPost('keterangan'),
+                'created_at' => date('Y-m-d H:i:s')
+            ]);
+
+            return $this->response->setJSON(['status' => true]);
         } catch (\Exception $e) {
             $db->transRollback();
             return $this->response->setJSON([
-                'status' => false, 
+                'status' => false,
                 'message' => "Error: " . $e->getMessage()
             ]);
         }
@@ -188,7 +205,7 @@ class GudangBarangKeluar extends BaseController {
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A5', 'landscape'); // Ukuran A5 biasanya standar surat jalan
         $dompdf->render();
-        
+
         return $dompdf->stream("Surat_Jalan_" . $id . ".pdf", ["Attachment" => false]);
     }
 }

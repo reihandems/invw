@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Controllers\Manager;
 
@@ -7,7 +7,8 @@ use App\Models\OpnameModel;
 use App\Models\RacksModel;
 use App\Models\AdminGudangModel;
 
-class ManagerOpname extends BaseController {
+class ManagerOpname extends BaseController
+{
     protected $opnameModel;
     protected $racksModel;
     protected $gudangModel;
@@ -19,7 +20,8 @@ class ManagerOpname extends BaseController {
         $this->gudangModel = new AdminGudangModel();
     }
 
-    public function index() {
+    public function index()
+    {
         $data = [
             'menu' => 'opname',
             'pageTitle' => 'Stok Opname',
@@ -31,13 +33,14 @@ class ManagerOpname extends BaseController {
         return view('pages/manager/view_opname', $data);
     }
 
-    public function ajaxList() {
+    public function ajaxList()
+    {
         $opname = $this->opnameModel;
         $list = $opname->findAll();
 
         $no = 0;
         $data = [];
-        foreach($list as $op) {
+        foreach ($list as $op) {
             $no++;
             $row = [];
             $row[] = $no;
@@ -48,8 +51,8 @@ class ManagerOpname extends BaseController {
             $row[] = $op['status'];
 
             // Kolom aksi
-            $row[] = '<a href="javascript:void(0)" class="btn bg-white text-[#5160FC] border-[#e5e5e5] btn-sm edit-btn" onclick="showDetail('.$op['opname_id'].', \''.$op['status'].'\')">Detail</a>
-            <a href="javascript:void(0)" class="btn-sm bg-white btn text-red-500 border-[#e5e5e5] delete-btn" data-id="'.$op['opname_id'].'">Hapus</a>';
+            $row[] = '<a href="javascript:void(0)" class="btn bg-white text-[#5160FC] border-[#e5e5e5] btn-sm edit-btn" onclick="showDetail(' . $op['opname_id'] . ', \'' . $op['status'] . '\')">Detail</a>
+            <a href="javascript:void(0)" class="btn-sm bg-white btn text-red-500 border-[#e5e5e5] delete-btn" data-id="' . $op['opname_id'] . '">Hapus</a>';
 
             $data[] = $row;
         }
@@ -60,17 +63,17 @@ class ManagerOpname extends BaseController {
     {
         $db = \Config\Database::connect();
         $racks = $db->table('warehouse_rack')
-                    ->where('warehouse_id', $warehouseId)
-                    ->get()
-                    ->getResultArray();
-                    
+            ->where('warehouse_id', $warehouseId)
+            ->get()
+            ->getResultArray();
+
         return $this->response->setJSON($racks);
     }
 
     public function saveSchedule()
     {
         $db = \Config\Database::connect();
-        
+
         $warehouseId = $this->request->getPost('warehouse_id');
         $nama        = $this->request->getPost('nama_jadwal');
         $jenis       = $this->request->getPost('jenis');
@@ -89,16 +92,16 @@ class ManagerOpname extends BaseController {
                 'status'           => 'scheduled',
                 'created_by'       => session('user_id')
             ]);
-            
+
             $opnameId = $db->insertID();
 
             // 2. Query Snapshot Stok
             $builder = $db->table('product_stock_location psl');
             $builder->select('psl.barang_id, psl.rack_id, psl.jumlah_stok');
-            
+
             // WAJIB FILTER BERDASARKAN GUDANG
             $builder->where('psl.warehouse_id', $warehouseId);
-            
+
             // Jika partial, filter lagi berdasarkan rak
             if ($jenis == 'partial' && !empty($rak_ids)) {
                 $builder->whereIn('psl.rack_id', $rak_ids);
@@ -116,7 +119,21 @@ class ManagerOpname extends BaseController {
                 ]);
             }
 
+
             $db->transCommit();
+
+            // Activity Log
+            $activityLog = new \App\Models\ActivityLogModel();
+            $activityLog->insert([
+                'user_id' => session('user_id'),
+                'role' => session('user_role'),
+                'activity_type' => 'CREATE_OPNAME_SCHEDULE',
+                'reference_table' => 'opname_schedule',
+                'reference_id' => $opnameId,
+                'description' => 'Manager membuat jadwal opname: ' . $nama . ' (Jenis: ' . $jenis . ')',
+                'created_at' => date('Y-m-d H:i:s')
+            ]);
+
             return $this->response->setJSON(['status' => true]);
         } catch (\Exception $e) {
             $db->transRollback();
@@ -127,7 +144,7 @@ class ManagerOpname extends BaseController {
     public function getDetail($opnameId)
     {
         $db = \Config\Database::connect();
-        
+
         // Ambil data detail barang di jadwal tersebut
         $detail = $db->table('opname_detail od')
             ->select('od.*, b.nama_barang, b.sku, r.kode_rak, s.nama_satuan')
@@ -140,7 +157,8 @@ class ManagerOpname extends BaseController {
         return $this->response->setJSON($detail);
     }
 
-    public function deleteData ($id = null) {
+    public function deleteData($id = null)
+    {
         if ($this->opnameModel->delete($id)) {
             return $this->response->setJSON([
                 'status' => true,
@@ -158,7 +176,7 @@ class ManagerOpname extends BaseController {
     {
         $id = $this->request->getPost('id');
         $status = $this->request->getPost('status');
-        
+
         $db = \Config\Database::connect();
         $db->transBegin();
 
@@ -179,19 +197,19 @@ class ManagerOpname extends BaseController {
             if ($status === 'approved') {
                 // Ambil semua detail barang yang di-opname
                 $details = $db->table('opname_detail')
-                            ->where('opname_id', $id)
-                            ->get()->getResultArray();
+                    ->where('opname_id', $id)
+                    ->get()->getResultArray();
 
                 foreach ($details as $row) {
                     // Update stok di rak masing-masing
                     $db->table('product_stock_location')
-                    ->where([
-                        'barang_id' => $row['barang_id'],
-                        'rack_id'   => $row['rack_id']
-                    ])
-                    ->update(['jumlah_stok' => $row['stok_fisik']]);
+                        ->where([
+                            'barang_id' => $row['barang_id'],
+                            'rack_id'   => $row['rack_id']
+                        ])
+                        ->update(['jumlah_stok' => $row['stok_fisik']]);
                 }
-            } 
+            }
             // Jika REJECTED, status kembali ke 'scheduled' agar staff bisa input ulang
             else if ($status === 'rejected') {
                 $db->table('opname_schedule')->where('opname_id', $id)->update([
@@ -200,15 +218,28 @@ class ManagerOpname extends BaseController {
             }
 
             $db->transCommit();
-            return $this->response->setJSON([
-                'status' => true, 
-                'message' => 'Status berhasil diperbarui ke ' . strtoupper($status)
+
+            // Activity Log
+            $activityLog = new \App\Models\ActivityLogModel();
+            $statusLabel = ($status === 'approved') ? 'menyetujui' : 'menolak';
+            $activityLog->insert([
+                'user_id' => session('user_id'),
+                'role' => session('user_role'),
+                'activity_type' => ($status === 'approved') ? 'APPROVE_OPNAME' : 'REJECT_OPNAME',
+                'reference_table' => 'opname_schedule',
+                'reference_id' => $id,
+                'description' => 'Manager ' . $statusLabel . ' hasil stok opname',
+                'created_at' => date('Y-m-d H:i:s')
             ]);
 
+            return $this->response->setJSON([
+                'status' => true,
+                'message' => 'Status berhasil diperbarui ke ' . strtoupper($status)
+            ]);
         } catch (\Exception $e) {
             $db->transRollback();
             return $this->response->setJSON([
-                'status' => false, 
+                'status' => false,
                 'message' => 'Gagal memperbarui: ' . $e->getMessage()
             ]);
         }
