@@ -152,4 +152,61 @@ class AdminLaporan extends BaseController
 
         return $dompdf->stream("Laporan_{$jenis}_" . date('Ymd') . ".pdf", ["Attachment" => false]);
     }
+    // Manager Laporan (Upload & List)
+    public function manager_list()
+    {
+        $managerLaporan = new \App\Models\ManagerLaporanModel();
+        $data = $managerLaporan->orderBy('created_at', 'DESC')->findAll();
+
+        return $this->response->setJSON([
+            'data' => $data
+        ]);
+    }
+
+    public function upload()
+    {
+        $judul = $this->request->getPost('judul_laporan');
+        $jenis = $this->request->getPost('jenis_laporan');
+        $periode = $this->request->getPost('periode_laporan');
+        $file = $this->request->getFile('file_laporan');
+
+        if (!$file->isValid()) {
+            return $this->response->setJSON(['status' => 'error', 'message' => $file->getErrorString()]);
+        }
+
+        if ($file->getExtension() !== 'pdf') {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Hanya file PDF yang diperbolehkan']);
+        }
+
+        $newName = $file->getRandomName();
+        $file->move('uploads/laporan', $newName);
+
+        $managerLaporan = new \App\Models\ManagerLaporanModel();
+        $managerLaporan->insert([
+            'judul' => $judul,
+            'jenis_laporan' => $jenis,
+            'periode' => $periode,
+            'file_path' => $newName,
+            'uploaded_by' => session()->get('id_user') ?? 1 // Fallback ID 1 if session not set (for safety)
+        ]);
+
+        return $this->response->setJSON(['status' => 'success', 'message' => 'Laporan berhasil diupload']);
+    }
+
+    public function delete($id)
+    {
+        $managerLaporan = new \App\Models\ManagerLaporanModel();
+        $report = $managerLaporan->find($id);
+
+        if ($report) {
+            // Delete file
+            if (file_exists('uploads/laporan/' . $report['file_path'])) {
+                unlink('uploads/laporan/' . $report['file_path']);
+            }
+            $managerLaporan->delete($id);
+            return $this->response->setJSON(['status' => 'success', 'message' => 'Laporan berhasil dihapus']);
+        }
+
+        return $this->response->setJSON(['status' => 'error', 'message' => 'Laporan tidak ditemukan']);
+    }
 }

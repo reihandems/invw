@@ -17,7 +17,7 @@
             <li>
                 <div class="flex flex-row items-center">
                     <img src="<?= base_url('assets/img/logo.svg') ?>" alt="" class="me-1">
-                    <h2 class="text-xl font-bold" style="color: var(--primary-color)">INVWM</h2>
+                    <h2 class="text-xl font-bold" style="color: var(--primary-color)">INVW</h2>
                 </div>
                 <hr class="mt-5 mb-2 p-0" style="color: var(--secondary-stroke)">
                 <p class="text-xs font-semibold mb-3" style="color: var(--secondary-text);">Menu Utama</p>

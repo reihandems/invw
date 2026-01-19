@@ -15,7 +15,7 @@ $routes->get('/login', 'Page::login');
 $routes->post('/login/process', 'Auth::loginProcess');
 $routes->get('/logout', 'Auth::logout');
 
-$routes->get('/dashboard', function() {
+$routes->get('/dashboard', function () {
     if (!session()->get('logged_in')) {
         return redirect()->to('/login');
     }
@@ -66,6 +66,11 @@ $routes->group('admin', ['filter' => 'role:admin'], function ($routes) {
     $routes->get('laporan', 'Page::laporanAdmin');
     $routes->post('laporan/data', 'AdminLaporan::data');
     $routes->get('laporan/export-pdf', 'AdminLaporan::exportPDF');
+
+    // ADMIN - LAPORAN MANAGER (UPLOAD)
+    $routes->post('laporan/upload', 'AdminLaporan::upload');
+    $routes->get('laporan/manager-list', 'AdminLaporan::manager_list');
+    $routes->get('laporan/delete/(:num)', 'AdminLaporan::delete/$1');
 });
 
 $routes->group('purchasing', ['filter' => 'role:purchasing'], function ($routes) {
@@ -90,7 +95,6 @@ $routes->group('purchasing', ['filter' => 'role:purchasing'], function ($routes)
     // PURCHASING - SUPPLIER
     $routes->get('supplier', 'PurchasingSupplier::index');
     $routes->get('supplier/ajaxlist', 'PurchasingSupplier::ajaxList');
-
 });
 
 $routes->group('gudang', ['filter' => 'role:gudang'], function ($routes) {
@@ -125,7 +129,7 @@ $routes->group('gudang', ['filter' => 'role:gudang'], function ($routes) {
     $routes->post('barang-keluar/save', 'Gudang\GudangBarangKeluar::save');
     $routes->get('barang-keluar/detail/(:num)', 'Gudang\GudangBarangKeluar::detail/$1');
     $routes->get('barang-keluar/cetak-surat-jalan/(:num)', 'Gudang\GudangBarangKeluar::cetakSuratJalan/$1');
-    
+
 
     // GUDANG - LAPORAN STOK
     $routes->get('laporan-stok', 'Gudang\GudangLaporanStok::index');
@@ -150,7 +154,6 @@ $routes->group('gudang', ['filter' => 'role:gudang'], function ($routes) {
     $routes->get('opname/finished', 'Gudang\GudangOpnameFinished::index');
     $routes->get('opname/finished/ajaxlist', 'Gudang\GudangOpnameFinished::ajaxList');
     $routes->get('opname/finished/detail/(:num)', 'Gudang\GudangOpnameFinished::getDetail/$1');
-
 });
 
 $routes->group('manager', ['filter' => 'role:manager'], function ($routes) {
@@ -172,5 +175,9 @@ $routes->group('manager', ['filter' => 'role:manager'], function ($routes) {
     $routes->get('opname/detail/(:num)', 'Manager\ManagerOpname::getDetail/$1');
     $routes->post('opname/deleteData/(:num)', 'Manager\ManagerOpname::deleteData/$1');
     $routes->post('opname/update-status', 'Manager\ManagerOpname::updateStatus');
-});
 
+    // MANAGER - LAPORAN
+    $routes->get('laporan', 'Manager\ManagerLaporan::index');
+    $routes->get('laporan/list', 'Manager\ManagerLaporan::listData');
+    $routes->get('laporan/download/(:num)', 'Manager\ManagerLaporan::download/$1');
+});
