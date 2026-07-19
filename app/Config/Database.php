@@ -32,6 +32,7 @@ class Database extends Config
         'database'     => env('defaultdb'),
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
+        'port'         => env(13519),
         'pConnect'     => false,
         'DBDebug'      => true,
         'charset'      => 'utf8mb4',
@@ -41,7 +42,6 @@ class Database extends Config
         'compress'     => false,
         'strictOn'     => false,
         'failover'     => [],
-        'port'         => env(13519),
         'numberNative' => false,
         'foundRows'    => false,
         'dateFormat'   => [
