@@ -26,10 +26,10 @@ class Database extends Config
      */
     public array $default = [
         'DSN'          => '',
-        'hostname'     => 'localhost',
-        'username'     => '',
-        'password'     => '',
-        'database'     => 'db_invw',
+        'hostname'     => env('mysql-1248403b-invw.d.aivencloud.com'),
+        'username'     => env('avnadmin'),
+        'password'     => env('AVNS_784r0Y5qzT3bLfJ7Ed4'),
+        'database'     => env('defaultdb'),
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,
@@ -37,11 +37,11 @@ class Database extends Config
         'charset'      => 'utf8mb4',
         'DBCollat'     => 'utf8mb4_general_ci',
         'swapPre'      => '',
-        'encrypt'      => false,
+        'encrypt'      => true,
         'compress'     => false,
         'strictOn'     => false,
         'failover'     => [],
-        'port'         => 3306,
+        'port'         => env(13519),
         'numberNative' => false,
         'foundRows'    => false,
         'dateFormat'   => [

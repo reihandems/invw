@@ -31,3 +31,6 @@ RUN chown -R www-data:www-data /var/www/html/writable
 # Install Composer untuk memuat dependensi project
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --optimize-autoloader
+
+# Tambahkan mysqli ke dalam daftar ekstensi yang di-install
+RUN docker-php-ext-install intl pdo pdo_mysql mysqli
