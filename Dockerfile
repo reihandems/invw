@@ -1,52 +1,30 @@
-# ==========================
-# Stage 1 - Build Frontend
-# ==========================
-FROM node:20 AS frontend
-
-WORKDIR /app
-
-COPY package*.json ./
-RUN npm install
-
-COPY . .
-
-RUN npm run prod
-
-
-# ==========================
-# Stage 2 - PHP + Apache
-# ==========================
+# Gunakan image resmi PHP dengan Apache
 FROM php:8.2-apache
 
+# Install sistem dependensi dan ekstensi PHP yang diperlukan CI4
 RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
+    libicu-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
     zip \
-    libzip-dev \
-    && docker-php-ext-install pdo_mysql mysqli zip
+    unzip \
+    git \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install intl pdo pdo_mysql gd
 
+# Aktifkan mod_rewrite Apache (wajib untuk routing CI4)
 RUN a2enmod rewrite
 
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Ubah konfigurasi Apache agar mengarah ke folder public
+RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
-WORKDIR /var/www/html
+# Salin semua file project ke dalam container
+COPY . /var/www/html/
 
-COPY . .
+# Atur kepemilikan folder writable agar bisa ditulis oleh server
+RUN chown -R www-data:www-data /var/www/html/writable
 
+# Install Composer untuk memuat dependensi project
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --optimize-autoloader
-
-# Salin hasil build frontend
-COPY --from=frontend /app/public/assets /var/www/html/public/assets
-
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-
-RUN sed -ri \
-    -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
-    /etc/apache2/sites-available/*.conf \
-    /etc/apache2/apache2.conf
-
-RUN chown -R www-data:www-data writable
-
-EXPOSE 80
-
-CMD ["apache2-foreground"]
