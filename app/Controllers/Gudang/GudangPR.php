@@ -83,7 +83,6 @@ class GudangPR extends BaseController
     // Handle request AJAX untuk mendapatkan daftar kabupaten/kota
     public function getBarang()
     {
-        // Pastikan ini adalah permintaan AJAX dan ada data province_id
         if ($this->request->isAJAX() && $this->request->getPost('kategori_id')) {
             $kategoriId = $this->request->getPost('kategori_id');
 
