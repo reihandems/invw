@@ -26,13 +26,13 @@ class Database extends Config
      */
     public array $default = [
         'DSN'          => '',
-        'hostname'     => env('mysql-1248403b-invw.d.aivencloud.com'),
-        'username'     => env('avnadmin'),
-        'password'     => env(''),
-        'database'     => env('defaultdb'),
+        'hostname'     => env('database.default.hostname'),
+        'username'     => env('database.default.username'),
+        'password'     => env('database.default.password'),
+        'database'     => env('database.default.database'),
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
-        'port'         => env(13519),
+        'port'         => env('database.default.DBPort'),
         'pConnect'     => false,
         'DBDebug'      => true,
         'charset'      => 'utf8mb4',
