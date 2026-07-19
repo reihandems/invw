@@ -26,10 +26,10 @@ class Database extends Config
      */
     public array $default = [
         'DSN'          => '',
-        'hostname'     => 'mysql-1248403b-invw.d.aivencloud.com',
-        'username'     => 'avnadmin',
-        'password'     => 'database.default.password',
-        'database'     => 'defaultdb',
+        'hostname'     => '',
+        'username'     => '',
+        'password'     => '',
+        'database'     => '',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'port'         => 13519,
@@ -203,5 +203,6 @@ class Database extends Config
         $this->default['username'] = env('database.default.username', 'root');
         $this->default['password'] = env('database.default.password', '');
         $this->default['database'] = env('database.default.database', 'defaultdb');
+        $this->default['port']     = (int) env('database.default.DBPort', 13519);
     }
 }
