@@ -21,6 +21,9 @@ RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available
 
 # Salin semua file project ke dalam container
 COPY . /var/www/html/
+# Pastikan folder writable bisa diakses penuh
+RUN chown -R www-data:www-data /var/www/html/writable
+RUN chmod -R 777 /var/www/html/writable
 
 # Atur kepemilikan folder writable agar bisa ditulis oleh server
 RUN chown -R www-data:www-data /var/www/html/writable
