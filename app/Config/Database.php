@@ -26,13 +26,13 @@ class Database extends Config
      */
     public array $default = [
         'DSN'          => '',
-        'hostname'     => env('database.default.hostname'),
-        'username'     => env('database.default.username'),
-        'password'     => env('database.default.password'),
-        'database'     => env('database.default.database'),
+        'hostname'     => '',
+        'username'     => '',
+        'password'     => '',
+        'database'     => '',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
-        'port'         => env('database.default.DBPort'),
+        'port'         => '13519',
         'pConnect'     => false,
         'DBDebug'      => true,
         'charset'      => 'utf8mb4',
@@ -196,8 +196,12 @@ class Database extends Config
         // Ensure that we always set the database group to 'tests' if
         // we are currently running an automated test suite, so that
         // we don't overwrite live data on accident.
-        if (ENVIRONMENT === 'testing') {
-            $this->defaultGroup = 'tests';
-        }
+        // if (ENVIRONMENT === 'testing') {
+        //     $this->defaultGroup = 'tests';
+        // }
+        $this->default['hostname'] = env('database.default.hostname', 'localhost');
+        $this->default['username'] = env('database.default.username', 'root');
+        $this->default['password'] = env('database.default.password', '');
+        $this->default['database'] = env('database.default.database', 'defaultdb');
     }
 }
