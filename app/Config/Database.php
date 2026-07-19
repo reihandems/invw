@@ -32,7 +32,7 @@ class Database extends Config
         'database'     => '',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
-        'port'         => (int) env('database.default.DBPort', 13519),
+        'port'         => 13519,
         'pConnect'     => false,
         'DBDebug'      => true,
         'charset'      => 'utf8mb4',
