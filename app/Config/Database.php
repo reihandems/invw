@@ -28,7 +28,7 @@ class Database extends Config
         'DSN'          => '',
         'hostname'     => env('mysql-1248403b-invw.d.aivencloud.com'),
         'username'     => env('avnadmin'),
-        'password'     => env('AVNS_784r0Y5qzT3bLfJ7Ed4'),
+        'password'     => env(''),
         'database'     => env('defaultdb'),
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
