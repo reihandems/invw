@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: invw
+    runtime: docker
+    plan: free
+    branch: main
+    autoDeploy: true
