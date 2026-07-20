@@ -181,3 +181,12 @@ $routes->group('manager', ['filter' => 'role:manager'], function ($routes) {
     $routes->get('laporan/list', 'Manager\ManagerLaporan::listData');
     $routes->get('laporan/download/(:num)', 'Manager\ManagerLaporan::download/$1');
 });
+
+$routes->get('/debug-env', function () {
+    echo '<pre>';
+    echo 'DB_HOSTNAME: ' . env('DB_HOSTNAME') . "\n";
+    echo 'DB_USERNAME: ' . env('DB_USERNAME') . "\n";
+    echo 'DB_DATABASE: ' . env('DB_DATABASE') . "\n";
+    echo 'DB_PORT: ' . env('DB_PORT') . "\n";
+    echo '</pre>';
+});
