@@ -190,3 +190,11 @@ $routes->get('/debug-env', function () {
     echo 'DB_PORT: ' . env('DB_PORT') . "\n";
     echo '</pre>';
 });
+
+$routes->get('/debug-env', function () {
+    echo '<pre>';
+    print_r($_ENV);
+    echo '---';
+    print_r(getenv());
+    echo '</pre>';
+});
