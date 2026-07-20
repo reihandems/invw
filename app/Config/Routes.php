@@ -189,3 +189,23 @@ $routes->get('/debug-env', function () {
     print_r(getenv());
     echo '</pre>';
 });
+
+$routes->get('/debug-assets', function () {
+    $publicPath = '/var/www/html/public';
+    echo '<pre>';
+    echo "=== Cek folder public ===\n";
+    echo is_dir($publicPath) ? "✅ /public ADA\n" : "❌ /public TIDAK ADA\n";
+
+    $paths = [
+        '/var/www/html/public/js/jquery-3.7.1.min.js',
+        '/var/www/html/public/assets/vendor/datatables/dataTables.min.js',
+        '/var/www/html/public/assets/vendor/datatables/dataTables.dataTables.css',
+        '/var/www/html/public/resources/css/custom.css',
+        '/var/www/html/public/assets/css/output.css',
+    ];
+
+    foreach ($paths as $path) {
+        echo file_exists($path) ? "✅ ADA: $path\n" : "❌ TIDAK ADA: $path\n";
+    }
+    echo '</pre>';
+});
