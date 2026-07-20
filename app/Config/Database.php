@@ -203,6 +203,6 @@ class Database extends Config
         $this->default['username'] = env('database.default.username', '');
         $this->default['password'] = env('database.default.password', '');
         $this->default['database'] = env('database.default.database', '');
-        $this->default['port']     = (int) env('database.default.DBPort', 13519);
+        $this->default['port']     = (int) env('database.default.port', 13519);
     }
 }
