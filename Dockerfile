@@ -20,10 +20,13 @@ RUN a2enmod rewrite
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
 # ✅ Teruskan env var dari sistem ke PHP via Apache
-RUN echo "PassEnv DB_HOSTNAME DB_USERNAME DB_PASSWORD DB_DATABASE DB_PORT" >> /etc/apache2/apache2.conf
+RUN echo "PassEnv DB_HOSTNAME DB_USERNAME DB_PASSWORD DB_DATABASE DB_PORT CI_ENVIRONMENT" >> /etc/apache2/apache2.conf
 
 # Salin semua file project ke dalam container
 COPY . /var/www/html/
+
+# ✅ Set permission CA cert agar bisa dibaca
+RUN chmod 644 /var/www/html/certs/isrgrootx1.pem
 
 # Pastikan folder writable bisa diakses penuh
 RUN chown -R www-data:www-data /var/www/html/writable

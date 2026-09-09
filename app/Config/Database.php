@@ -32,7 +32,7 @@ class Database extends Config
         'database'     => '',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
-        'port'         => 13519,
+        'port'         => 4000,
         'pConnect'     => false,
         'DBDebug'      => true,
         'charset'      => 'utf8mb4',
@@ -197,6 +197,12 @@ class Database extends Config
         $this->default['username'] = env('DB_USERNAME', '');
         $this->default['password'] = env('DB_PASSWORD', '');
         $this->default['database'] = env('DB_DATABASE', '');
-        $this->default['port'] = (int) env('DB_PORT', 13519);
+        $this->default['port'] = (int) env('DB_PORT', 4000);
+
+        // ✅ Konfigurasi SSL dengan CA cert TiDB
+        $this->default['encrypt'] = [
+            'ssl_ca'     => ROOTPATH . 'certs/isrgrootx1.pem',
+            'ssl_verify' => true,
+        ];
     }
 }
